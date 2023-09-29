@@ -9,6 +9,14 @@ class Alimento extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'nombre_alimento',
+        'descripcion',
+        'costo',
+        'stock',
+        'imagen_url',
+    ];
+
     public function detallesFactura() {
         return $this->hasMany(DetalleFactura::class);
     }

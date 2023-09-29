@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AlimentoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,3 +44,10 @@ Route::middleware([
     })->name('dashboard');
 });
 
+
+Route::group(['prefix' => 'alimentos'], function () {
+    Route::get('/ver', [AlimentoController::class, 'index']);
+    Route::post('/crear', [AlimentoController::class, 'store']);
+    Route::put('/actualizar/{id}', [AlimentoController::class, 'update']);
+    Route::delete('/eliminar/{id}', [AlimentoController::class, 'destroy']);
+});

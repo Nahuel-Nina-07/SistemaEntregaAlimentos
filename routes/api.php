@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AlimentoController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,3 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::get('/ver', [AlimentoController::class, 'index']);
+Route::post('/crear', [AlimentoController::class, 'store']);
+Route::put('/actualizar/{id}', [AlimentoController::class, 'update']);
+Route::delete('/eliminar/{id}', [AlimentoController::class, 'destroy']);
