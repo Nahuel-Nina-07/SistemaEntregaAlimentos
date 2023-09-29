@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AlimentoController;
+
+use App\Http\Controllers\CarritoController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -23,3 +26,8 @@ Route::get('/ver', [AlimentoController::class, 'index']);
 Route::post('/crear', [AlimentoController::class, 'store']);
 Route::put('/actualizar/{id}', [AlimentoController::class, 'update']);
 Route::delete('/eliminar/{id}', [AlimentoController::class, 'destroy']);
+
+
+Route::get('/carrito', [CarritoController::class, 'index'])->name('carrito.index');
+Route::post('/carrito/agregar/{alimentoId}', [CarritoController::class, 'agregar'])->name('carrito.agregar');
+Route::delete('/carrito/eliminar/{carritoId}', [CarritoController::class, 'eliminar'])->name('carrito.eliminar');
