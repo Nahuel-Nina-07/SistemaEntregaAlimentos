@@ -142,6 +142,6 @@ class AdminController extends Controller
         ]);
 
         // Redirige al administrador después del registro
-        return redirect('/admin/dashboard'); // Puedes cambiar la URL de redirección según tu estructura de rutas
+        return redirect('/admin/login'); // Puedes cambiar la URL de redirección según tu estructura de rutas
     }
 }

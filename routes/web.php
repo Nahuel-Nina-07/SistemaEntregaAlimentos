@@ -45,13 +45,6 @@ Route::middleware([
 });
 
 
-Route::group(['prefix' => 'alimentos'], function () {
-    Route::get('/ver', [AlimentoController::class, 'index']);
-    Route::post('/crear', [AlimentoController::class, 'store']);
-    Route::put('/actualizar/{id}', [AlimentoController::class, 'update']);
-    Route::delete('/eliminar/{id}', [AlimentoController::class, 'destroy']);
-});
-
 Route::middleware('admin:admin')->group(function (){
     Route::get('admin/login',[AdminController::class, 'loginForm']);
     Route::post('admin/login',[AdminController::class, 'store'])->name('admin.login');
@@ -63,4 +56,5 @@ Route::middleware('admin:admin')->group(function (){
     Route::post('admin/register',[AdminController::class, 'createAdmin'])->name('admin.register');
 });
 
+#Plantilla de trabajando en ello
 Route::get('/trabajando', function () {return view('errors.trabajando');})->name('trabajando');
