@@ -5,20 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Factura extends Model
+class CarritoCompra extends Model
 {
     use HasFactory;
 
-    protected $table = 'facturas';
-    protected $fillable = ['ClienteID', 'FechaHoraFactura', 'TotalFactura'];
+    protected $table = 'carritos_compras';
+    protected $fillable = ['ClienteID', 'FechaHoraCreacion'];
 
     public function usuario()
     {
         return $this->belongsTo(Usuario::class, 'ClienteID');
     }
 
-    public function detallesFactura()
+    public function detallesCarrito()
     {
-        return $this->hasMany(DetalleFactura::class, 'FacturaID');
+        return $this->hasMany(DetalleCarrito::class, 'CarritoID');
     }
 }

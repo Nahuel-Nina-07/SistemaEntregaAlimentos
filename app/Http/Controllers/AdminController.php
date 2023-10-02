@@ -20,6 +20,8 @@ use Laravel\Fortify\Http\Requests\LoginRequest;
 use App\Actions\Fortify\AttemptToAuthenticate;
 use App\Actions\Fortify\RedirectIfTwoFactorAuthenticatable;
 use App\Http\Responses\LoginResponse;
+use App\Models\Admin;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -116,5 +118,30 @@ class AdminController extends Controller
         }
 
         return app(LogoutResponse::class);
+    }
+
+    public function showAdminRegistrationForm()
+    {
+        return view('auth.registerAdmin');
+    }
+
+    public function createAdmin(Request $request)
+    {
+        // Valida los datos del formulario de registro de administradores
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:admins',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        // Crea un nuevo administrador
+        Admin::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        // Redirige al administrador después del registro
+        return redirect('/admin/dashboard'); // Puedes cambiar la URL de redirección según tu estructura de rutas
     }
 }

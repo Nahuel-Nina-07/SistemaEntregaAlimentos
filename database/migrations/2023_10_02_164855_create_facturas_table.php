@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('carrito', function (Blueprint $table) {
+        Schema::create('facturas', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('alimento_id');
-            $table->integer('cantidad');
+            $table->unsignedBigInteger('ClienteID');
+            $table->timestamp('FechaHoraFactura')->default(now());
+            $table->decimal('TotalFactura', 10, 2);
+            $table->foreign('ClienteID')->references('id')->on('users');
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('alimento_id')->references('id')->on('alimentos');
         });
     }
 
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('carrito');
+        Schema::dropIfExists('facturas');
     }
 };

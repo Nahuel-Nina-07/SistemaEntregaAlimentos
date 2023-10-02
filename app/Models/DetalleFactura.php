@@ -9,11 +9,21 @@ class DetalleFactura extends Model
 {
     use HasFactory;
 
-    public function factura() {
-        return $this->belongsTo(Factura::class);
+    protected $table = 'detalles_factura';
+    protected $fillable = ['FacturaID', 'DetalleCarritoID', 'ProductoID', 'Cantidad', 'PrecioUnitario'];
+
+    public function factura()
+    {
+        return $this->belongsTo(Factura::class, 'FacturaID');
     }
 
-    public function alimento() {
-        return $this->belongsTo(Alimento::class);
+    public function detalleCarrito()
+    {
+        return $this->belongsTo(DetalleCarrito::class, 'DetalleCarritoID');
+    }
+
+    public function producto()
+    {
+        return $this->belongsTo(Producto::class, 'ProductoID');
     }
 }

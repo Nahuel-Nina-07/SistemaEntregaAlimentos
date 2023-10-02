@@ -16,7 +16,7 @@ use App\Http\Controllers\AlimentoController;
 */
 
 Route::get('/', function () {
-    return view('auth.login');
+    return view('auth.loginform');
 });
 
 Route::middleware('admin:admin')->group(function (){
@@ -51,3 +51,16 @@ Route::group(['prefix' => 'alimentos'], function () {
     Route::put('/actualizar/{id}', [AlimentoController::class, 'update']);
     Route::delete('/eliminar/{id}', [AlimentoController::class, 'destroy']);
 });
+
+Route::middleware('admin:admin')->group(function (){
+    Route::get('admin/login',[AdminController::class, 'loginForm']);
+    Route::post('admin/login',[AdminController::class, 'store'])->name('admin.login');
+    
+    // Ruta para mostrar el formulario de registro de administradores
+    Route::get('admin/register',[AdminController::class, 'showAdminRegistrationForm']);
+    
+    // Ruta para procesar el registro de administradores
+    Route::post('admin/register',[AdminController::class, 'createAdmin'])->name('admin.register');
+});
+
+Route::get('/trabajando', function () {return view('errors.trabajando');})->name('trabajando');
