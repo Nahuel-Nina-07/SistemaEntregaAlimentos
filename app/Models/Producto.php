@@ -10,15 +10,24 @@ class Producto extends Model
     use HasFactory;
 
     protected $table = 'productos';
-    protected $fillable = ['NombreProducto', 'Descripcion', 'Precio', 'Stock', 'Imagen', 'RestauranteID', 'CategoriaID'];
 
-    public function restaurante()
-    {
-        return $this->belongsTo(Restaurante::class, 'RestauranteID');
-    }
+    protected $fillable = [
+        'nombre',
+        'descripcion',
+        'precio',
+        'categoria_id',
+        'restaurante_id',
+        'imagen',
+        'stock',
+    ];
 
     public function categoria()
     {
-        return $this->belongsTo(CategoriaProducto::class, 'CategoriaID');
+        return $this->belongsTo(CategoriaProducto::class, 'categoria_id');
+    }
+
+    public function restaurante()
+    {
+        return $this->belongsTo(Restaurante::class, 'restaurante_id');
     }
 }

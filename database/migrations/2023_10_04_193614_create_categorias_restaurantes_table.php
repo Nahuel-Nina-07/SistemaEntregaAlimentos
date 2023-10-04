@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('carritos_compras', function (Blueprint $table) {
+        Schema::create('categorias_restaurantes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('ClienteID');
-            $table->timestamp('FechaHoraCreacion')->default(now());
-            $table->foreign('ClienteID')->references('id')->on('users');
+            $table->string('nombre');
+            $table->string('imagen');
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('carritos_compras');
+        Schema::dropIfExists('categorias_restaurantes');
     }
 };

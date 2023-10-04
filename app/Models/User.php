@@ -27,6 +27,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'google_id',
+        'rol',
+        'ubicacion',
     ];
 
     /**
@@ -63,5 +66,7 @@ class User extends Authenticatable
     // {
     //     return $this->hasMany(Carrito::class, 'user_id');
     // }
+
+    protected $table = 'users';
 
 }

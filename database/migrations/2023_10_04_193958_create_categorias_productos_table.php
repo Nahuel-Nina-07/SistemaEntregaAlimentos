@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('facturas', function (Blueprint $table) {
+        Schema::create('categorias_productos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('ClienteID');
-            $table->timestamp('FechaHoraFactura')->default(now());
-            $table->decimal('TotalFactura', 10, 2);
-            $table->foreign('ClienteID')->references('id')->on('users');
+            $table->string('nombre');
+            $table->string('imagen');
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('facturas');
+        Schema::dropIfExists('categorias_productos');
     }
 };

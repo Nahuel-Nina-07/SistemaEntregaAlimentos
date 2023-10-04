@@ -1,8 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AlimentoController;
+use App\Http\Controllers\HomeController;
+use Laravel\Socialite\Facades\Socialite;
+USE App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -16,23 +19,9 @@ use App\Http\Controllers\AlimentoController;
 */
 
 Route::get('/', function () {
-    return view('auth.loginform');
+    return view('welcome');
 });
 
-Route::middleware('admin:admin')->group(function (){
-    Route::get('admin/login',[AdminController::class, 'loginForm']);
-    Route::post('admin/login',[AdminController::class, 'store'])->name('admin.login');
-});
-
-Route::middleware([
-    'auth:sanctum,admin',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/admin/dashboard', function () {
-        return view('dash.index');
-    })->name('dash')->middleware('auth:admin');
-});
 
 Route::middleware([
     'auth:sanctum',
@@ -45,16 +34,26 @@ Route::middleware([
 });
 
 
-Route::middleware('admin:admin')->group(function (){
-    Route::get('admin/login',[AdminController::class, 'loginForm']);
-    Route::post('admin/login',[AdminController::class, 'store'])->name('admin.login');
-    
-    // Ruta para mostrar el formulario de registro de administradores
-    Route::get('admin/register',[AdminController::class, 'showAdminRegistrationForm']);
-    
-    // Ruta para procesar el registro de administradores
-    Route::post('admin/register',[AdminController::class, 'createAdmin'])->name('admin.register');
+Route::get('/google-auth/redirect', function () {
+    return Socialite::driver('google')->redirect();
 });
+
+Route::get('/google-auth/callback', function () {
+    $user_google= Socialite::driver('google')->stateless()->user();
+
+    // $user->token
+    $user=User::updateOrCreate([
+        'google_id'=>$user_google->id,
+    ],[
+        'name'=>$user_google->name,
+        'email'=>$user_google->email,
+    ]);
+    Auth::login($user);
+    return redirect('/dashboard');
+    
+});
+
+Route::get('/redirects',[HomeController::class, 'index']);
 
 #Plantilla de trabajando en ello
 Route::get('/trabajando', function () {return view('errors.trabajando');})->name('trabajando');

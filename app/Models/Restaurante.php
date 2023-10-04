@@ -10,10 +10,18 @@ class Restaurante extends Model
     use HasFactory;
 
     protected $table = 'restaurantes';
-    protected $fillable = ['NombreRestaurante', 'Direccion', 'Telefono', 'CorreoElectronico', 'AdministradorID'];
 
-    public function administrador()
+    protected $fillable = [
+        'nombre',
+        'direccion',
+        'categoria_id',
+        'telefono',
+        'correo_electronico',
+        'imagen',
+    ];
+
+    public function categoria()
     {
-        return $this->belongsTo(Administrador::class, 'AdministradorID');
+        return $this->belongsTo(CategoriaRestaurante::class, 'categoria_id');
     }
 }

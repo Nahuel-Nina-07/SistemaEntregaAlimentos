@@ -13,13 +13,15 @@ return new class extends Migration
     {
         Schema::create('restaurantes', function (Blueprint $table) {
             $table->id();
-            $table->string('NombreRestaurante');
-            $table->string('Direccion');
-            $table->string('Telefono');
-            $table->string('CorreoElectronico');
-            $table->unsignedBigInteger('AdministradorID');
-            $table->foreign('AdministradorID')->references('id')->on('admins');
+            $table->string('nombre');
+            $table->string('direccion');
+            $table->unsignedBigInteger('categoria_id');
+            $table->string('telefono')->nullable();
+            $table->string('correo_electronico')->nullable();
+            $table->string('imagen')->nullable();
             $table->timestamps();
+
+            $table->foreign('categoria_id')->references('id')->on('categorias_restaurantes');
         });
     }
 

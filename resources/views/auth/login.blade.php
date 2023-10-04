@@ -1,48 +1,68 @@
-<x-guest-layout>
-    <x-authentication-card>
-        <x-slot name="logo">
-            <x-authentication-card-logo />
-        </x-slot>
+<!DOCTYPE html>
+<html lang="es">
 
-        <x-validation-errors class="mb-4" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/login.css') }}">
+    <script src="{{ asset('js/login.js') }}"></script>
+    <script src="https://kit.fontawesome.com/0b506ee94b.js" crossorigin="anonymous"></script>
 
-        @if (session('status'))
-            <div class="mb-4 font-medium text-sm text-green-600">
-                {{ session('status') }}
+
+</head>
+
+<body>
+    <div class="container" id="container">
+        <div class="form-container sign-up-container">
+            <form method="POST" action="{{ route('register') }}">
+                @csrf
+                <h1>Crear cuenta</h1>
+                <div class="social-container">
+                    <a href="{{ route('trabajando') }}" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="/google-auth/redirect" class="social"><i class="fab fa-google-plus-g"></i></a>
+                    <a href="{{ route('trabajando') }}" class="social"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span>o usa tu correo electrónico para registrarte</span>
+                <input type="text" placeholder="Nombre" name="name" value="{{ old('name') }}" required autofocus />
+                <input type="email" placeholder="Correo Electrónico" name="email" value="{{ old('email') }}" required />
+                <input type="password" placeholder="Contraseña" name="password" required />
+                <input type="password" placeholder="Confirmar Contraseña" name="password_confirmation" required />
+                <button type="submit">Registrarse</button>
+            </form>
+        </div>
+        <div class="form-container sign-in-container">
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
+                <h1>Iniciar sesión</h1>
+                <div class="social-container">
+                    <a href="{{ route('trabajando') }}" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="/google-auth/redirect" class="social"><i class="fab fa-google-plus-g"></i></a>
+                    <a href="{{ route('trabajando') }}" class="social"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span>o usa tu cuenta</span>
+                <input type="email" name="email" placeholder="Correo Electrónico" value="{{ old('email') }}" required autocomplete="email" autofocus />
+                <input type="password" name="password" placeholder="Contraseña" required autocomplete="current-password" />
+                <a href="{{ route('password.request') }}">¿Olvidaste tu contraseña?</a>
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>¡Bienvenido de nuevo!</h1>
+                    <p>Para mantenerse conectado con nosotros, inicie sesión con su información personal</p>
+                    <button class="ghost" id="signIn">Iniciar Sesión</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>¡Hola, Amigo!</h1>
+                    <p>Ingrese sus datos personales y comience su viaje con nosotros</p>
+                    <button class="ghost" id="signUp">Registrarse</button>
+                </div>
             </div>
-        @endif
-        
-        <form method="POST" action="{{ isset($guard) ? url($guard.'/login') : route('login') }}">
-            @csrf
+        </div>
 
-            <div>
-                <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            </div>
+    </div>
+</body>
 
-            <div class="mt-4">
-                <x-label for="password" value="{{ __('Contraseña') }}" />
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
-            </div>
-
-            <div class="block mt-4">
-                <label for="remember_me" class="flex items-center">
-                    <x-checkbox id="remember_me" name="remember" />
-                    <span class="ml-2 text-sm text-gray-600">{{ __('Recordar') }}</span>
-                </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                        {{ __('¿Olvidaste tu contraseña?') }}
-                    </a>
-                @endif
-
-                <x-button class="ml-4">
-                    {{ __('Iniciar sesión') }}
-                </x-button>
-            </div>
-        </form>
-    </x-authentication-card>
-</x-guest-layout>
+</html>
