@@ -2,9 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AlimentoController;
-
-use App\Http\Controllers\CarritoController;
+use App\Http\Controllers\SolicitudTrabajoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,13 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-Route::get('/ver', [AlimentoController::class, 'index']);
-Route::post('/crear', [AlimentoController::class, 'store']);
-Route::put('/actualizar/{id}', [AlimentoController::class, 'update']);
-Route::delete('/eliminar/{id}', [AlimentoController::class, 'destroy']);
+Route::post('/solicitudes-trabajo', [SolicitudTrabajoController::class, 'store']);
 
 
-Route::get('/carrito', [CarritoController::class, 'index'])->name('carrito.index');
-Route::post('/carrito/agregar/{alimentoId}', [CarritoController::class, 'agregar'])->name('carrito.agregar');
-Route::delete('/carrito/eliminar/{carritoId}', [CarritoController::class, 'eliminar'])->name('carrito.eliminar');
+Route::get('/ver-solicitudes-trabajo', [SolicitudTrabajoController::class, 'index']);

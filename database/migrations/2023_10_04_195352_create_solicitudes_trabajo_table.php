@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->dateTime('fecha_solicitud');
             $table->string('nombre_solicitante');
+            $table->string('apellido_solicitante');
             $table->string('correo_electronico_solicitante');
             $table->string('telefono_solicitante');
             $table->text('detalles_solicitud');

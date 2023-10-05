@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('direccion');
             $table->unsignedBigInteger('categoria_id');
             $table->string('telefono')->nullable();
+            $table->string('CalleNegocio');
+            $table->string('CiudadNegocio');
             $table->string('correo_electronico')->nullable();
             $table->string('imagen')->nullable();
             $table->timestamps();

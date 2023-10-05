@@ -9,6 +9,8 @@ class SolicitudTrabajo extends Model
 {
     use HasFactory;
 
+    protected $table = 'solicitudes_trabajo';
+
     protected $fillable = [
         'fecha_solicitud',
         'nombre_solicitante',

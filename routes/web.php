@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use Laravel\Socialite\Facades\Socialite;
 USE App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\SolicitudTrabajoController;
 
 
 /*
@@ -53,7 +54,15 @@ Route::get('/google-auth/callback', function () {
     
 });
 
-Route::get('/redirects',[HomeController::class, 'index']);
+
+Route::get('/formulario', function () {
+    return view('Repartidor.form');
+})->name('formulario');
+
+Route::get('/restaurante', function () {
+    return view('Restaurante.restaurante');
+})->name('restaurante');
+
 
 #Plantilla de trabajando en ello
 Route::get('/trabajando', function () {return view('errors.trabajando');})->name('trabajando');
