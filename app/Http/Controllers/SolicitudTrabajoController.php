@@ -10,7 +10,7 @@ class SolicitudTrabajoController extends Controller
 {
     public function create()
     {
-        return view('repartidor.form');
+        return view('formSolicitudes.form_solicitud_trabajo');
     }
     public function store(Request $request)
     {
