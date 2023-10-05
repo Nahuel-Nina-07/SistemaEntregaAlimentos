@@ -40,7 +40,7 @@ Route::get('/google-auth/redirect', function () {
 });
 
 Route::get('/google-auth/callback', function () {
-    $user_google= Socialite::driver('google')->stateless()->user();
+    $user_google= Socialite::driver('google')->user();
 
     // $user->token
     $user=User::updateOrCreate([
