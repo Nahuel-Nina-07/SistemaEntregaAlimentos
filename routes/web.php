@@ -23,6 +23,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/formRestaurante', function () {
+    return view('registerRestaurante.form_restaurante');
+})->name('registerRestaurante.form_restaurante');
+
+Route::get('/uneteRestaurante', function () {
+    return view('registerRestaurante.unete_restaurante');
+});
 
 Route::middleware([
     'auth:sanctum',
