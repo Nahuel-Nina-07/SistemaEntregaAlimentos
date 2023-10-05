@@ -9,85 +9,114 @@
 </head>
 
 <body>
-    <div class="login-root">
-        <div class="box-root flex-flex flex-direction--column" style="min-height: 100vh;flex-grow: 1;">
-            <div class="loginbackground box-background--white padding-top--64">
-                <div class="loginbackground-gridContainer">
-                    <div class="box-root flex-flex" style="grid-area: top / start / 8 / end;">
-                        <div class="box-root" style="background-image: linear-gradient(white 0%, rgb(247, 250, 252) 33%); flex-grow: 1;">
+    <!-- partial:index.partial.html -->
+    <div class="demo-page">
+        <!-- <div class="demo-page-navigation"></div> -->
+
+        <main class="demo-page-content">
+            <section>
+                <!-- <div class="href-target" id="input-types"></div> -->
+                <h1>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-align-justify">
+                        <line x1="21" y1="10" x2="3" y2="10" />
+                        <line x1="21" y1="6" x2="3" y2="6" />
+                        <line x1="21" y1="14" x2="3" y2="14" />
+                        <line x1="21" y1="18" x2="3" y2="18" />
+                    </svg>
+                    Ingresa tus datos
+                </h1>
+                <p>Por normas de seguridad necesitamos que lenes todos los campos.</p>
+                <form method="POST" action="{{ route('repartidor.store') }}" enctype="multipart/form-data">
+                    @csrf
+                    <div class="nice-form-group">
+                        <label>Nombre</label>
+                        <input type="text" name="nombre_solicitante" placeholder="Ingrese su nombre" value="" required />
+                    </div>
+
+                    <div class="nice-form-group">
+                        <label>Apellido</label>
+                        <input type="text" name="apellido_solicitante" placeholder="Ingrese su apellido" value="" required />
+                    </div>
+
+                    <div class="nice-form-group">
+                        <label>Email</label>
+                        <input type="email" name="correo_electronico_solicitante" placeholder="Ingrese su email" value="" required />
+                    </div>
+
+                    <div class="nice-form-group">
+                        <label>Telefono</label>
+                        <input type="tel" name="telefono_solicitante" placeholder="Ingrese su numero" value="" required />
+                    </div>
+
+
+                    <fieldset class="nice-form-group">
+                        <label>¿Tienes más de 18 años?</label>
+                        <div class="nice-form-group">
+                            <input type="radio" name="edad" id="r-1" value="1" />
+                            <label for="r-1">Si</label>
                         </div>
-                    </div>
-                    <div class="box-root flex-flex" style="grid-area: 4 / 2 / auto / 5;">
-                        <div class="box-root box-divider--light-all-2 animationLeftRight tans3s" style="flex-grow: 1;"></div>
-                    </div>
-                    <div class="box-root flex-flex" style="grid-area: 6 / start / auto / 2;">
-                        <div class="box-root box-background--blue800" style="flex-grow: 1;"></div>
-                    </div>
-                    <div class="box-root flex-flex" style="grid-area: 7 / start / auto / 4;">
-                        <div class="box-root box-background--blue animationLeftRight" style="flex-grow: 1;"></div>
-                    </div>
-                    <div class="box-root flex-flex" style="grid-area: 8 / 4 / auto / 6;">
-                        <div class="box-root box-background--gray100 animationLeftRight tans3s" style="flex-grow: 1;"></div>
-                    </div>
-                    <div class="box-root flex-flex" style="grid-area: 2 / 15 / auto / end;">
-                        <div class="box-root box-background--cyan200 animationRightLeft tans4s" style="flex-grow: 1;"></div>
-                    </div>
-                    <div class="box-root flex-flex" style="grid-area: 3 / 14 / auto / end;">
-                        <div class="box-root box-background--blue animationRightLeft" style="flex-grow: 1;"></div>
-                    </div>
-                    <div class="box-root flex-flex" style="grid-area: 4 / 17 / auto / 20;">
-                        <div class="box-root box-background--gray100 animationRightLeft tans4s" style="flex-grow: 1;"></div>
-                    </div>
-                    <div class="box-root flex-flex" style="grid-area: 5 / 14 / auto / 17;">
-                        <div class="box-root box-divider--light-all-2 animationRightLeft tans3s" style="flex-grow: 1;"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="box-root padding-top--24 flex-flex flex-direction--column" style="flex-grow: 1; z-index: 9;">
-                <div class="box-root padding-top--48 padding-bottom--24 flex-flex flex-justifyContent--center">
-                    <h1><a href="http://blog.stackfindover.com/" rel="dofollow">Ingresa tus datos</a></h1>
-                </div>
-                <div class="formbg-outer">
-                    <div class="formbg">
-                        <div class="formbg-inner padding-horizontal--48">
-                            <form id="stripe-login">
-                                <div class="field padding-bottom--24">
-                                    <label for="password">Nombre</label>
-                                    <input type="text" name="password">
-                                </div>
-                                <div class="field padding-bottom--24">
-                                    <label for="password">Apellido</label>
-                                    <input type="text" name="password">
-                                </div>
-                                <div class="field padding-bottom--24">
-                                    <label for="password">Num. Celular</label>
-                                    <input type="number" name="password">
-                                </div>
-                                <div class="field padding-bottom--24">
-                                    <label for="email">Email</label>
-                                    <input type="email" name="email">
-                                </div>
-                                <div class="field padding-bottom--24">
-                                    <label for="password">Password</label>
-                                    <input type="password" name="password">
-                                </div>
-                                <div class="field padding-bottom--24">
-                                    <input type="submit" name="submit" value="Continue">
-                                </div>
-                            </form>
+
+                        <div class="nice-form-group">
+                            <input type="radio" name="edad" id="r-2" value="0" />
+                            <label for="r-2">No</label>
                         </div>
-                    </div>
-                    <!-- <div class="footer-link padding-top--24">
-                        <span>Don't have an account? <a href="">Sign up</a></span>
-                        <div class="listing padding-top--24 padding-bottom--24 flex-flex center-center">
-                            <span><a href="#">© Stackfindover</a></span>
-                            <span><a href="#">Contact</a></span>
-                            <span><a href="#">Privacy & terms</a></span>
+                    </fieldset>
+
+                    <fieldset class="nice-form-group">
+                        <label>¿Tienes tu propio vehículo?</label>
+                        <div class="nice-form-group">
+                            <input type="radio" name="vehiculoPropio" id="r-3" value="1" />
+                            <label for="r-3">Si</label>
                         </div>
-                    </div> -->
-                </div>
-            </div>
-        </div>
+
+                        <div class="nice-form-group">
+                            <input type="radio" name="vehiculoPropio" id="r-4" value="0" />
+                            <label for="r-4">No</label>
+                        </div>
+                    </fieldset>
+
+                    <div class="nice-form-group">
+                        <select name="tipo_vehiculo" required>
+                            <option>Elige tu transporte</option>
+                            <option>Bicicleta</option>
+                            <option>Moto</option>
+                            <option>Auto</option>
+                        </select>
+                    </div>
+
+                    <div class="nice-form-group">
+                        <label>Ingresa imagen los papeles de tu vehiculo</label>
+                        <input type="file" name="imagen_propiedad_vehiculo" accept="image/*" required />
+                    </div>
+
+                    <div class="nice-form-group">
+                        <label>Numero de cédula/pasaporte</label>
+                        <input type="tel" placeholder="Ingrese su cédula/pasaporte(sin guion)" value="" name="ci_numero" required />
+                    </div>
+
+
+                    <details>
+                        <summary>
+                            <button type="submit">
+                                <div class="toggle-code">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-code">
+                                        <polyline points="16 18 22 12 16 6" />
+                                        <polyline points="8 6 2 12 8 18" />
+                                    </svg>
+                                    Enviar
+                                </div>
+                            </button>
+                        </summary>
+                    </details>
+                </form>
+            </section>
+            <section>
+                <p>
+                    <code>https://unpkg.com/nice-forms.css@0.1.7/dist/nice-forms-reset.css</code>
+                </p>
+            </section>
+        </main>
+
     </div>
 </body>
 

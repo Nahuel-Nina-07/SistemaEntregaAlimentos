@@ -13,17 +13,17 @@ return new class extends Migration
     {
         Schema::create('solicitudes_trabajo', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('fecha_solicitud');
+            $table->dateTime('fecha_solicitud')->useCurrent();  // Fecha y hora de la solicitud
             $table->string('nombre_solicitante');
             $table->string('apellido_solicitante');
             $table->string('correo_electronico_solicitante');
             $table->string('telefono_solicitante');
             $table->boolean('edad')->default(true);
             $table->boolean('vehiculoPropio')->default(true);
-            $table->string('tipo_vehiculo')->nullable();
-            $table->string('imagen_propiedad_vehiculo')->nullable();
-            $table->integer('ci_numero')->nullable();
-            $table->boolean('estadoSolicitud')->default(false);
+            $table->string('tipo_vehiculo');
+            $table->string('imagen_propiedad_vehiculo');
+            $table->integer('ci_numero');
+            $table->boolean('estadoSolicitud')->default(false); // 0 = pendiente, 1 = aceptada
             $table->timestamps();
         });
     }

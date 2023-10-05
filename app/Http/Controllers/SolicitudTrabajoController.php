@@ -4,55 +4,51 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\SolicitudTrabajo;
+use Illuminate\Support\Facades\Storage;
 
 class SolicitudTrabajoController extends Controller
 {
+    public function create()
+    {
+        return view('repartidor.form');
+    }
     public function store(Request $request)
     {
-        // Valida los datos de entrada
+        // Validar los datos del formulario
         $request->validate([
-            'nombre_solicitante' => 'required|string',
-            'correo_electronico_solicitante' => 'required|email',
-            'telefono_solicitante' => 'required|string',
-            'detalles_solicitud' => 'required|string',
-            'edad' => 'nullable|integer',
-            'tipo_vehiculo' => 'nullable|string',
-            'imagen_propiedad_vehiculo' => 'nullable|string',
-            'ci_numero' => 'nullable|integer',
-            'numero_placa' => 'nullable|string',
+            'nombre_solicitante' => 'required|string|max:255',
+            'apellido_solicitante' => 'required|string|max:255',
+            'correo_electronico_solicitante' => 'required|email|max:255',
+            'telefono_solicitante' => 'required|string|max:20',
+            'edad' => 'required|boolean',
+            'vehiculoPropio' => 'required|boolean',
+            'tipo_vehiculo' => 'required|string|max:255',
+            'imagen_propiedad_vehiculo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'ci_numero' => 'required|integer',
         ]);
 
-        // Obtén la fecha y hora actual del servidor
-        $fechaSolicitud = now();
+        // Crear una nueva solicitud de trabajo en la base de datos
 
-        // Crea una nueva instancia de SolicitudTrabajo con los datos del formulario
-        $solicitud = new SolicitudTrabajo([
-            'fecha_solicitud' => $fechaSolicitud,
+        if ($request->hasFile('imagen_propiedad_vehiculo')) {
+            $imagePath = $request->file('imagen_propiedad_vehiculo')->store('public/images');
+            $url = Storage::url($imagePath);
+        } else {
+            return redirect()->back()->with('error', 'Debe cargar una imagen.'); // Si no se proporciona una imagen
+        }
+    
+        // Crear una nueva solicitud de trabajo en la base de datos
+        SolicitudTrabajo::create([
             'nombre_solicitante' => $request->input('nombre_solicitante'),
+            'apellido_solicitante' => $request->input('apellido_solicitante'),
             'correo_electronico_solicitante' => $request->input('correo_electronico_solicitante'),
             'telefono_solicitante' => $request->input('telefono_solicitante'),
-            'detalles_solicitud' => $request->input('detalles_solicitud'),
             'edad' => $request->input('edad'),
+            'vehiculoPropio' => $request->input('vehiculoPropio'),
             'tipo_vehiculo' => $request->input('tipo_vehiculo'),
-            'imagen_propiedad_vehiculo' => $request->input('imagen_propiedad_vehiculo'),
+            'imagen_propiedad_vehiculo' => $url, // Asignar la URL de la imagen
             'ci_numero' => $request->input('ci_numero'),
-            'numero_placa' => $request->input('numero_placa'),
         ]);
-
-        $solicitud->save();
-
-        if ($solicitud->wasRecentlyCreated) {
-            return response()->json(['message' => 'Solicitud de trabajo creada con éxito', 'solicitud' => $solicitud], 201);
-        } else {
-            return response()->json(['message' => 'Error al crear la solicitud de trabajo'], 500);
-        }
+        // Redirigir a la vista de confirmación o a donde desees
+        return redirect()->route('repartidor.create');
     }
-
-    public function index()
-    {
-        $solicitudes = SolicitudTrabajo::all(); // Obtén todas las solicitudes de trabajo
-
-        return response()->json($solicitudes);
-    }
-
 }

@@ -66,3 +66,12 @@ Route::get('/restaurante', function () {
 
 #Plantilla de trabajando en ello
 Route::get('/trabajando', function () {return view('errors.trabajando');})->name('trabajando');
+
+
+
+
+// Ruta para mostrar el formulario trabajo
+Route::get('/solicitudes/create', [SolicitudTrabajoController::class, 'create'])->name('repartidor.create');
+
+// Ruta para procesar el formulario y guardar los datos
+Route::post('/solicitudes/store', [SolicitudTrabajoController::class, 'store'])->name('repartidor.store');
