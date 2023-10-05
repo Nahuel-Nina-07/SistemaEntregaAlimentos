@@ -18,12 +18,12 @@ return new class extends Migration
             $table->string('apellido_solicitante');
             $table->string('correo_electronico_solicitante');
             $table->string('telefono_solicitante');
-            $table->text('detalles_solicitud');
-            $table->integer('edad')->nullable();
+            $table->boolean('edad')->default(true);
+            $table->boolean('vehiculoPropio')->default(true);
             $table->string('tipo_vehiculo')->nullable();
             $table->string('imagen_propiedad_vehiculo')->nullable();
             $table->integer('ci_numero')->nullable();
-            $table->string('numero_placa')->nullable();
+            $table->boolean('estadoSolicitud')->default(false);
             $table->timestamps();
         });
     }

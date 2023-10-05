@@ -17,6 +17,7 @@ class DetalleRepartidor extends Model
         'edad',
         'tipo_vehiculo',
         'telefono',
+        'imagen_propiedad_vehiculo',
         'reportado',
     ];
 

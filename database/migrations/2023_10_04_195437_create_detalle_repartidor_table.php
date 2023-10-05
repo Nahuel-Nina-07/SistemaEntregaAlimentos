@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('edad')->nullable();
             $table->string('tipo_vehiculo')->nullable();
             $table->string('telefono')->nullable();
+            $table->string('imagen_propiedad_vehiculo')->nullable();
             $table->boolean('reportado')->default(false);
             $table->timestamps();
 

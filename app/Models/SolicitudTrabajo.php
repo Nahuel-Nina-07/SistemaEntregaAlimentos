@@ -14,13 +14,14 @@ class SolicitudTrabajo extends Model
     protected $fillable = [
         'fecha_solicitud',
         'nombre_solicitante',
+        'apellido_solicitante',
         'correo_electronico_solicitante',
         'telefono_solicitante',
-        'detalles_solicitud',
         'edad',
+        'vehiculoPropio',
         'tipo_vehiculo',
         'imagen_propiedad_vehiculo',
         'ci_numero',
-        'numero_placa',
+        'estadoSolicitud',
     ];
 }
