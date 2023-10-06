@@ -64,12 +64,3 @@ Route::get('/trabajando', function () {
 })->name('trabajando');
 
 
-
-
-
-
-
-
-Route::get('/restaurante', function () {
-    return view('Restaurante.restaurante');
-})->name('restaurante');
