@@ -6,7 +6,9 @@ use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\SolicitudTrabajoController;
+use App\Http\Controllers\AuthController;
 
+use App\Http\Controllers\AdminSolicitudTrabajoController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -15,11 +17,11 @@ Route::get('/', function () {
 
 //formulario de registro de restaurante
 Route::get('/formRestaurante', function () {
-    return view('registerRestaurante.form_restaurante');
+    return view('formSolicitudes.form_restaurante');
 })->name('registerRestaurante.form_restaurante');
 
 Route::get('/uneteRestaurante', function () {
-    return view('registerRestaurante.unete_restaurante');
+    return view('formSolicitudes.unete_restaurante');
 });
 
 //login usuario
@@ -58,9 +60,24 @@ Route::get('/google-auth/callback', function () {
 Route::get('/solicitudes/create', [SolicitudTrabajoController::class, 'create'])->name('repartidor.create');
 Route::post('/solicitudes/store', [SolicitudTrabajoController::class, 'store'])->name('repartidor.store');
 
+Route::get('/solicitudes/user', function () {
+    return view('formSolicitudes.form_solicitud_trabajo_uno');
+})->name('repartidor_uno.create');
+
+
 #Plantilla de trabajando en ello
 Route::get('/trabajando', function () {
     return view('errors.trabajando');
 })->name('trabajando');
 
 
+//registrar con facebook
+Route::get('/auth/redirect', [AuthController::class, 'redirect'])
+    ->name('auth.redirect');
+
+Route::get('/auth/callback', [AuthController::class, 'callback'])
+    ->name('auth.callback');
+
+
+
+    Route::get('/ver-solicitudes', [SolicitudTrabajoController::class, 'index'])->name('solicitudes.index');

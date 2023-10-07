@@ -23,7 +23,7 @@
                         <line x1="21" y1="14" x2="3" y2="14" />
                         <line x1="21" y1="18" x2="3" y2="18" />
                     </svg>
-                    Ingresa tus datos detallados
+                    Ingresa tus datos
                 </h1>
                 <p>Por normas de seguridad necesitamos que lenes todos los campos.</p>
                 <form method="POST" action="{{ route('repartidor.store') }}" enctype="multipart/form-data">
@@ -43,12 +43,6 @@
                         <input type="email" name="correo_electronico_solicitante" placeholder="Ingrese su email" value="" required />
                     </div>
 
-                    <div class="nice-form-group">
-                        <label>Telefono</label>
-                        <input type="tel" name="telefono_solicitante" placeholder="Ingrese su numero" value="" required />
-                    </div>
-
-
                     <fieldset class="nice-form-group">
                         <label>¿Tienes más de 18 años?</label>
                         <div class="nice-form-group">
@@ -61,42 +55,25 @@
                             <label for="r-2">No</label>
                         </div>
                     </fieldset>
-
-                    <fieldset class="nice-form-group">
-                        <label>¿Tienes tu propio vehículo?</label>
-                        <div class="nice-form-group">
-                            <input type="radio" name="vehiculoPropio" id="r-3" value="1" />
-                            <label for="r-3">Si</label>
-                        </div>
-
-                        <div class="nice-form-group">
-                            <input type="radio" name="vehiculoPropio" id="r-4" value="0" />
-                            <label for="r-4">No</label>
-                        </div>
-                    </fieldset>
-
-                    <div class="nice-form-group">
-                        <select name="tipo_vehiculo" required>
-                            <option>Elige tu transporte</option>
-                            <option>Moto</option>
-                            <option>Auto</option>
-                        </select>
+                    <br>
+                    <div id="mensaje-requisito" style="display: none;">
+                        Como requisito, necesitamos que seas mayor de 18 años.
                     </div>
 
-                    <div class="nice-form-group">
-                        <label>Imagen documentos de tu vehiculo o contrato de prestamo vehicular</label>
-                        <input type="file" name="imagen_propiedad_vehiculo" accept="image/*" required />
-                    </div>
+                    <script>
+                        function mostrarMensajeRequisito() {
+                            var edadNo = document.getElementById("r-2").checked;
 
-                    <div class="nice-form-group">
-                        <label>Numero de cédula o pasaporte</label>
-                        <input type="tel" placeholder="Ingrese su cédula/pasaporte(sin guion)" value="" name="ci_numero" required />
-                    </div>
+                            if (edadNo) {
+                                document.getElementById("mensaje-requisito").style.display = "block";
+                            }
+                        }
+                    </script>
 
 
                     <details>
                         <summary>
-                            <button type="submit">
+                            <button type="submit" onclick="mostrarMensajeRequisito()">
                                 <div class="toggle-code">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-code">
                                         <polyline points="16 18 22 12 16 6" />
@@ -107,17 +84,7 @@
                             </button>
                         </summary>
                     </details>
-                    <br>
-                    <br>
-                    @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    @endif
+
                 </form>
             </section>
 

@@ -19,7 +19,7 @@
                 @csrf
                 <h1>Crear cuenta</h1>
                 <div class="social-container">
-                    <a href="{{ route('trabajando') }}" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="/auth/redirect" class="social"><i class="fab fa-facebook-f"></i></a>
                     <a href="/google-auth/redirect" class="social"><i class="fab fa-google-plus-g"></i></a>
                     <a href="{{ route('trabajando') }}" class="social"><i class="fab fa-linkedin-in"></i></a>
                 </div>
@@ -36,7 +36,7 @@
                 @csrf
                 <h1>Iniciar sesión</h1>
                 <div class="social-container">
-                    <a href="{{ route('trabajando') }}" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="/auth/redirect" class="social"><i class="fab fa-facebook-f"></i></a>
                     <a href="/google-auth/redirect" class="social"><i class="fab fa-google-plus-g"></i></a>
                     <a href="{{ route('trabajando') }}" class="social"><i class="fab fa-linkedin-in"></i></a>
                 </div>
