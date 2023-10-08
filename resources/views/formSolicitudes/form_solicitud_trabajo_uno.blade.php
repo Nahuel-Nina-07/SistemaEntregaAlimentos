@@ -26,7 +26,7 @@
                     Ingresa tus datos
                 </h1>
                 <p>Por normas de seguridad necesitamos que lenes todos los campos.</p>
-                <form method="POST" action="{{ route('repartidor.store') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ url('/guardar-basicos') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="nice-form-group">
                         <label>Nombre</label>
@@ -36,11 +36,6 @@
                     <div class="nice-form-group">
                         <label>Apellido</label>
                         <input type="text" name="apellido_solicitante" placeholder="Ingrese su apellido" value="" required />
-                    </div>
-
-                    <div class="nice-form-group">
-                        <label>Email</label>
-                        <input type="email" name="correo_electronico_solicitante" placeholder="Ingrese su email" value="" required />
                     </div>
 
                     <fieldset class="nice-form-group">
@@ -55,22 +50,13 @@
                             <label for="r-2">No</label>
                         </div>
                     </fieldset>
-                    <br>
-                    <div id="mensaje-requisito" style="display: none;">
-                        Como requisito, necesitamos que seas mayor de 18 años.
+
+                    <div class="nice-form-group">
+                        <label>Numero de cédula o pasaporte</label>
+                        <input type="tel" placeholder="Ingrese su cédula/pasaporte(sin guion)" value="" name="ci_numero" required />
                     </div>
 
-                    <script>
-                        function mostrarMensajeRequisito() {
-                            var edadNo = document.getElementById("r-2").checked;
-
-                            if (edadNo) {
-                                document.getElementById("mensaje-requisito").style.display = "block";
-                            }
-                        }
-                    </script>
-
-
+                    <br>
                     <details>
                         <summary>
                             <button type="submit" onclick="mostrarMensajeRequisito()">

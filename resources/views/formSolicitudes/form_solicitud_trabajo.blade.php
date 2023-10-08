@@ -26,9 +26,9 @@
                     Ingresa tus datos detallados
                 </h1>
                 <p>Por normas de seguridad necesitamos que lenes todos los campos.</p>
-                <form method="POST" action="{{ route('repartidor.store') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ url('/guardar-detallados') }}" enctype="multipart/form-data">
                     @csrf
-                    <div class="nice-form-group">
+                    <!-- <div class="nice-form-group">
                         <label>Nombre</label>
                         <input type="text" name="nombre_solicitante" placeholder="Ingrese su nombre" value="" required />
                     </div>
@@ -36,7 +36,7 @@
                     <div class="nice-form-group">
                         <label>Apellido</label>
                         <input type="text" name="apellido_solicitante" placeholder="Ingrese su apellido" value="" required />
-                    </div>
+                    </div> -->
 
                     <div class="nice-form-group">
                         <label>Email</label>
@@ -49,7 +49,7 @@
                     </div>
 
 
-                    <fieldset class="nice-form-group">
+                    <!-- <fieldset class="nice-form-group">
                         <label>¿Tienes más de 18 años?</label>
                         <div class="nice-form-group">
                             <input type="radio" name="edad" id="r-1" value="1" />
@@ -60,7 +60,7 @@
                             <input type="radio" name="edad" id="r-2" value="0" />
                             <label for="r-2">No</label>
                         </div>
-                    </fieldset>
+                    </fieldset> -->
 
                     <fieldset class="nice-form-group">
                         <label>¿Tienes tu propio vehículo?</label>
@@ -88,10 +88,10 @@
                         <input type="file" name="imagen_propiedad_vehiculo" accept="image/*" required />
                     </div>
 
-                    <div class="nice-form-group">
+                    <!-- <div class="nice-form-group">
                         <label>Numero de cédula o pasaporte</label>
                         <input type="tel" placeholder="Ingrese su cédula/pasaporte(sin guion)" value="" name="ci_numero" required />
-                    </div>
+                    </div> -->
 
 
                     <details>
