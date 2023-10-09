@@ -48,10 +48,10 @@ Route::get('/redirects', [HomeController::class, "index"])->name('redirects');
 // })->name('repartidor_uno.create');
 
 
-Route::get('/ingresar-basicos', [SolicitudTrabajoBasicoController::class, 'index']);
+Route::get('/ingresar-basicos', [SolicitudTrabajoBasicoController::class, 'index'])->name('repartidor.create');
 Route::post('/guardar-basicos', [SolicitudTrabajoBasicoController::class, 'guardarNombreCi']);
 
-Route::get('/ingresar-detallados', [SolicitudTrabajoController::class, 'index']); 
+Route::get('/ingresar-detallados', [SolicitudTrabajoController::class, 'index']);
 Route::post('/guardar-detallados', [SolicitudTrabajoController::class, 'guardarEdadNumero']);
 
 #Plantilla de trabajando en ello

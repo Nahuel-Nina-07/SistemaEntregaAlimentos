@@ -841,6 +841,9 @@
             <br>
             <br>
             <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
+            <br>
+            <br>
+            <a href="{{ route('registerRestaurante.form_restaurante') }}" class="font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Registrar tu negocio</a>
             @endauth
         </div>
         @endif

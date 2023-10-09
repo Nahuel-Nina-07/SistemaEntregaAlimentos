@@ -7,7 +7,6 @@ use App\Models\SolicitudTrabajo;
 use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Support\Facades\DB;
