@@ -86,4 +86,6 @@ Route::get('/auth/callback', [AuthController::class, 'callback'])
     ->name('auth.callback');
 
 //ver las solicitudes //Adminitrador
-Route::get('/ver-solicitudes', [SolicitudTrabajoController::class, 'index'])->name('solicitudes.index');
+Route::get('/ver-solicitudes', [AdminSolicitudTrabajoController::class, 'index'])->name('solicitudes.index');
+
+Route::get('/solicitudes/{id}', [AdminSolicitudTrabajoController::class, 'show'])->name('solicitudes.show');
