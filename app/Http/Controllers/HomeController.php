@@ -13,7 +13,7 @@ class HomeController extends Controller
 
         if($rol=='1')
         {
-            return view('dashboard');
+            return view('dash.index');
         }
         if($rol=='2')
         {
@@ -21,7 +21,7 @@ class HomeController extends Controller
         }
         else
         {
-            return view('dashboard');
+            return view('dash.index');
         }
     }   
 }

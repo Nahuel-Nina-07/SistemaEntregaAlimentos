@@ -63,6 +63,7 @@ return [
         // Features::api(),
         // Features::teams(['invitations' => true]),
         Features::accountDeletion(),
+        'session_management' => false,
     ],
 
     /*

@@ -29,7 +29,6 @@ class User extends Authenticatable
         'password',
         'google_id',
         'rol',
-        'ubicacion',
     ];
 
     /**
@@ -69,4 +68,38 @@ class User extends Authenticatable
 
     protected $table = 'users';
 
+
+    public function adminlte_image()
+    {
+        $profilePhotoPath = $this->profile_photo_path; // Nombre correcto de la columna en tu base de datos
+
+        if ($profilePhotoPath) {
+            // Si el usuario tiene una imagen de perfil, devuelve la URL real de la imagen
+            return asset('storage/' . $profilePhotoPath);
+        } else {
+            // Si el usuario no tiene una imagen de perfil, devuelve la URL predeterminada
+            return 'https://i.pinimg.com/280x280_RS/42/03/a5/4203a57a78f6f1b1cc8ce5750f614656.jpg';
+        }
+    }
+
+    public function adminlte_desc()
+    {
+        $rol = $this->rol;
+
+        switch ($rol) {
+            case 0:
+                return 'Usuario';
+            case 1:
+                return 'Repartidor';
+            case 2:
+                return 'Administrador';
+            default:
+                return 'Rol Desconocido';
+        }
+    }
+
+    public function adminlte_profile_url()
+    {
+        return 'user/profile';
+    }
 }
