@@ -312,16 +312,20 @@ return [
             'can'  => 'manage-blog',
         ],
         [
-            'text'        => 'pages',
-            'url'         => 'admin/pages',
+            'text'        => 'Solicitudes',
+            'url'         => '/ver-solicitudes',
             'icon'        => 'far fa-fw fa-file',
-            'label'       => 4,
             'label_color' => 'success',
         ],
         ['header' => 'account_settings'],
         [
-            'text' => 'profile',
-            'url'  => 'admin/settings',
+            'text' => 'Perfil',
+            'url'  => '/user/profile',
+            'icon' => 'fas fa-fw fa-user',
+        ],
+        [
+            'text' => 'Crear Restaurante',
+            'url'  => '/user/profile',
             'icon' => 'fas fa-fw fa-user',
         ],
         [
