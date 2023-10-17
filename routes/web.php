@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\SolicitudTrabajoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SolicitudTrabajoBasicoController;
+use App\Http\Controllers\registroRestaurante;
 
 use App\Http\Controllers\AdminSolicitudTrabajoController;
 
@@ -88,3 +89,5 @@ Route::get('/auth/callback', [AuthController::class, 'callback'])
 //ver las solicitudes //Adminitrador
 Route::get('/ver-solicitudes', [AdminSolicitudTrabajoController::class, 'index'])->name('solicitudes.index');
 Route::get('/solicitudes/{id}', [AdminSolicitudTrabajoController::class, 'show'])->name('solicitudes.show');
+
+Route::get('/solicitudesRes',[registroRestauranteController::class,'verData']);
