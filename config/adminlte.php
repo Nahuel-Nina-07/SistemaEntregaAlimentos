@@ -340,8 +340,8 @@ return [
             'icon' => 'fas fa-fw fa-user',
         ],
         [
-            'text' => 'change_password',
-            'url'  => 'admin/settings',
+            'text' => 'Crear Categoria Productos',
+            'route'  => 'categorias.create',
             'icon' => 'fas fa-fw fa-lock',
         ],
         [

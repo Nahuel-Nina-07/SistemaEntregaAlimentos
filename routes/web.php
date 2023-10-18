@@ -9,7 +9,7 @@ use App\Http\Controllers\SolicitudTrabajoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SolicitudTrabajoBasicoController;
 use App\Http\Controllers\registroRestauranteController;
-
+use App\Http\Controllers\CategoriaProductoController;
 use App\Http\Controllers\AdminSolicitudRestauranteController;
 
 
@@ -91,10 +91,16 @@ Route::get('/solicitudes/aceptadas/{id}', [AdminSolicitudTrabajoController::clas
 //restaurantes
 Route::get('/ver-solicitudes-pendientes-restaurantes', [AdminSolicitudRestauranteController::class, 'index'])->name('admin.solicitudesRestaurantes');
 
-
-Route::get('/otro', function () {
-    return view('otro');
-})->name('registerRestaurante.form_restaurante');
-
-
 Route::get('/solicitudesRes',[registroRestauranteController::class,'verData']);
+
+
+//crud categoriaProducto
+
+// Route::get('/categorias', [CategoriaProductoController::class, 'index'])->name('categorias.index');
+// Route::get('/categorias/create', [CategoriaProductoController::class, 'create'])->name('categorias.create');
+// Route::post('/categorias', [CategoriaProductoController::class, 'store'])->name('categorias.store');
+// Route::get('/categorias/{categoria}/edit', [CategoriaProductoController::class, 'edit'])->name('categorias.edit');
+// Route::put('/categorias/{categoria}', [CategoriaProductoController::class, 'update'])->name('categorias.update');
+// Route::delete('/categorias/{categoria}', [CategoriaProductoController::class, 'destroy'])->name('categorias.destroy');
+
+Route::resource('categorias', CategoriaProductoController::class);
