@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\SolicitudTrabajoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SolicitudTrabajoBasicoController;
+use App\Http\Controllers\registroRestauranteController;
 
 use App\Http\Controllers\AdminSolicitudRestauranteController;
 
@@ -85,6 +86,7 @@ Route::get('/ver-solicitudes-pendientes', [AdminSolicitudTrabajoController::clas
 Route::get('/ver-solicitudes-aceptadas', [AdminSolicitudTrabajoController::class, 'aceptados'])->name('admin.solicitudesAceptadas');
 Route::get('/ver-solicitudes-rechazadas', [AdminSolicitudTrabajoController::class, 'rechazados'])->name('admin.solicitudesRechazadas');
 Route::get('/solicitudes/{id}', [AdminSolicitudTrabajoController::class, 'show'])->name('solicitudes.show');
+<<<<<<< HEAD
 Route::post('/solicitudes/{id}', [AdminSolicitudTrabajoController::class, 'show'])->name('solicitudes.show');
 Route::get('/solicitudes/aceptadas/{id}', [AdminSolicitudTrabajoController::class,'verSolicitudesAceptadas'])->name('solicitudes.aceptadas');
 //restaurantes
@@ -95,3 +97,7 @@ Route::get('/otro', function () {
     return view('otro');
 })->name('registerRestaurante.form_restaurante');
 
+=======
+
+Route::get('/solicitudesRes',[registroRestauranteController::class,'verData']);
+>>>>>>> ebbecf2a21793599e64ef5cf7941507792460a9c

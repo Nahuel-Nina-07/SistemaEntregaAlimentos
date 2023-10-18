@@ -312,8 +312,19 @@ return [
             'can'  => 'manage-blog',
         ],
         [
+<<<<<<< HEAD
             'text'        => 'Solicitudes',
             'url'         => '#',
+=======
+            'text'        => 'Solicitudes Trabajo',
+            'url'         => '/ver-solicitudes',
+>>>>>>> ebbecf2a21793599e64ef5cf7941507792460a9c
+            'icon'        => 'far fa-fw fa-file',
+            'label_color' => 'success',
+        ],
+        [
+            'text'        => 'Solicitudes Restaurantes',
+            'url'         => '/solicitudesRes',
             'icon'        => 'far fa-fw fa-file',
             'label_color' => 'success',
         ],
