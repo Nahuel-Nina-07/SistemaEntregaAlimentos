@@ -22,8 +22,11 @@ return new class extends Migration
             $table->boolean('vehiculoPropio')->default(true);
             $table->string('tipo_vehiculo');
             $table->string('imagen_propiedad_vehiculo');
+            $table->string('imagen_repartidor');
             $table->integer('ci_numero');
+            $table->integer('Placa_vehiculo');
             $table->boolean('estadoSolicitud')->default(false); // 0 = pendiente, 1 = aceptada
+            $table->string('password')->nullable();
             $table->timestamps();
         });
     }

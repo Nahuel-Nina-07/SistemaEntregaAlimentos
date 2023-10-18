@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('CiudadNegocio');
             $table->string('categoria');
             $table->string('LogoImg')->nullable();
+            $table->boolean('estadoSolicitud')->default(false);
             $table->timestamps();
         });
     }

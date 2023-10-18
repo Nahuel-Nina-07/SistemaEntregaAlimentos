@@ -21,7 +21,10 @@ class SolicitudTrabajo extends Model
         'vehiculoPropio',
         'tipo_vehiculo',
         'imagen_propiedad_vehiculo',
+        'imagen_repartidor',
         'ci_numero',
         'estadoSolicitud',
+        'Placa_vehiculo',
+        'password',
     ];
 }

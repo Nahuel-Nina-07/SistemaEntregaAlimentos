@@ -16,12 +16,13 @@ return new class extends Migration
             $table->unsignedBigInteger('repartidor_id');
             $table->dateTime('fecha_incorporacion');
             $table->integer('ci_numero')->nullable();
-            $table->string('numero_placa')->nullable();
             $table->integer('edad')->nullable();
             $table->string('tipo_vehiculo')->nullable();
             $table->string('telefono')->nullable();
             $table->string('imagen_propiedad_vehiculo')->nullable();
             $table->boolean('reportado')->default(false);
+            $table->integer('Placa_vehiculo');
+            $table->boolean('vehiculoPropio')->default(true);
             $table->timestamps();
 
             $table->foreign('repartidor_id')->references('id')->on('users');

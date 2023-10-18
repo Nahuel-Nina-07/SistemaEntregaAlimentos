@@ -25,6 +25,7 @@
                 </div>
                 <span>o usa tu correo electrónico para registrarte</span>
                 <input type="text" placeholder="Nombre" name="name" value="{{ old('name') }}" required autofocus />
+                <input type="text" placeholder="Apelldo" name="apellido" value="{{ old('apellido') }}" required autofocus />
                 <input type="email" placeholder="Correo Electrónico" name="email" value="{{ old('email') }}" required />
                 <input type="password" placeholder="Contraseña" name="password" required />
                 <input type="password" placeholder="Confirmar Contraseña" name="password_confirmation" required />

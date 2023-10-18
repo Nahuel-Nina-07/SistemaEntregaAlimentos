@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap");
 
 :root {
-	--yellow: #ffdd40;
+	--yellow: #007bff;
 	--dark: #2f313a;
 	--deg: -86deg;
 	--trans: all 0.4s ease 0s;
@@ -11,8 +11,7 @@ body {
 	margin: 0;
 	padding: 0;
 	overflow-x: hidden;
-	display: flex;
-	justify-content: center;
+	align-items: center;
 	font-family: "Lato", Arial, Helvetica, serif;
 	background: linear-gradient(90deg, #131417, var(--dark) 35% 65%, #131417);
 	font-size: 1em;
@@ -24,9 +23,6 @@ body *:after {
 	box-sizing: border-box;
 }
 
-.content {
-	width: 90vmin;
-}
 
 h2 {
 	text-align: center;
@@ -127,7 +123,7 @@ h2 {
 }
 
 h3 {
-	background: linear-gradient(182deg, #fff0 60%, var(--dark) 0 100%);
+	background: linear-gradient(182deg, #fff0 0%, var(--dark) 0 100%);
 	display: inline;
 	transform: rotate(-2deg);
 	position: absolute;
@@ -146,13 +142,13 @@ h3 {
 	right: 9vmin;
 	transform: rotate(2deg);
 	transform-origin: right bottom;
-	background: linear-gradient(-182deg, #fff0 60%, var(--dark) 0 100%);
+	background: linear-gradient(-182deg, #fff0 0%, var(--dark) 0 100%);
 }
 
 .member:hover h3 {
 	transition: var(--trans);
 	transform: rotate(0deg);
-	background: linear-gradient(180deg, #fff0 59%, var(--dark) 0 100%);
+	background: linear-gradient(180deg, #fff0 0%, var(--dark) 0 100%);
 }
 
 .co-funder:after {
@@ -200,4 +196,19 @@ h3 {
 	padding: 2px;
 	background: #fff;
 	margin-right: 2px;
+}
+
+.nav-tabs .nav-item {
+    width: 25%; /* Divide el ancho en 4 partes iguales para las 4 opciones */
+}
+
+.nav-tabs .nav-link {
+    text-align: center; /* Centra el texto horizontalmente */
+}
+
+.tab-pane {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente el contenido en cada pestaña */
+    align-items: center; /* Centra verticalmente el contenido en cada pestaña */
+    text-align: center; /* Alinea el texto en el centro horizontalmente */
 }

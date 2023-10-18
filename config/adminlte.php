@@ -313,7 +313,7 @@ return [
         ],
         [
             'text'        => 'Solicitudes',
-            'url'         => '/ver-solicitudes',
+            'url'         => '#',
             'icon'        => 'far fa-fw fa-file',
             'label_color' => 'success',
         ],
@@ -321,6 +321,11 @@ return [
         [
             'text' => 'Perfil',
             'url'  => '/user/profile',
+            'icon' => 'fas fa-fw fa-user',
+        ],
+        [
+            'text' => 'Solicitar trabajo',
+            'route'  => 'repartidor.create',
             'icon' => 'fas fa-fw fa-user',
         ],
         [
@@ -334,40 +339,17 @@ return [
             'icon' => 'fas fa-fw fa-lock',
         ],
         [
-            'text'    => 'multilevel',
+            'text'    => 'Solicitudes',
             'icon'    => 'fas fa-fw fa-share',
             'submenu' => [
                 [
-                    'text' => 'level_one',
-                    'url'  => '#',
+                    'text'    => 'Repartidor',
+                    'route'     => 'admin.solicitudes',
                 ],
                 [
-                    'text'    => 'level_one',
-                    'url'     => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text'    => 'level_two',
-                            'url'     => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'level_one',
-                    'url'  => '#',
+                    'text'    => 'Restaurante',
+                    'route'     => 'admin.solicitudesRestaurantes',
+                    
                 ],
             ],
         ],

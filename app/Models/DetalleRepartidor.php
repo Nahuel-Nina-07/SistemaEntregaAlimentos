@@ -9,6 +9,7 @@ class DetalleRepartidor extends Model
 {
     use HasFactory;
 
+    protected $table = 'detalle_repartidor';
     protected $fillable = [
         'repartidor_id',
         'fecha_incorporacion',
@@ -19,10 +20,12 @@ class DetalleRepartidor extends Model
         'telefono',
         'imagen_propiedad_vehiculo',
         'reportado',
+        'Placa_vehiculo',
+        'vehiculoPropio',
     ];
 
     public function repartidor()
     {
-        return $this->belongsTo(Usuario::class, 'repartidor_id');
+        return $this->belongsTo(User::class, 'repartidor_id');
     }
 }

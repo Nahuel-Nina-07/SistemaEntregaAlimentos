@@ -35,12 +35,7 @@
 
             <form method="post" action="{{ route('solicitudes.show', ['id' => $solicitud->id]) }}">
     @csrf
-    <div class="col-md-2">
-        <button type="submit" class="btn btn-success" id="signIn" name="aceptar">Aceptar</button>
-        <br>
-        <br>
-        <button type="submit" class="btn btn-danger" id="signUp" name="rechazar">Rechazar</button>
-    </div>
+
 </form>
 
 

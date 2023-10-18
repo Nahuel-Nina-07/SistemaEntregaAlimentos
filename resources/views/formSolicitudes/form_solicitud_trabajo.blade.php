@@ -28,15 +28,6 @@
                 <p>Por normas de seguridad necesitamos que lenes todos los campos.</p>
                 <form method="POST" action="{{ url('/guardar-detallados') }}" enctype="multipart/form-data">
                     @csrf
-                    <!-- <div class="nice-form-group">
-                        <label>Nombre</label>
-                        <input type="text" name="nombre_solicitante" placeholder="Ingrese su nombre" value="" required />
-                    </div>
-
-                    <div class="nice-form-group">
-                        <label>Apellido</label>
-                        <input type="text" name="apellido_solicitante" placeholder="Ingrese su apellido" value="" required />
-                    </div> -->
 
                     <div class="nice-form-group">
                         <label>Email</label>
@@ -47,20 +38,11 @@
                         <label>Telefono</label>
                         <input type="tel" name="telefono_solicitante" placeholder="Ingrese su numero" value="" required />
                     </div>
+                    <div class="nice-form-group">
+                        <label>Placa vehiculo</label>
+                        <input type="tel" name="Placa_vehiculo" placeholder="Ingrese su numero" value="" required />
+                    </div>
 
-
-                    <!-- <fieldset class="nice-form-group">
-                        <label>¿Tienes más de 18 años?</label>
-                        <div class="nice-form-group">
-                            <input type="radio" name="edad" id="r-1" value="1" />
-                            <label for="r-1">Si</label>
-                        </div>
-
-                        <div class="nice-form-group">
-                            <input type="radio" name="edad" id="r-2" value="0" />
-                            <label for="r-2">No</label>
-                        </div>
-                    </fieldset> -->
 
                     <fieldset class="nice-form-group">
                         <label>¿Tienes tu propio vehículo?</label>
@@ -77,22 +59,29 @@
 
                     <div class="nice-form-group">
                         <select name="tipo_vehiculo" required>
-                            <option>Elige tu transporte</option>
+                            <!-- <option>Elige tu transporte</option> -->
+                            <label>Elige tu movilidad</label>
                             <option>Moto</option>
                             <option>Auto</option>
                         </select>
                     </div>
 
                     <div class="nice-form-group">
-                        <label>Imagen documentos de tu vehiculo o contrato de prestamo vehicular</label>
+                        <label>Documento privado de compra o arrendamiento vehicular</label>
                         <input type="file" name="imagen_propiedad_vehiculo" accept="image/*" required />
                     </div>
-
-                    <!-- <div class="nice-form-group">
-                        <label>Numero de cédula o pasaporte</label>
-                        <input type="tel" placeholder="Ingrese su cédula/pasaporte(sin guion)" value="" name="ci_numero" required />
-                    </div> -->
-
+                    <div class="nice-form-group">
+                        <label>Contraseña</label>
+                        <input type="password" name="password" placeholder="Ingrese su contraseña" value="" required />
+                    </div>
+                    <div class="nice-form-group">
+                        <label>Confirmar contraseña</label>
+                        <input type="password" placeholder="Confirmar Contraseña" name="password_confirmation" required />
+                    </div>
+                    <div class="nice-form-group">
+                        <label>Suba una imagen de usted</label>
+                        <input type="file" name="imagen_repartidor" accept="image/*" required />
+                    </div>
 
                     <details>
                         <summary>
