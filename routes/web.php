@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\SolicitudTrabajoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SolicitudTrabajoBasicoController;
-use App\Http\Controllers\registroRestaurante;
+use App\Http\Controllers\registroRestauranteController;
 
 use App\Http\Controllers\AdminSolicitudTrabajoController;
 

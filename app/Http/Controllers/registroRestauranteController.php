@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\RegistrarRestaurante;
 
-class registroRestaurante extends Controller
+class registroRestauranteController extends Controller
 {
     //
     public function storeUneteR(Request $request)

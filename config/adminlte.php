@@ -319,7 +319,7 @@ return [
         ],
         [
             'text'        => 'Solicitudes Restaurantes',
-            'url'         => '/solicitudesRep',
+            'url'         => '/solicitudesRes',
             'icon'        => 'far fa-fw fa-file',
             'label_color' => 'success',
         ],
