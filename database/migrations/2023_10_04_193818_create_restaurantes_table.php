@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('restaurantes', function (Blueprint $table) {
             $table->id();
+            $table->dateTime('fecha_incorporacion');
             $table->string('nombre');
             $table->string('direccion');
             $table->unsignedBigInteger('categoria_id');
@@ -21,8 +22,9 @@ return new class extends Migration
             $table->string('CiudadNegocio');
             $table->string('correo_electronico')->nullable();
             $table->string('imagen')->nullable();
+            $table->string('nombrePropietario');
+            $table->string('ApellidoPropietario');
             $table->timestamps();
-
             $table->foreign('categoria_id')->references('id')->on('categorias_restaurantes');
         });
     }

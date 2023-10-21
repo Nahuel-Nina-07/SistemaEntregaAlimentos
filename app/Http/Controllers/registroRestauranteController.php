@@ -4,57 +4,54 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\RegistrarRestaurante;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 
 class registroRestauranteController extends Controller
 {
-    //
-    public function storeUneteR(Request $request)
+    public function index()
     {
-        $request->validate([
-            'tipoNegocio'=>'required|not_in:0',
+        $categoriasRestaurantes = DB::table('categorias_restaurantes')->pluck('nombre', 'id');
+        return view('formSolicitudes.form_negocio_uno', compact('categoriasRestaurantes'));
+    }
+    
+    //
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'tipoNegocio'=>'required|string|max:255',
             'NombreNegocio'=>'required',
+            function ($attribute, $value, $fail) use ($request) {
+                $existsInTable1 = DB::table('restaurantes')
+                    ->where('nombre', $value)
+                    ->exists();
+
+                $existsInTable2 = DB::table('registrar_restaurantes')
+                    ->where('NombreNegocio', $value)
+                    ->exists();
+
+                if ($existsInTable1 || $existsInTable2) {
+                    $fail('Este megocio ya existe');
+                }
+            },
             'NumeroContacto' => 'required',
             'CorreoNegocio' => 'required|email',
         ]);
 
-        session()->put('uneteR_data', $request->all());
-
-        // Redirige al usuario al formulario `formR`
-        return view('formSolicitudes.form_restaurante');
-    }
-
-    public function storeFormR(Request $request)
-    {
-        if (session()->has('uneteR_data')) {
-            // Valida y almacena los datos del segundo formulario en la base de datos
-            $request->validate([
-                'nombrePropietario' => 'required',
-                'ApellidoPropietario' => 'required',
-                'CalleNegocio' => 'required',
-                'CiudadNegocio' => 'required',
-                'categoria' => 'required',
-            ]);
-    
-            // Obtiene los datos del primer formulario de la sesión
-            $uneteRData = session('uneteR_data');
-    
-            // Combina los datos de ambos formularios
-            $data = array_merge($uneteRData, $request->all());
-    
-            // Almacena los datos en la base de datos
-            RegistrarRestaurante::create($data);
-    
-            // Elimina los datos de la sesión
-            session()->forget('uneteR_data');
-    
-            // Redirige al usuario a donde desees después de guardar los datos
-            return view('formSolicitudes.unete_restaurante');
+        if ($validator->fails()) {
+            return Redirect::back()
+                ->withErrors($validator)
+                ->withInput();
         }
-    }
+        //
+        $request->session()->put('unete', [
+            'tipoNegocio' => $request->input('tipoNegocio'),
+            'NombreNegocio' => $request->input('NombreNegocio'),
+            'NumeroContacto' => $request->input('NumeroContacto'),
+            'CorreoNegocio' => $request->input('CorreoNegocio'),
+        ]);
 
-    public function verData()
-    {
-        $solicitudes=RegistrarRestaurante::all();
-        return view('solicitudesRestaurantes.informacion')->with('solicitudes',$solicitudes);
+        return redirect('/formRestaurante');
     }
 }

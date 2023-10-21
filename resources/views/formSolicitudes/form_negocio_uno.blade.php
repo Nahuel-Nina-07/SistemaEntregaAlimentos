@@ -23,40 +23,39 @@
             <line x1="21" y1="14" x2="3" y2="14" />
             <line x1="21" y1="18" x2="3" y2="18" />
           </svg>
-          Ingresa tus datos detallados
+          Ingresa tus datos
         </h1>
         <p>Por normas de seguridad necesitamos que lenes todos los campos.</p>
-        <form method="POST" action="{{ url('/guardar-formRestaurante') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ url('/guardar-restaurante') }}" enctype="multipart/form-data">
           @csrf
-
           <div class="nice-form-group">
-            <label>Nombre del propietario</label>
-            <input type="text" name="nombrePropietario" placeholder="Nombre del propietario" value="" />
+            <label>Tipo de Negocio</label>
+            <select name="tipoNegocio" required>
+              @foreach($categoriasRestaurantes as $id => $nombre)
+              <option value="{{ $id }}">{{ $nombre }}</option>
+              @endforeach
+            </select>
           </div>
 
           <div class="nice-form-group">
-            <label>Apellidos del propietario</label>
-            <input type="text" name="ApellidoPropietario" placeholder="Apellidos del propietario" value="" />
+            <label>Nombre del local</label>
+            <input type="text" placeholder="Nombre de tu negocio" value="" name="NombreNegocio" required />
           </div>
 
           <div class="nice-form-group">
-            <label>Calle del negocio</label>
-            <input type="text" name="CalleNegocio" placeholder="Calle del negocio" value="" />
+            <label>Número de contacto</label>
+            <input type="text" placeholder="Número de contacto" value="" name="NumeroContacto" required />
           </div>
 
           <div class="nice-form-group">
-            <label>Ciudad del negocio</label>
-            <input type="text" name="CiudadNegocio" placeholder="Ciudad del negocio" value="" />
+            <label>Correo electrónico</label>
+            <input type="email" placeholder="Correo electrónico" value="" name="CorreoNegocio" required />
           </div>
 
-          <div class="nice-form-group">
-            <label>Imagen Logo de tu negocio</label>
-            <input type="file" name="LogoImg" accept="image/*" required />
-          </div>
-
+          <br>
           <details>
             <summary>
-              <button type="submit">
+              <button type="submit" onclick="mostrarMensajeRequisito()">
                 <div class="toggle-code">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-code">
                     <polyline points="16 18 22 12 16 6" />
@@ -67,6 +66,18 @@
               </button>
             </summary>
           </details>
+          <br>
+          <br>
+          @if ($errors->any())
+          <div class="alert alert-danger">
+            <ul>
+              @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+              @endforeach
+            </ul>
+          </div>
+          @endif
+
         </form>
       </section>
 

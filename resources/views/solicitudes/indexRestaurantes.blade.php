@@ -29,10 +29,10 @@
                 @foreach($solicitudes as $solicitud)
                 <!-- Mostrar todas las solicitudes aquí -->
                 <li class="member">
-                    <div class="thumb"><img src="{{ $solicitud->imagen_repartidor }}" alt="{{ $solicitud->nombre_solicitante }}"></div>
+                    <div class="thumb"><img src="{{ $solicitud->LogoImg }}" alt="{{ $solicitud->NombreNegocio }}"></div>
                     <div class="description">
-                        <h3>{{ $solicitud->nombre_solicitante }}</h3>
-                        <p>{{ $solicitud->nombre_solicitante }} es un miembro del equipo. Puede incluir detalles adicionales aquí si es necesario.<br><a href="{{ route('solicitudes.show', $solicitud->id) }}">Ver detalles</a></p>
+                        <h3>{{ $solicitud->NombreNegocio }}</h3>
+                        <p>{{ $solicitud->NombreNegocio }} es un miembro del equipo. Puede incluir detalles adicionales aquí si es necesario.<br><a href="{{ route('restaurantes.show', $solicitud->id) }}">Ver detalles</a></p>
                     </div>
                 </li>
                 @endforeach
@@ -44,10 +44,10 @@
                 @foreach($aceptados as $solicitud)
                 <!-- Mostrar las solicitudes aceptadas aquí -->
                 <li class="member">
-                    <div class="thumb"><img src="{{ $solicitud->imagen_repartidor }}" alt="{{ $solicitud->nombre_solicitante }}"></div>
+                    <div class="thumb"><img src="{{ $solicitud->LogoImg }}" alt="{{ $solicitud->NombreNegocio }}"></div>
                     <div class="description">
-                        <h3>{{ $solicitud->nombre_solicitante }}</h3>
-                        <p>{{ $solicitud->nombre_solicitante }} es un miembro del equipo. Puede incluir detalles adicionales aquí si es necesario.<br><a href="{{ route('solicitudes.aceptadas', $solicitud->id) }}">Ver detalles</a></p>
+                        <h3>{{ $solicitud->NombreNegocio }}</h3>
+                        <p>{{ $solicitud->NombreNegocio }} es un miembro del equipo. Puede incluir detalles adicionales aquí si es necesario.<br><a href="{{ route('restaurantes.aceptados', $solicitud->id) }}">Ver detalles</a></p>
                     </div>
                 </li>
                 @endforeach
@@ -59,10 +59,10 @@
                 @foreach($pendientes as $solicitud)
                 <!-- Mostrar las solicitudes pendientes aquí -->
                 <li class="member">
-                    <div class="thumb"><img src="{{ $solicitud->imagen_repartidor }}" alt="{{ $solicitud->nombre_solicitante }}"></div>
+                    <div class="thumb"><img src="{{ $solicitud->LogoImg }}" alt="{{ $solicitud->NombreNegocio }}"></div>
                     <div class="description">
-                        <h3>{{ $solicitud->nombre_solicitante }}</h3>
-                        <p>{{ $solicitud->nombre_solicitante }} es un miembro del equipo. Puede incluir detalles adicionales aquí si es necesario.<br><a href="{{ route('solicitudes.show', $solicitud->id) }}">Ver detalles</a></p>
+                        <h3>{{ $solicitud->NombreNegocio }}</h3>
+                        <p>{{ $solicitud->NombreNegocio }} es un miembro del equipo. Puede incluir detalles adicionales aquí si es necesario.<br><a href="{{ route('restaurantes.show', $solicitud->id) }}">Ver detalles</a></p>
                     </div>
                 </li>
                 @endforeach
@@ -74,10 +74,10 @@
                 @foreach($rechazados as $solicitud)
                 <!-- Mostrar las solicitudes rechazadas aquí -->
                 <li class="member">
-                    <div class="thumb"><img src="{{ $solicitud->imagen_repartidor }}" alt="{{ $solicitud->nombre_solicitante }}"></div>
+                    <div class="thumb"><img src="{{ $solicitud->LogoImg }}" alt="{{ $solicitud->NombreNegocio }}"></div>
                     <div class="description">
-                        <h3>{{ $solicitud->nombre_solicitante }}</h3>
-                        <p>{{ $solicitud->nombre_solicitante }} es un miembro del equipo. Puede incluir detalles adicionales aquí si es necesario.<br><a href="{{ route('solicitudes.show', $solicitud->id) }}">Ver detalles</a></p>
+                        <h3>{{ $solicitud->NombreNegocio }}</h3>
+                        <p>{{ $solicitud->NombreNegocio }} es un miembro del equipo. Puede incluir detalles adicionales aquí si es necesario.<br><a href="{{ route('restaurantes.show', $solicitud->id) }}">Ver detalles</a></p>
                     </div>
                 </li>
                 @endforeach

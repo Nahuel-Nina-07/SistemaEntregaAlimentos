@@ -313,13 +313,13 @@ return [
         ],
         [
             'text'        => 'Solicitudes Trabajo',
-            'url'         => '/ver-solicitudes',
+            'route'         => 'repartidor.create',
             'icon'        => 'far fa-fw fa-file',
             'label_color' => 'success',
         ],
         [
             'text'        => 'Solicitudes Restaurantes',
-            'url'         => '/solicitudesRes',
+            'route'         => 'registerRestaurante.uneteRestaurante',
             'icon'        => 'far fa-fw fa-file',
             'label_color' => 'success',
         ],
@@ -341,7 +341,12 @@ return [
         ],
         [
             'text' => 'Crear Categoria Productos',
-            'route'  => 'categorias.create',
+            'route'  => 'categorias.index',
+            'icon' => 'fas fa-fw fa-lock',
+        ],
+        [
+            'text' => 'Crear Categoria Restaurantes',
+            'route'  => 'categoriasRestaurantes.index',
             'icon' => 'fas fa-fw fa-lock',
         ],
         [

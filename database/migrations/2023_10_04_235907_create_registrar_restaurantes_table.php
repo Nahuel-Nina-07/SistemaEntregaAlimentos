@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('registrar_restaurantes', function (Blueprint $table) {
             $table->id();
+            $table->dateTime('fecha_solicitud')->useCurrent(); 
             $table->string('tipoNegocio');
             $table->string('NombreNegocio');
             $table->string('NumeroContacto');
@@ -21,7 +22,6 @@ return new class extends Migration
             $table->string('ApellidoPropietario');
             $table->string('CalleNegocio');
             $table->string('CiudadNegocio');
-            $table->string('categoria');
             $table->string('LogoImg')->nullable();
             $table->boolean('estadoSolicitud')->default(false);
             $table->timestamps();

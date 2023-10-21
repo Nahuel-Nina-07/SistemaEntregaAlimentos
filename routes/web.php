@@ -2,32 +2,32 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\SolicitudTrabajoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SolicitudTrabajoBasicoController;
-use App\Http\Controllers\registroRestauranteController;
 use App\Http\Controllers\CategoriaProductoController;
 use App\Http\Controllers\AdminSolicitudRestauranteController;
-
-
+use Laravel\Socialite\Facades\Socialite;
+use App\Http\Controllers\CategoriaRestauranteController;
 use App\Http\Controllers\AdminSolicitudTrabajoController;
+use App\Http\Controllers\registroRestauranteController;
+use App\Http\Controllers\formRestauranteController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
 
-//formulario de registro de restaurante
-Route::get('/formRestaurante', function () {
-    return view('formSolicitudes.form_restaurante');
-})->name('registerRestaurante.form_restaurante');
+// //formulario de registro de restaurante
+// Route::get('/formRestaurante', function () {
+//     return view('formSolicitudes.form_restaurante');
+// })->name('registerRestaurante.form_restaurante');
 
-Route::get('/uneteRestaurante', function () {
-    return view('formSolicitudes.unete_restaurante');
-});
+// Route::get('/uneteRestaurante', function () {
+//     return view('formSolicitudes.unete_restaurante');
+// });
 
 //login usuario
 Route::middleware([
@@ -46,9 +46,14 @@ Route::get('/redirects', [HomeController::class, "index"])->name('redirects');
 //datos basicos
 Route::get('/ingresar-basicos', [SolicitudTrabajoBasicoController::class, 'index'])->name('repartidor.create');
 Route::post('/guardar-basicos', [SolicitudTrabajoBasicoController::class, 'guardarNombreCi']);
-
 Route::get('/ingresar-detallados', [SolicitudTrabajoController::class, 'index']);
 Route::post('/guardar-detallados', [SolicitudTrabajoController::class, 'guardarEdadNumero']);
+
+//formulario registro restaurante
+Route::get('/ingresar-restaurante', [registroRestauranteController::class, 'index'])->name('registerRestaurante.uneteRestaurante');
+Route::post('/guardar-restaurante', [registroRestauranteController::class, 'store']);
+Route::get('/formRestaurante', [formRestauranteController::class, 'index']);
+Route::post('/guardar-formRestaurante', [formRestauranteController::class, 'store']);
 
 #Plantilla de trabajando en ello
 Route::get('/trabajando', function () {
@@ -83,24 +88,23 @@ Route::get('/auth/callback', [AuthController::class, 'callback'])
     
 //ver las solicitudes //Adminitrador
 Route::get('/ver-solicitudes-pendientes', [AdminSolicitudTrabajoController::class, 'index'])->name('admin.solicitudes');
-Route::get('/ver-solicitudes-aceptadas', [AdminSolicitudTrabajoController::class, 'aceptados'])->name('admin.solicitudesAceptadas');
-Route::get('/ver-solicitudes-rechazadas', [AdminSolicitudTrabajoController::class, 'rechazados'])->name('admin.solicitudesRechazadas');
 Route::get('/solicitudes/{id}', [AdminSolicitudTrabajoController::class, 'show'])->name('solicitudes.show');
 Route::post('/solicitudes/{id}', [AdminSolicitudTrabajoController::class, 'show'])->name('solicitudes.show');
 Route::get('/solicitudes/aceptadas/{id}', [AdminSolicitudTrabajoController::class,'verSolicitudesAceptadas'])->name('solicitudes.aceptadas');
+
 //restaurantes
 Route::get('/ver-solicitudes-pendientes-restaurantes', [AdminSolicitudRestauranteController::class, 'index'])->name('admin.solicitudesRestaurantes');
-
-Route::get('/solicitudesRes',[registroRestauranteController::class,'verData']);
-
+Route::get('/solicitudes/restaurantes/{id}', [AdminSolicitudRestauranteController::class, 'show'])->name('restaurantes.show');
+Route::post('/solicitudes/restaurantes/{id}', [AdminSolicitudRestauranteController::class, 'show'])->name('restaurantes.show');
+Route::get('/solicitudes/aceptadas/restaurantes/{id}', [AdminSolicitudRestauranteController::class,'verSolicitudesAceptadas'])->name('restaurantes.aceptados');
 
 //crud categoriaProducto
-
-// Route::get('/categorias', [CategoriaProductoController::class, 'index'])->name('categorias.index');
-// Route::get('/categorias/create', [CategoriaProductoController::class, 'create'])->name('categorias.create');
-// Route::post('/categorias', [CategoriaProductoController::class, 'store'])->name('categorias.store');
-// Route::get('/categorias/{categoria}/edit', [CategoriaProductoController::class, 'edit'])->name('categorias.edit');
-// Route::put('/categorias/{categoria}', [CategoriaProductoController::class, 'update'])->name('categorias.update');
-// Route::delete('/categorias/{categoria}', [CategoriaProductoController::class, 'destroy'])->name('categorias.destroy');
+Route::get('/categorias', [CategoriaProductoController::class, 'index'])->name('categorias.index');
+Route::post('/categorias', [CategoriaProductoController::class, 'store'])->name('categorias.store');
 
 Route::resource('categorias', CategoriaProductoController::class);
+
+//crud categoriaRestaurante
+Route::get('/categoriasRestaurantes', [CategoriaRestauranteController::class, 'index'])->name('categoriasRestaurantes.index');
+Route::post('/categoriasRestaurantes', [CategoriaRestauranteController::class, 'store'])->name('categoriasRestaurantes.store');
+

@@ -3,14 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\CategoriaProducto;
+use App\Models\CategoriaRestaurante;
 use Illuminate\Support\Facades\Storage;
-class CategoriaProductoController extends Controller
+
+
+class CategoriaRestauranteController extends Controller
 {
     public function index()
     {
-        $categorias = CategoriaProducto::all();
-        return view('CategoriaProducto.index', compact('categorias'));
+        $categorias = CategoriaRestaurante::all();
+        return view('CategoriaRestaurante.index', compact('categorias'));
     }
 
     public function store(Request $request)
@@ -20,18 +22,18 @@ class CategoriaProductoController extends Controller
             'imagen' => 'required',
         ]);
 
-        $imagePath = $request->file('imagen')->store('public/images');
+        $imagePath = $request->file('imagen')->store('public/images'); // Almacena la imagen en la carpeta 'public/images'
         $url = Storage::url($imagePath);
 
-        CategoriaProducto::create([
+        CategoriaRestaurante::create([
             'nombre' => $request->input('nombre'),
             'imagen' => $url,
         ]);
 
-        return redirect()->route('categorias.index');
+        return redirect()->route('categoriasRestaurantes.index');
     }
 
-    public function update(Request $request, CategoriaProducto $categoria)
+    public function update(Request $request, CategoriaRestaurante $categoria)
     {
         $request->validate([
             'nombre' => 'required',
@@ -50,12 +52,12 @@ class CategoriaProductoController extends Controller
 
         $categoria->update($data);
 
-        return redirect()->route('categorias.index');
+        return redirect()->route('categoriasRestaurantes.index');
     }
-    public function destroy(CategoriaProducto $categoria)
+    public function destroy(CategoriaRestaurante $categoria)
     {
         $categoria->delete();
 
-        return redirect()->route('categorias.index');
+        return redirect()->route('categoriasRestaurantes.index');
     }
 }

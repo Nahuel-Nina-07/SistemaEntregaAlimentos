@@ -10,7 +10,7 @@
 <br><br>
 <div class="container">
     <h2>Categorías de Productos</h2>
-    <a class="btn btn-primary" data-toggle="modal" data-target="#createCategoria">Crear Categoría</a>
+    <a  class="btn btn-primary" data-toggle="modal" data-target="#createCategoria">Crear Categoría</a>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -97,7 +97,7 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form action="{{ route('categorias.store') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('categoriasRestaurantes.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="modal-body">
                                 <div class="form-group">

@@ -20,7 +20,8 @@ class RegistrarRestaurante extends Model
         'ApellidoPropietario',
         'CalleNegocio',
         'CiudadNegocio',
-        'categoria',
+        'LogoImg',
+        'estadoSolicitud',
     ];
 
 }
