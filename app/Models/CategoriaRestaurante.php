@@ -12,6 +12,7 @@ class CategoriaRestaurante extends Model
     protected $table = 'categorias_restaurantes';
 
     protected $fillable = [
+        'id',
         'nombre',
         'imagen',
     ];

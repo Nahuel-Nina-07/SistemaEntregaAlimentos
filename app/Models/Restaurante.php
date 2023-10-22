@@ -12,12 +12,17 @@ class Restaurante extends Model
     protected $table = 'restaurantes';
 
     protected $fillable = [
+        'fecha_incorporacion',
         'nombre',
         'direccion',
         'categoria_id',
         'telefono',
+        'CalleNegocio',
+        'CiudadNegocio',
         'correo_electronico',
         'imagen',
+        'nombrePropietario',
+        'ApellidoPropietario',
     ];
 
     public function categoria()

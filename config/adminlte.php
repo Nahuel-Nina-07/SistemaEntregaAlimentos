@@ -255,7 +255,7 @@ return [
     'use_route_url' => false,
     'dashboard_url' => 'dashboard',
     'logout_url' => 'logout',
-    'login_url' => 'login',
+    'login_url' => 'dashboard',
     'register_url' => 'register',
     'password_reset_url' => 'password/reset',
     'password_email_url' => 'password/email',
@@ -291,6 +291,7 @@ return [
 
     'menu' => [
         // Navbar items:
+        
         [
             'type'         => 'navbar-search',
             'text'         => 'search',
@@ -350,6 +351,11 @@ return [
             'icon' => 'fas fa-fw fa-lock',
         ],
         [
+            'text' => 'Crear Productos',
+            'route'  => 'productos.index',
+            'icon' => 'fas fa-fw fa-lock',
+        ],
+        [
             'text'    => 'Solicitudes',
             'icon'    => 'fas fa-fw fa-share',
             'submenu' => [
@@ -364,6 +370,13 @@ return [
                 ],
             ],
         ],
+        // [
+        //     'text' => 'Notificaciones',
+        //     'url' => '#', // Puedes establecer la URL de destino para las notificaciones
+        //     'icon' => 'fas fa-briefcase', // Icono de notificaciones
+        //     'topnav_right' => true, // Esto coloca el ícono en la esquina derecha de la barra superior
+        //     // Agrega cualquier otro atributo que necesites, como clases de CSS
+        // ],
     ],
 
     /*

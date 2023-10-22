@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('imagen')->nullable();
             $table->integer('stock');
             $table->timestamps();
-
             $table->foreign('categoria_id')->references('id')->on('categorias_productos');
             $table->foreign('restaurante_id')->references('id')->on('restaurantes');
         });

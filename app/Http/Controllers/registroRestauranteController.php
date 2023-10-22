@@ -15,26 +15,29 @@ class registroRestauranteController extends Controller
         $categoriasRestaurantes = DB::table('categorias_restaurantes')->pluck('nombre', 'id');
         return view('formSolicitudes.form_negocio_uno', compact('categoriasRestaurantes'));
     }
-    
+
     //
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(),[
-            'tipoNegocio'=>'required|string|max:255',
-            'NombreNegocio'=>'required',
-            function ($attribute, $value, $fail) use ($request) {
-                $existsInTable1 = DB::table('restaurantes')
-                    ->where('nombre', $value)
-                    ->exists();
+        $validator = Validator::make($request->all(), [
+            'tipoNegocio' => 'required|string|max:255',
+            'NombreNegocio' => [
+                'required',
+                'max:255',
+                function ($attribute, $value, $fail) use ($request) {
+                    $existsInTable1 = DB::table('restaurantes')
+                        ->where('nombre', $value)
+                        ->exists();
 
-                $existsInTable2 = DB::table('registrar_restaurantes')
-                    ->where('NombreNegocio', $value)
-                    ->exists();
+                    $existsInTable2 = DB::table('registrar_restaurantes')
+                        ->where('NombreNegocio', $value)
+                        ->exists();
 
-                if ($existsInTable1 || $existsInTable2) {
-                    $fail('Este megocio ya existe');
-                }
-            },
+                    if ($existsInTable1 || $existsInTable2) {
+                        $fail('Este megocio ya existe');
+                    }
+                },
+            ],
             'NumeroContacto' => 'required',
             'CorreoNegocio' => 'required|email',
         ]);

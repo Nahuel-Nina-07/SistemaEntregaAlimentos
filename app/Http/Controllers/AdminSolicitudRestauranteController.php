@@ -45,51 +45,40 @@ class AdminSolicitudRestauranteController extends Controller
 
     public function show($id)
     {
-        // Retrieve the solicitud de trabajo record by its ID
+
         $solicitud = RegistrarRestaurante::find($id);
 
-        // Check if the solicitud exists
         if (!$solicitud) {
-            // Handle the case where the solicitud was not found, for example, redirect to a 404 page
             abort(404);
         }
 
 
         if (request()->isMethod('post')) {
             if (request()->has('aceptar')) {
-                $categoria = CategoriaRestaurante::where('nombre', $solicitud->tipoNegocio)->first();
+                // Actualiza el estado de la solicitud
                 $solicitud->update(['estadoSolicitud' => true]);
-                if ($categoria) {
-                    // Encuentra la categoría y obtén su id
-                    $categoriaId = $categoria->id;
-        
-                    // Crea el restaurante utilizando el id de la categoría
-                    $user = Restaurante::create([
-                        'fecha_incorporacion' => now(),
-                        'nombre' => $solicitud->NombreNegocio,
-                        'direccion' => $solicitud->apellido_solicitante,
-                        'categoria_id' => $categoriaId,
-                        'telefono' => $solicitud->NumeroContacto,
-                        'CalleNegocio' => $solicitud->CalleNegocio,
-                        'CiudadNegocio' => $solicitud->CiudadNegocio,
-                        'correo_electronico' => $solicitud->CorreoNegocio,
-                        'nombrePropietario' => $solicitud->nombrePropietario,
-                        'ApellidoPropietario' => $solicitud->ApellidoPropietario,
-                        'imagen' => str_replace('/storage/images/', 'profile-photos/', $solicitud->LogoImg),
-                    ]);
-                } else {
-                    // Maneja el caso en el que la categoría no se encontró
-                    // Puedes mostrar un mensaje de error o tomar medidas apropiadas.
-                }
+                $user = Restaurante::create([
+                    'fecha_incorporacion' => now(),
+                    'nombre' => $solicitud->NombreNegocio,
+                    'categoria_id' => $solicitud->tipoNegocio, // Asigna el id de la categoría
+                    'telefono' => $solicitud->NumeroContacto,
+                    'CalleNegocio' => $solicitud->CalleNegocio,
+                    'CiudadNegocio' => $solicitud->CiudadNegocio,
+                    'correo_electronico' => $solicitud->CorreoNegocio,
+                    'imagen' => str_replace('/storage/images/', 'profile-photos/', $solicitud->LogoImg),
+                    'nombrePropietario' => $solicitud->nombrePropietario,
+                    'ApellidoPropietario' => $solicitud->ApellidoPropietario,
+                ]);
+                
             } elseif (request()->has('rechazar')) {
                 // Si se ha enviado una solicitud POST y se ha hecho clic en el botón "Rechazar"
                 // Actualiza el estado de la solicitud a 2
                 $solicitud->update(['estadoSolicitud' => 2]);
             }
-            // Redirige al usuario a la ruta admin.solicitudes
+            // Redirige al usuario a la ruta admin.solicitudesRestaurantes
             return redirect()->route('admin.solicitudesRestaurantes');
         }
 
-        return view('restaurantes.show', compact('solicitud'));
+        return view('solicitudes.showRestaurante', compact('solicitud'));
     }
 }

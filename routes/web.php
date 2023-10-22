@@ -14,20 +14,11 @@ use App\Http\Controllers\CategoriaRestauranteController;
 use App\Http\Controllers\AdminSolicitudTrabajoController;
 use App\Http\Controllers\registroRestauranteController;
 use App\Http\Controllers\formRestauranteController;
+use App\Http\Controllers\ProductoController;
 
 Route::get('/', function () {
     return view('welcome');
 });
-
-
-// //formulario de registro de restaurante
-// Route::get('/formRestaurante', function () {
-//     return view('formSolicitudes.form_restaurante');
-// })->name('registerRestaurante.form_restaurante');
-
-// Route::get('/uneteRestaurante', function () {
-//     return view('formSolicitudes.unete_restaurante');
-// });
 
 //login usuario
 Route::middleware([
@@ -45,7 +36,7 @@ Route::get('/redirects', [HomeController::class, "index"])->name('redirects');
 
 //datos basicos
 Route::get('/ingresar-basicos', [SolicitudTrabajoBasicoController::class, 'index'])->name('repartidor.create');
-Route::post('/guardar-basicos', [SolicitudTrabajoBasicoController::class, 'guardarNombreCi']);
+Route::post('/guardar-basicos', [SolicitudTrabajoBasicoController::class, 'guardarNombreCi'])->name('guardarNombreCi');
 Route::get('/ingresar-detallados', [SolicitudTrabajoController::class, 'index']);
 Route::post('/guardar-detallados', [SolicitudTrabajoController::class, 'guardarEdadNumero']);
 
@@ -108,3 +99,6 @@ Route::resource('categorias', CategoriaProductoController::class);
 Route::get('/categoriasRestaurantes', [CategoriaRestauranteController::class, 'index'])->name('categoriasRestaurantes.index');
 Route::post('/categoriasRestaurantes', [CategoriaRestauranteController::class, 'store'])->name('categoriasRestaurantes.store');
 
+//productos
+Route::get('/productos/create',[ProductoController::class, 'create'])->name('productos.index');
+Route::post('/productos', [ProductoController::class, 'store'])->name('productos.store');

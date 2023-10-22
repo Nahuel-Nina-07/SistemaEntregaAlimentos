@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->dateTime('fecha_incorporacion');
             $table->string('nombre');
-            $table->string('direccion');
             $table->unsignedBigInteger('categoria_id');
             $table->string('telefono')->nullable();
             $table->string('CalleNegocio');
