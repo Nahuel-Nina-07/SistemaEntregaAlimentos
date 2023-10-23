@@ -1,55 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lista de Aceptados, Rechazados y Pendientes</title>
   <!-- Agregar referencia a Bootstrap CSS -->
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/Listado/listWorks.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('css/otro.css') }}">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
-  <div class="container mt-4">
-    <ul class="nav nav-tabs" id="myTabs" role="tablist">
-      <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="aceptados-tab" data-toggle="tab" href="#aceptados" role="tab" aria-controls="aceptados" aria-selected="true">Aceptados</a>
-      </li>
-      <li class="nav-item" role="presentation">
-        <a class="nav-link" id="rechazados-tab" data-toggle="tab" href="#rechazados" role="tab" aria-controls="rechazados" aria-selected="false">Rechazados</a>
-      </li>
-      <li class="nav-item" role of presentation">
-        <a class="nav-link" id="pendientes-tab" data-toggle="tab" href="#pendientes" role="tab" aria-controls="pendientes" aria-selected="false">Pendientes</a>
-      </li>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-      <div class="tab-pane fade show active" id="aceptados" role="tabpanel" aria-labelledby="aceptados-tab">
-        <h2 class="mt-3">Personas Aceptadas</h2>
-        <ul class="team">
-          @foreach($solicitudes as $solicitud)
-          <li class="member">
-            <div class="thumb"><img src="{{ $solicitud->imagen_repartidor }}" alt="{{ $solicitud->nombre_solicitante }}"></div>
-            <div class="description">
-              <h3>{{ $solicitud->nombre_solicitante }}</h3>
-              <p>{{ $solicitud->nombre_solicitante }} es un miembro del equipo. Puede incluir detalles adicionales aquí si es necesario.<br><a href="{{ route('solicitudes.show', $solicitud->id) }}">Ver detalles</a></p>
+  <div class="container mt-5 mb-5">
+    <div class="d-flex justify-content-center row">
+      <div class="col-md-10">
+        <div class="row p-2 bg-white border rounded">
+          <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="https://i.imgur.com/QpjAiHq.jpg"></div>
+          <div class="col-md-6 mt-1">
+            <h5>Quant olap shirts</h5>
+            <div class="d-flex flex-row">
+              <div class="ratings mr-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div><span>310</span>
             </div>
-          </li>
-          @endforeach
-        </ul>
-      </div>
-      <div class="tab-pane fade" id="rechazados" role="tabpanel" aria-labelledby="rechazados-tab">
-        <h2 class="mt-3">Personas Rechazadas</h2>
-        <!-- Puedes agregar personas rechazadas aquí si es necesario -->
-      </div>
-      <div class="tab-pane fade" id="pendientes" role="tabpanel" aria-labelledby="pendientes-tab">
-        <h2 class="mt-3">Personas Pendientes</h2>
-        <!-- Puedes agregar personas pendientes aquí si es necesario -->
+            <div class="mt-1 mb-1 spec-1"><span>100% cotton</span><span class="dot"></span><span>Light weight</span><span class="dot"></span><span>Best finish<br></span></div>
+            <div class="mt-1 mb-1 spec-1"><span>Unique design</span><span class="dot"></span><span>For men</span><span class="dot"></span><span>Casual<br></span></div>
+            <p class="text-justify text-truncate para mb-0">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.<br><br></p>
+          </div>
+          <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+            <div class="d-flex flex-row align-items-center">
+              <h4 class="mr-1">$13.99</h4><span class="strike-text">$20.99</span>
+            </div>
+            <h6 class="text-success">Free shipping</h6>
+            <div class="d-flex flex-column mt-4"><button class="btn btn-primary btn-sm" type="button">Details</button><button class="btn btn-outline-primary btn-sm mt-2" type="button">Add to wishlist</button></div>
+          </div>
+        </div>
+        <div class="row p-2 bg-white border rounded mt-2">
+          <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="https://i.imgur.com/JvPeqEF.jpg"></div>
+          <div class="col-md-6 mt-1">
+            <h5>Quant trident shirts</h5>
+            <div class="d-flex flex-row">
+              <div class="ratings mr-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div><span>310</span>
+            </div>
+            <div class="mt-1 mb-1 spec-1"><span>100% cotton</span><span class="dot"></span><span>Light weight</span><span class="dot"></span><span>Best finish<br></span></div>
+            <div class="mt-1 mb-1 spec-1"><span>Unique design</span><span class="dot"></span><span>For men</span><span class="dot"></span><span>Casual<br></span></div>
+            <p class="text-justify text-truncate para mb-0">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.<br><br></p>
+          </div>
+          <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+            <div class="d-flex flex-row align-items-center">
+              <h4 class="mr-1">$14.99</h4><span class="strike-text">$20.99</span>
+            </div>
+            <h6 class="text-success">Free shipping</h6>
+            <div class="d-flex flex-column mt-4"><button class="btn btn-primary btn-sm" type="button">Details</button><button class="btn btn-outline-primary btn-sm mt-2" type="button">Add to wishlist</button></div>
+          </div>
+        </div>
+        <div class="row p-2 bg-white border rounded mt-2">
+          <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="https://i.imgur.com/Bf4dIaN.jpg"></div>
+          <div class="col-md-6 mt-1">
+            <h5>Quant ruybi shirts</h5>
+            <div class="d-flex flex-row">
+              <div class="ratings mr-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div><span>123</span>
+            </div>
+            <div class="mt-1 mb-1 spec-1"><span>100% cotton</span><span class="dot"></span><span>Light weight</span><span class="dot"></span><span>Best finish<br></span></div>
+            <div class="mt-1 mb-1 spec-1"><span>Unique design</span><span class="dot"></span><span>For men</span><span class="dot"></span><span>Casual<br></span></div>
+            <p class="text-justify text-truncate para mb-0">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.<br><br></p>
+          </div>
+          <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+            <div class="d-flex flex-row align-items-center">
+              <h4 class="mr-1">$13.99</h4><span class="strike-text">$20.99</span>
+            </div>
+            <h6 class="text-success">Free shipping</h6>
+            <div class="d-flex flex-column mt-4"><button class="btn btn-primary btn-sm" type="button">Details</button><button class="btn btn-outline-primary btn-sm mt-2" type="button">Add to wishlist</button></div>
+          </div>
+        </div>
+        <div class="row p-2 bg-white border rounded mt-2">
+          <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="https://i.imgur.com/HO8e9b8.jpg"></div>
+          <div class="col-md-6 mt-1">
+            <h5>Quant tinor shirts</h5>
+            <div class="d-flex flex-row">
+              <div class="ratings mr-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div><span>110</span>
+            </div>
+            <div class="mt-1 mb-1 spec-1"><span>100% cotton</span><span class="dot"></span><span>Light weight</span><span class="dot"></span><span>Best finish<br></span></div>
+            <div class="mt-1 mb-1 spec-1"><span>Unique design</span><span class="dot"></span><span>For men</span><span class="dot"></span><span>Casual<br></span></div>
+            <p class="text-justify text-truncate para mb-0">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.<br><br></p>
+          </div>
+          <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+            <div class="d-flex flex-row align-items-center">
+              <h4 class="mr-1">$15.99</h4><span class="strike-text">$21.99</span>
+            </div>
+            <h6 class="text-success">Free shipping</h6>
+            <div class="d-flex flex-column mt-4"><button class="btn btn-primary btn-sm" type="button">Details</button><button class="btn btn-outline-primary btn-sm mt-2" type="button">Add to wishlist</button></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-
-  <!-- Agregar referencia a Bootstrap JS y jQuery -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

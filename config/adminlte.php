@@ -324,19 +324,9 @@ return [
             'icon'        => 'far fa-fw fa-file',
             'label_color' => 'success',
         ],
-        ['header' => 'account_settings'],
+        ['header' => 'Administrador'],
         [
             'text' => 'Perfil',
-            'url'  => '/user/profile',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'Solicitar trabajo',
-            'route'  => 'repartidor.create',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'Crear Restaurante',
             'url'  => '/user/profile',
             'icon' => 'fas fa-fw fa-user',
         ],
@@ -369,6 +359,12 @@ return [
                     
                 ],
             ],
+        ],
+        ['header' => 'Usuario'],
+        [
+            'text' => 'Categoria Restaurantes',
+            'route'  => 'categorias.index',
+            'icon' => 'fas fa-fw fa-user',
         ],
         // [
         //     'text' => 'Notificaciones',
