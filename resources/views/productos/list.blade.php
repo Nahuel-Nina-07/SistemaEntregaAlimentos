@@ -130,101 +130,105 @@
 
                         </td>
                     </tr>
-                    <div class="modal fade" id="editarModal{{ $productos->id }}" tabindex="-1" role="dialog" aria-labelledby="editarModalLabel{{ $productos->id }}" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editarModalLabel{{ $productos->id }}">Editar Producto</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" action="{{ route('productos.update', ['producto' => $productos->id]) }}" enctype="multipart/form-data">
-                                        @csrf
-                                        @method('PUT')
-
-                                        <div class="form-group">
-                                            <label for="nombre">Nombre:</label>
-                                            <input type="text" class="form-control" id="nombre" name="nombre" value="{{ $productos->nombre }}">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="precio">Precio:</label>
-                                            <input type="text" class="form-control" id="precio" name="precio" value="{{ $productos->precio }}">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="categoria_id">Categoría:</label>
-                                            <select class="form-control" id="categoria_id" name="categoria_id">
-                                                @foreach($categorias as $categoriaId => $categoriaNombre)
-                                                <option value="{{ $categoriaId }}" {{ $categoriaId == $productos->categoria_id ? 'selected' : '' }}>{{ $categoriaNombre }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="restaurante_id">Restaurante:</label>
-                                            <select class="form-control" id="restaurante_id" name="restaurante_id">
-                                                @foreach($restaurantes as $restauranteId => $restauranteNombre)
-                                                <option value="{{ $restauranteId }}" {{ $restauranteId == $productos->restaurante_id ? 'selected' : '' }}>{{ $restauranteNombre }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="imagen">Imagen:</label>
-                                            <input type="file" class="form-control" id="imagen" name="imagen">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="cantidad">Cantidad:</label>
-                                            <input type="number" class="form-control" id="cantidad" name="stock">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="descripcion">Descripción:</label>
-                                            <textarea type="text" class="form-control" id="descripcion" name="descripcion">{{ $productos->descripcion }}</textarea>
-                                        </div>
-
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Modal de Eliminación -->
-                    <div class="modal fade" id="eliminarModal{{ $productos->id }}" tabindex="-1" role="dialog" aria-labelledby="eliminarModalLabel{{ $productos->id }}" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="eliminarModalLabel{{ $productos->id }}">Eliminar Producto</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>¿Estás seguro de que deseas eliminar el producto: <strong>{{ $productos->nombre }}</strong>?</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                    <form method="POST" action="{{ route('productos.destroy', ['producto' => $productos->id]) }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Eliminar</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     @endforeach
                 </tbody>
             </table>
         </div>
+        @foreach($producto as $productos)
+        <div class="modal fade" id="editarModal{{ $productos->id }}" tabindex="-1" role="dialog" aria-labelledby="editarModalLabel{{ $productos->id }}" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editarModalLabel{{ $productos->id }}">Editar Producto</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" action="{{ route('productos.update', ['producto' => $productos->id]) }}" enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+
+                            <div class="form-group">
+                                <label for="nombre">Nombre:</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" value="{{ $productos->nombre }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="precio">Precio:</label>
+                                <input type="number" step="0.01" class="form-control" id="precio" name="precio" value="{{ $productos->precio }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="categoria_id">Categoría:</label>
+                                <select class="form-control" id="categoria_id" name="categoria_id">
+                                    @foreach($categorias as $categoriaId => $categoriaNombre)
+                                    <option value="{{ $categoriaId }}" {{ $categoriaId == $productos->categoria_id ? 'selected' : '' }}>{{ $categoriaNombre }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="restaurante_id">Restaurante:</label>
+                                <select class="form-control" id="restaurante_id" name="restaurante_id">
+                                    @foreach($restaurantes as $restauranteId => $restauranteNombre)
+                                    <option value="{{ $restauranteId }}" {{ $restauranteId == $productos->restaurante_id ? 'selected' : '' }}>{{ $restauranteNombre }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="imagen">Imagen:</label>
+                                <input type="file" class="form-control" id="imagen" name="imagen">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="stock">cantidad:</label>
+                                <input type="number" class="form-control" id="stock" name="stock" value="{{ $productos->stock }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="descripcion">Descripción:</label>
+                                <textarea type="text" class="form-control" id="descripcion" name="descripcion">{{ $productos->descripcion }}</textarea>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endforeach
+
+        <!-- Modal de Eliminación -->
+        @foreach($producto as $productos)
+        <div class="modal fade" id="eliminarModal{{ $productos->id }}" tabindex="-1" role="dialog" aria-labelledby="eliminarModalLabel{{ $productos->id }}" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="eliminarModalLabel{{ $productos->id }}">Eliminar Producto</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Estás seguro de que deseas eliminar el producto: <strong>{{ $productos->nombre }}</strong>?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <form method="POST" action="{{ route('productos.destroy', ['producto' => $productos->id]) }}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endforeach
     </div>
 </div>
 @stop

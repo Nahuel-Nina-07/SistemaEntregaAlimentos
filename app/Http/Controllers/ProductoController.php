@@ -12,8 +12,9 @@ class ProductoController extends Controller
     public function create()
     {
         $restaurantes = DB::table('restaurantes')->pluck('nombre', 'id');
-        $productos = DB::table('categorias_productos')->pluck('nombre', 'id');
-        return view('productos.index', compact('restaurantes', 'productos'));
+        $categorias = DB::table('categorias_productos')->pluck('nombre', 'id'); // Agrega esta línea
+        $producto = Producto::with('categoria', 'restaurante')->get();
+        return view('productos.list', compact('restaurantes', 'categorias', 'producto'));
     }
 
     public function store(Request $request)
@@ -50,5 +51,46 @@ class ProductoController extends Controller
 
         // Redirecciona a una página de éxito o a donde desees
         return redirect()->route('productos.index')->with('success', 'Producto creado con éxito.');
+    }
+
+    public function update(Request $request, Producto $producto)
+    {
+        // Validación de datos
+        $request->validate([
+            'nombre' => 'required|string',
+            'descripcion' => 'nullable|string',
+            'precio' => 'required|numeric',
+            'categoria_id' => 'required|integer',
+            'restaurante_id' => 'required|integer',
+            'imagen' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validación de imagen
+            'stock' => 'required|integer'
+        ]);
+
+        $producto->nombre = $request->nombre;
+        $producto->descripcion = $request->descripcion;
+        $producto->precio = $request->precio;
+        $producto->categoria_id = $request->categoria_id;
+        $producto->restaurante_id = $request->restaurante_id;
+        $producto->stock = $request->stock;
+
+        if ($request->hasFile('imagen')) {
+            // Procesar la nueva imagen si se proporciona
+            $imagePath = $request->file('imagen')->store('public/images');
+            $url = Storage::url($imagePath);
+            $producto->imagen = $url;
+        }
+        // Guarda el producto actualizado en la base de datos
+        $producto->save();
+        // Redirecciona a una página de éxito o a donde desees
+        return redirect()->route('productos.index')->with('success', 'Producto actualizado con éxito.');
+    }
+
+
+    public function destroy($id)
+    {
+        $producto = Producto::find($id);
+        $producto->delete();
+
+        return redirect()->route('productos.index')->with('success', 'Producto eliminado con éxito.');
     }
 }

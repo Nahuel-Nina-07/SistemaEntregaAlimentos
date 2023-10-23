@@ -102,3 +102,7 @@ Route::post('/categoriasRestaurantes', [CategoriaRestauranteController::class, '
 //productos
 Route::get('/productos/create',[ProductoController::class, 'create'])->name('productos.index');
 Route::post('/productos', [ProductoController::class, 'store'])->name('productos.store');
+
+Route::put('/productos/{producto}', [ProductoController::class, 'update'])->name('productos.update');
+
+Route::delete('/productos/{producto}', [ProductoController::class, 'destroy'])->name('productos.destroy');
