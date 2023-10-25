@@ -291,7 +291,7 @@ return [
 
     'menu' => [
         // Navbar items:
-        
+
         [
             'type'         => 'navbar-search',
             'text'         => 'search',
@@ -312,38 +312,26 @@ return [
             'url'  => 'admin/blog',
             'can'  => 'manage-blog',
         ],
-        [
-            'text'        => 'Solicitudes Trabajo',
-            'route'         => 'repartidor.create',
-            'icon'        => 'far fa-fw fa-file',
-            'label_color' => 'success',
-        ],
-        [
-            'text'        => 'Solicitudes Restaurantes',
-            'route'         => 'registerRestaurante.uneteRestaurante',
-            'icon'        => 'far fa-fw fa-file',
-            'label_color' => 'success',
-        ],
         ['header' => 'Administrador'],
         [
             'text' => 'Perfil',
             'url'  => '/user/profile',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-user',
         ],
         [
             'text' => 'Crear Categoria Productos',
             'route'  => 'categorias.index',
-            'icon' => 'fas fa-fw fa-lock',
+            'icon' => 'fas fa-box',
         ],
         [
             'text' => 'Crear Categoria Restaurantes',
             'route'  => 'categoriasRestaurantes.index',
-            'icon' => 'fas fa-fw fa-lock',
+            'icon' => 'fas fa-utensils',
         ],
         [
             'text' => 'Crear Productos',
             'route'  => 'productos.index',
-            'icon' => 'fas fa-fw fa-lock',
+            'icon' => 'fas fa-cubes',
         ],
         [
             'text'    => 'Solicitudes',
@@ -356,28 +344,41 @@ return [
                 [
                     'text'    => 'Restaurante',
                     'route'     => 'admin.solicitudesRestaurantes',
-                    
+
                 ],
             ],
+        ],
+        ['header' => 'Solicitantes'],
+        [
+            'text'        => 'Solicitar Trabajo',
+            'route'         => 'repartidor.create',
+            'icon' => 'fas fa-motorcycle',
+            'label_color' => 'success',
+        ],
+        [
+            'text'        => 'Solicitar Restaurantes',
+            'route'         => 'registerRestaurante.uneteRestaurante',
+            'icon' => 'fas fa-store',
+            'label_color' => 'success',
         ],
         ['header' => 'Usuario'],
         [
             'text' => 'Categoria Restaurantes',
             'route'  => 'categorias.indexlistado',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-utensils',
         ],
         [
             'text' => 'Categoria Productos',
-            'url'  => '#',
-            'icon' => 'fas fa-fw fa-user',
+            'route'  => 'categoriasProducto.indexlistado',
+            'icon' => 'fas fa-box',
         ],
-        // [
-        //     'text' => 'Notificaciones',
-        //     'url' => '#', // Puedes establecer la URL de destino para las notificaciones
-        //     'icon' => 'fas fa-briefcase', // Icono de notificaciones
-        //     'topnav_right' => true, // Esto coloca el ícono en la esquina derecha de la barra superior
-        //     // Agrega cualquier otro atributo que necesites, como clases de CSS
-        // ],
+        [
+            'text' => 'Carrito',
+            'url' => '#', // Puedes establecer la URL de destino para las notificaciones
+            'icon' => 'fas fa-shopping-cart', // Icono de notificaciones
+            'topnav_right' => true, // Esto coloca el ícono en la esquina derecha de la barra superior
+            // Agrega cualquier otro atributo que necesites, como clases de CSS
+        ],
     ],
 
     /*

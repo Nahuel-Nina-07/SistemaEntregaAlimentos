@@ -4,48 +4,47 @@
 
 
 @section('content')
-
-<body>
-    <br>
-    @foreach ($listado as $restaurante)
-    <div id="container">
-        <div class="product-details">
-            <h1>Biru Putaran</h1>
-            <span class="hint-star star">
-                <i class="fa fa-star" aria-hidden="true"></i>
-                <i class="fa fa-star" aria-hidden="true"></i>
-                <i class="fa fa-star" aria-hidden="true"></i>
-                <i class="fa fa-star-half-o" aria-hidden="true"></i>
-                <i class="fa fa-star-o" aria-hidden="true"></i>
-            </span>
-            <p class="information">" Especially good for container gardening, the Angelonia will keep blooming all summer even if old flowers are removed. Once tall enough to cut, bring them inside and you'll notice a light scent that some say is reminiscent of apples. "</p>
-            <div class="control">
-                <button class="btn">
-                    <span class="price">49 $</span>
-                    <span class="shopping-cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></span>
-                    <span class="buy">Buy Now</span>
-                </button>
+<div class="container" style="margin-top: 50px;">
+    <div class="row">
+        @foreach ($productos as $producto)
+        <div id="container">
+                <div class="product-details">
+                    <h1>{{ $producto->nombre }}</h1><br>
+                    <span class="hint-star star">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                    </span>
+                    <p class="information">" Especially good for container gardening, the Angelonia will keep blooming all summer even if old flowers are removed. Once tall enough to cut, bring them inside and you'll notice a light scent that some say is reminiscent of apples. "</p>
+                    <div class="control">
+                        <button class="btn">
+                            <span class="price">BOB {{ $producto->precio }}</span>
+                            <span class="shopping-cart"><i class="fa fa-shopping-cart" aria-hidden="true" style="color: #fff;"></i></span>
+                            <span class="buy">Solicitar</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="product-image">
+                    <img src="{{ $producto->imagen }}" alt="{{ $producto->nombre }}">
+                    <div class="info">
+                        <h2>{{ $producto->nombre }}</h2>
+                        <ul>
+                            <li><strong>Sun Needs: </strong>Full Sun</li>
+                            <li><strong>Soil Needs: </strong>Damp</li>
+                            <li><strong>Zones: </strong>9 - 11</li>
+                            <li><strong>Height: </strong>2 - 3 feet</li>
+                            <li><strong>Blooms in: </strong>Mid‑Summer - Mid‑Fall</li>
+                            <li><strong>Features: </strong>Tolerates heat</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="product-image">
-            <img src="{{ $restaurante->imagen }}" alt="{{ $restaurante->nombre }}">
-            <div class="info">
-                <h2>{{ $restaurante->nombre }}</h2>
-                <ul>
-                    <li><strong>Sun Needs: </strong>Full Sun</li>
-                    <li><strong>Soil Needs: </strong>Damp</li>
-                    <li><strong>Zones: </strong>9 - 11</li>
-                    <li><strong>Height: </strong>2 - 3 feet</li>
-                    <li><strong>Blooms in: </strong>Mid‑Summer - Mid‑Fall</li>
-                    <li><strong>Features: </strong>Tolerates heat</li>
-                </ul>
-            </div>
-        </div>
+        @endforeach
     </div>
-    @endforeach
-</body>
+</div>
 
-</html>
 @stop
 
 @section('css')
@@ -248,16 +247,5 @@
 @stop
 
 @section('js')
-<!-- <script src="https://code.jquery.com/jquery-2.2.0.min.js" type="text/javascript"></script>
-<script src="https://kenwheeler.github.io/slick/slick/slick.js" type="text/javascript" charset="utf-8"></script>
-<script type="text/javascript">
-    $(document).on('ready', function() {
-        $(".regular").slick({
-            dots: true,
-            infinite: true,
-            slidesToShow: 5,
-            slidesToScroll: 5
-        });
-    });
-</script> -->
+
 @stop

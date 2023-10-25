@@ -16,9 +16,10 @@ use App\Http\Controllers\registroRestauranteController;
 use App\Http\Controllers\formRestauranteController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ListadoCategoriaRestauranteController;
+use App\Http\Controllers\ListadoCategoriaProductoController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('otro');
 });
 
 //login usuario
@@ -114,3 +115,7 @@ Route::get('/categorias-restaurantes', [ListadoCategoriaRestauranteController::c
 Route::get('/restaurantes-por-categoria/{categoria_id}', [ListadoCategoriaRestauranteController::class, 'restaurantesPorCategoria'])
     ->name('restaurantes.por-categoria');
 
+//listado productos
+Route::get('/categorias-producto', [ListadoCategoriaProductoController::class, 'index'])->name('categoriasProducto.indexlistado');
+Route::get('/producto-categoria/{categoria_id}', [ListadoCategoriaProductoController::class, 'productoCategoria'])
+    ->name('producto.por-categoria');
