@@ -15,10 +15,10 @@ use App\Http\Controllers\AdminSolicitudTrabajoController;
 use App\Http\Controllers\registroRestauranteController;
 use App\Http\Controllers\formRestauranteController;
 use App\Http\Controllers\ProductoController;
-use App\Http\Controllers\ListadoCategoriaRestauranteControoller;
+use App\Http\Controllers\ListadoCategoriaRestauranteController;
 
 Route::get('/', function () {
-    return view('otro');
+    return view('welcome');
 });
 
 //login usuario
@@ -109,6 +109,8 @@ Route::put('/productos/{producto}', [ProductoController::class, 'update'])->name
 Route::delete('/productos/{producto}', [ProductoController::class, 'destroy'])->name('productos.destroy');
 
 
+//listado restaurantes
+Route::get('/categorias-restaurantes', [ListadoCategoriaRestauranteController::class, 'index'])->name('categorias.indexlistado');
+Route::get('/restaurantes-por-categoria/{categoria_id}', [ListadoCategoriaRestauranteController::class, 'restaurantesPorCategoria'])
+    ->name('restaurantes.por-categoria');
 
-Route::get('/categorias-restaurantes', [ListadoCategoriaRestauranteControoller::class, 'index'])->name('categorias.index');
-Route::get('/restaurantes/{categoria_id}', [ListadoCategoriaRestauranteControoller::class, 'indexRestaurantes'])->name('restaurantes.index');

@@ -65,11 +65,10 @@ class AdminSolicitudRestauranteController extends Controller
                     'CalleNegocio' => $solicitud->CalleNegocio,
                     'CiudadNegocio' => $solicitud->CiudadNegocio,
                     'correo_electronico' => $solicitud->CorreoNegocio,
-                    'imagen' => str_replace('/storage/images/', 'profile-photos/', $solicitud->LogoImg),
+                    'imagen' => $solicitud->LogoImg,
                     'nombrePropietario' => $solicitud->nombrePropietario,
                     'ApellidoPropietario' => $solicitud->ApellidoPropietario,
                 ]);
-                
             } elseif (request()->has('rechazar')) {
                 // Si se ha enviado una solicitud POST y se ha hecho clic en el botón "Rechazar"
                 // Actualiza el estado de la solicitud a 2

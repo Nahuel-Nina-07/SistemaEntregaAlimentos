@@ -363,7 +363,12 @@ return [
         ['header' => 'Usuario'],
         [
             'text' => 'Categoria Restaurantes',
-            'route'  => 'categorias.index',
+            'route'  => 'categorias.indexlistado',
+            'icon' => 'fas fa-fw fa-user',
+        ],
+        [
+            'text' => 'Categoria Productos',
+            'url'  => '#',
             'icon' => 'fas fa-fw fa-user',
         ],
         // [
