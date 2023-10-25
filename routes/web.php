@@ -20,8 +20,8 @@ use App\Http\Controllers\ListadoCategoriaProductoController;
 use App\Http\Controllers\PedidoController;
 
 Route::get('/', function () {
-    return view('otro');
-});
+    return view('welcome');
+})->name('welcome');
 
 //login usuario
 Route::middleware([
@@ -42,6 +42,15 @@ Route::get('/ingresar-basicos', [SolicitudTrabajoBasicoController::class, 'index
 Route::post('/guardar-basicos', [SolicitudTrabajoBasicoController::class, 'guardarNombreCi'])->name('guardarNombreCi');
 Route::get('/ingresar-detallados', [SolicitudTrabajoController::class, 'index']);
 Route::post('/guardar-detallados', [SolicitudTrabajoController::class, 'guardarEdadNumero']);
+
+//formulario de registro de restaurante
+Route::get('/formRestaurante', function () {
+    return view('formSolicitudes.form_restaurante');
+})->name('registerRestaurante.form_restaurante');
+
+Route::get('/uneteRestaurante', function () {
+    return view('formSolicitudes.form_negocio_uno');
+})->name('formSolicitudes.unete_restaurante');
 
 //formulario registro restaurante
 Route::get('/ingresar-restaurante', [registroRestauranteController::class, 'index'])->name('registerRestaurante.uneteRestaurante');
