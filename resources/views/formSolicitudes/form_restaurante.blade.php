@@ -105,7 +105,7 @@
 
 <body>
   <div class="navbar">
-    <div class="navbar-brand">AlmanacProject</div>
+    <a class="navbar-brand" href="{{ route('welcome') }}">AlmanacProject</a>
     <div class="dropdown">
       <a class="dropdown-item" href="#">Inicio</a>
       <div class="dropdown-content">

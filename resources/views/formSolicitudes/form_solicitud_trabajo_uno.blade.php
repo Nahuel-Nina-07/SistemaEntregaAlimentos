@@ -103,7 +103,7 @@
 
 <body>
     <div class="navbar">
-        <div class="navbar-brand">AlmanacProject</div>
+        <a class="navbar-brand" href="{{ route('welcome') }}">AlmanacProject</a>
         <div class="dropdown">
             <a class="dropdown-item" href="#">Inicio</a>
             <div class="dropdown-content">
@@ -111,7 +111,7 @@
                 <a class="dropdown-item" href="{{ url('/dashboard') }}">Dashboard</a>
                 @else
                 <a class="dropdown-item" href="{{ route('login') }}">Login</a>
-                <a class="dropdown-item" href="{{ route('repartidor.create') }}">Solicitar Trabajo</a>
+                <a class="dropdown-item" href="{{ route('registerRestaurante.uneteRestaurante') }}">Solicitar Restaurante</a>
                 <a class="dropdown-item" href="{{ route('welcome') }}">Home</a>
                 @endauth
             </div>
