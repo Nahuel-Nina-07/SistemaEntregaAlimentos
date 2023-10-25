@@ -25,10 +25,10 @@
         </div>
         <h4><b>Productos</b></h4>
         <div class="row">
-            @foreach ($listado as $restaurante)
+            @foreach ($listado as $producto)
             <div id="container">
                 <div class="product-details">
-                    <h1>{{ $restaurante->nombre }}</h1><br>
+                    <h1>{{ $producto->nombre }}</h1><br>
                     <span class="hint-star star">
                         <i class="fa fa-star" aria-hidden="true"></i>
                         <i class="fa fa-star" aria-hidden="true"></i>
@@ -38,17 +38,20 @@
                     </span>
                     <p class="information">" Especially good for container gardening, the Angelonia will keep blooming all summer even if old flowers are removed. Once tall enough to cut, bring them inside and you'll notice a light scent that some say is reminiscent of apples. "</p>
                     <div class="control">
-                        <button class="btn">
-                            <span class="price">BOB {{ $restaurante->precio }}</span>
-                            <span class="shopping-cart"><i class="fa fa-shopping-cart" aria-hidden="true" style="color: #fff;"></i></span>
-                            <span class="buy">Solicitar</span>
-                        </button>
+                        <form action="{{ route('agregar-al-pedido', ['producto' => $producto]) }}" method="POST">
+                            @csrf
+                            <button class="btn">
+                                <span class="price">BOB {{ $producto->precio }}</span>
+                                <span class="shopping-cart"><i class="fa fa-shopping-cart" aria-hidden="true" style="color: #fff;"></i></span>
+                                <span class="buy">Solicitar</span>
+                            </button>
+                        </form>
                     </div>
                 </div>
                 <div class="product-image">
-                    <img src="{{ $restaurante->imagen }}" alt="{{ $restaurante->nombre }}">
+                    <img src="{{ $producto->imagen }}" alt="{{ $producto->nombre }}">
                     <div class="info">
-                        <h2>{{ $restaurante->nombre }}</h2>
+                        <h2>{{ $producto->nombre }}</h2>
                         <ul>
                             <li><strong>Sun Needs: </strong>Full Sun</li>
                             <li><strong>Soil Needs: </strong>Damp</li>

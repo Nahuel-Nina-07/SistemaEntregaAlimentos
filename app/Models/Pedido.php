@@ -13,6 +13,7 @@ class Pedido extends Model
         'usuario_id',
         'fecha_hora_pedido',
         'total',
+        'direccionEntrega',
     ];
 
     public function usuario()

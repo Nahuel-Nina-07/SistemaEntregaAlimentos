@@ -17,6 +17,7 @@ use App\Http\Controllers\formRestauranteController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ListadoCategoriaRestauranteController;
 use App\Http\Controllers\ListadoCategoriaProductoController;
+use App\Http\Controllers\PedidoController;
 
 Route::get('/', function () {
     return view('otro');
@@ -119,3 +120,6 @@ Route::get('/restaurantes-por-categoria/{categoria_id}', [ListadoCategoriaRestau
 Route::get('/categorias-producto', [ListadoCategoriaProductoController::class, 'index'])->name('categoriasProducto.indexlistado');
 Route::get('/producto-categoria/{categoria_id}', [ListadoCategoriaProductoController::class, 'productoCategoria'])
     ->name('producto.por-categoria');
+
+    Route::post('/agregar-al-pedido/{producto}', [PedidoController::class, 'agregarProducto'])->name('agregar-al-pedido');
+
