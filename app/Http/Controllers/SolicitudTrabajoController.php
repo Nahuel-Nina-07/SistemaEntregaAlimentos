@@ -63,7 +63,6 @@ class SolicitudTrabajoController extends Controller
                     }
                 },
             ],
-            'password' => 'required|min:8|confirmed',
         ]);
 
         $nombreCi = $request->session()->get('datos_basicos');
@@ -102,8 +101,6 @@ class SolicitudTrabajoController extends Controller
             'imagen_repartidor' => $url2,
             'ci_numero' => $nombreCi['ci_numero'],
             'Placa_vehiculo' => $request->input('Placa_vehiculo'),
-            'password' => Hash::make($request->input('password')),
-            
         ]);
 
         $request->session()->forget('datos_basicos');

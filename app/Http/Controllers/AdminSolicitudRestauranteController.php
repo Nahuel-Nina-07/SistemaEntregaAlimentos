@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\RegistrarRestaurante;
 use App\Models\Restaurante;
 use App\Models\CategoriaRestaurante;
+use App\Notifications\SolicitudRechazadaNotification;
+use App\Notifications\SolicitudAceptadaNotification;
 
 class AdminSolicitudRestauranteController extends Controller
 {
@@ -69,10 +71,19 @@ class AdminSolicitudRestauranteController extends Controller
                     'nombrePropietario' => $solicitud->nombrePropietario,
                     'ApellidoPropietario' => $solicitud->ApellidoPropietario,
                 ]);
+                $correoSolicitante = $solicitud->CorreoNegocio;
+                $user = new Restaurante();
+                $user->email = $correoSolicitante;
+                $user->notify(new SolicitudAceptadaNotification($solicitud->nombrePropietario));
             } elseif (request()->has('rechazar')) {
                 // Si se ha enviado una solicitud POST y se ha hecho clic en el botón "Rechazar"
                 // Actualiza el estado de la solicitud a 2
                 $solicitud->update(['estadoSolicitud' => 2]);
+
+                $correoSolicitante = $solicitud->CorreoNegocio;
+                $user = new Restaurante();
+                $user->email = $correoSolicitante;
+                $user->notify(new SolicitudRechazadaNotification);
             }
             // Redirige al usuario a la ruta admin.solicitudesRestaurantes
             return redirect()->route('admin.solicitudesRestaurantes');

@@ -18,6 +18,8 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ListadoCategoriaRestauranteController;
 use App\Http\Controllers\ListadoCategoriaProductoController;
 use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\ResetPasswordCopyController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -130,5 +132,16 @@ Route::get('/categorias-producto', [ListadoCategoriaProductoController::class, '
 Route::get('/producto-categoria/{categoria_id}', [ListadoCategoriaProductoController::class, 'productoCategoria'])
     ->name('producto.por-categoria');
 
-    Route::post('/agregar-al-pedido/{producto}', [PedidoController::class, 'agregarProducto'])->name('agregar-al-pedido');
+//carrito
+Route::post('/agregar-al-pedido/{producto}', [PedidoController::class, 'agregarProducto'])->name('agregar-al-pedido');
 
+
+//Ingresar contraseña solicitud
+Route::get('/reset-password-copi/{token}', [ResetPasswordCopyController::class, 'showResetForm'])
+    ->name('password.reset-copie');
+Route::post('/reset-password-copi', [ResetPasswordCopyController::class, 'update'])
+    ->name('password.update');
+
+//contraseña por default
+Route::get('/forgot-password', [Laravel\Fortify\Http\Controllers\PasswordResetLinkController::class, 'create'])
+    ->name('password.request');

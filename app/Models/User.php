@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use App\Notifications\UserResetPassword;
 
 class User extends Authenticatable
 {
@@ -104,5 +105,10 @@ class User extends Authenticatable
     public function adminlte_profile_url()
     {
         return 'user/profile';
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new UserResetPassword($token));
     }
 }

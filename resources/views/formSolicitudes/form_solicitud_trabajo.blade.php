@@ -71,14 +71,6 @@
                         <input type="file" name="imagen_propiedad_vehiculo" accept="image/*" required />
                     </div>
                     <div class="nice-form-group">
-                        <label>Contraseña</label>
-                        <input type="password" name="password" placeholder="Ingrese su contraseña" value="" required />
-                    </div>
-                    <div class="nice-form-group">
-                        <label>Confirmar contraseña</label>
-                        <input type="password" placeholder="Confirmar Contraseña" name="password_confirmation" required />
-                    </div>
-                    <div class="nice-form-group">
                         <label>Suba una imagen de usted</label>
                         <input type="file" name="imagen_repartidor" accept="image/*" required />
                     </div>

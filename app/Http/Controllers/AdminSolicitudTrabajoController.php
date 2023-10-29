@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\SolicitudTrabajo;
 use App\Models\User;
 use App\Models\DetalleRepartidor;
+use Illuminate\Support\Facades\Password;
+use App\Notifications\ResetPasswordLinkSentNotification;
+use App\Notifications\ResetPasswordRejectedNotification;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactanosMailble;
 
 class AdminSolicitudTrabajoController extends Controller
 {
@@ -63,7 +68,6 @@ class AdminSolicitudTrabajoController extends Controller
                     'name' => $solicitud->nombre_solicitante,
                     'apellido' => $solicitud->apellido_solicitante,
                     'email' => $solicitud->correo_electronico_solicitante,
-                    'password' => $solicitud->password,// Hasheamos la contraseña
                     'rol' => 1,
                     'profile_photo_path' => str_replace('/storage/images/', 'profile-photos/', $solicitud->imagen_repartidor),
                 ]);
@@ -79,10 +83,19 @@ class AdminSolicitudTrabajoController extends Controller
                     'vehiculoPropio' => $solicitud->vehiculoPropio, // Copiamos el valor de la solicitud
                     'Placa_vehiculo' => $solicitud->Placa_vehiculo,
                 ]);
+
+                $token = Password::createToken($user);
+                $user->notify(new ResetPasswordLinkSentNotification($token));
             } elseif (request()->has('rechazar')) {
                 // Si se ha enviado una solicitud POST y se ha hecho clic en el botón "Rechazar"
                 // Actualiza el estado de la solicitud a 2
                 $solicitud->update(['estadoSolicitud' => 2]);
+
+                $correoSolicitante = $solicitud->correo_electronico_solicitante;
+                $user = new User();
+                $user->email = $correoSolicitante;
+                $user->notify(new ResetPasswordRejectedNotification);
+                // Mail::to($solicitud->correo_electronico_solicitante)->send(new ContactanosMailble());
             }
             // Redirige al usuario a la ruta admin.solicitudes
             return redirect()->route('admin.solicitudes');

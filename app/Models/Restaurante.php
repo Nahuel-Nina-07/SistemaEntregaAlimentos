@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Notifications\Notifiable;
+use App\Notifications\UserResetPassword;
 class Restaurante extends Model
 {
     use HasFactory;
+    use Notifiable;
 
     protected $table = 'restaurantes';
 
