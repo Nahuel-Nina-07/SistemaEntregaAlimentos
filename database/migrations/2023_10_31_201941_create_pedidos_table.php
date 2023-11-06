@@ -6,19 +6,15 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('pedidos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('usuario_id');
             $table->dateTime('fecha_hora_pedido');
-            $table->decimal('total', 10, 2);
             $table->string('direccionEntrega');
+            $table->string('estado',250)->default('Pendiente');
             $table->timestamps();
-
             $table->foreign('usuario_id')->references('id')->on('users');
         });
     }

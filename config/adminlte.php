@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Validation\Rules\Can;
+
 return [
 
     /*
@@ -218,7 +220,7 @@ return [
     'sidebar_scrollbar_theme' => 'os-theme-light',
     'sidebar_scrollbar_auto_hide' => 'l',
     'sidebar_nav_accordion' => true,
-    'sidebar_nav_animation_speed' => 300,
+    'sidebar_nav_animation_speed' => 200,
 
     /*
     |--------------------------------------------------------------------------
@@ -232,13 +234,13 @@ return [
     |
     */
 
-    'right_sidebar' => false,
-    'right_sidebar_icon' => 'fas fa-cogs',
+    'right_sidebar' => true,
+    'right_sidebar_icon' => 'fas fa-shopping-cart',
     'right_sidebar_theme' => 'dark',
     'right_sidebar_slide' => true,
     'right_sidebar_push' => true,
     'right_sidebar_scrollbar_theme' => 'os-theme-light',
-    'right_sidebar_scrollbar_auto_hide' => 'l',
+    'right_sidebar_scrollbar_auto_hide' => 'n',
 
     /*
     |--------------------------------------------------------------------------
@@ -322,44 +324,36 @@ return [
             'text' => 'Crear Categoria Productos',
             'route'  => 'categorias.index',
             'icon' => 'fas fa-box',
+            'can'  => 'categorias.index',
         ],
         [
             'text' => 'Crear Categoria Restaurantes',
             'route'  => 'categoriasRestaurantes.index',
             'icon' => 'fas fa-utensils',
+            'can'  => 'categoriasRestaurantes.index',
         ],
         [
             'text' => 'Crear Productos',
             'route'  => 'productos.index',
             'icon' => 'fas fa-cubes',
+            'can'  => 'productos.index',
         ],
         [
             'text'    => 'Solicitudes',
             'icon'    => 'fas fa-fw fa-share',
+            'can'  => 'admin.solicitudes',
             'submenu' => [
                 [
                     'text'    => 'Repartidor',
                     'route'     => 'admin.solicitudes',
+                    'can'  => 'admin.solicitudes',
                 ],
                 [
                     'text'    => 'Restaurante',
                     'route'     => 'admin.solicitudesRestaurantes',
-
+                    'can'  => 'admin.solicitudesRestaurantes',
                 ],
             ],
-        ],
-        ['header' => 'Solicitantes'],
-        [
-            'text'        => 'Solicitar Trabajo',
-            'route'         => 'repartidor.create',
-            'icon' => 'fas fa-motorcycle',
-            'label_color' => 'success',
-        ],
-        [
-            'text'        => 'Solicitar Restaurantes',
-            'route'         => 'registerRestaurante.uneteRestaurante',
-            'icon' => 'fas fa-store',
-            'label_color' => 'success',
         ],
         ['header' => 'Usuario'],
         [
@@ -373,11 +367,16 @@ return [
             'icon' => 'fas fa-box',
         ],
         [
-            'text' => 'Carrito',
-            'url' => '#', // Puedes establecer la URL de destino para las notificaciones
-            'icon' => 'fas fa-shopping-cart', // Icono de notificaciones
-            'topnav_right' => true, // Esto coloca el ícono en la esquina derecha de la barra superior
-            // Agrega cualquier otro atributo que necesites, como clases de CSS
+            'text' => 'Solicitar trabajo',
+            'route' => 'repartidor.create',
+            'icon' => 'fas fa-motorcycle', 
+            'topnav_right' => true, 
+        ],
+        [
+            'text' => 'Agregar su negocio',
+            'route' => 'registerRestaurante.uneteRestaurante',
+            'icon' => 'fas fa-store', 
+            'topnav_right' => true, 
         ],
     ],
 

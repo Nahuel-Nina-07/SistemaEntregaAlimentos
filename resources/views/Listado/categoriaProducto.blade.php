@@ -1,7 +1,8 @@
-@extends('adminlte::page')
+@extends('detalles')
 
 @section('title', 'Dashboard')
 
+@section('plugins.Sweetalert2', true)
 @section('content')
 
 <body>
@@ -24,47 +25,52 @@
             </div>
         </div>
         <h4><b>Productos</b></h4>
-        <div class="row">
-            @foreach ($listado as $producto)
-            <div id="container">
-                <div class="product-details">
-                    <h1>{{ $producto->nombre }}</h1><br>
-                    <span class="hint-star star">
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                        <i class="fa fa-star-half-o" aria-hidden="true"></i>
-                        <i class="fa fa-star-o" aria-hidden="true"></i>
-                    </span>
-                    <p class="information">" Especially good for container gardening, the Angelonia will keep blooming all summer even if old flowers are removed. Once tall enough to cut, bring them inside and you'll notice a light scent that some say is reminiscent of apples. "</p>
-                    <div class="control">
-                        <form action="{{ route('agregar-al-pedido', ['producto' => $producto]) }}" method="POST">
-                            @csrf
-                            <button class="btn">
-                                <span class="price">BOB {{ $producto->precio }}</span>
-                                <span class="shopping-cart"><i class="fa fa-shopping-cart" aria-hidden="true" style="color: #fff;"></i></span>
-                                <span class="buy">Solicitar</span>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-                <div class="product-image">
-                    <img src="{{ $producto->imagen }}" alt="{{ $producto->nombre }}">
-                    <div class="info">
-                        <h2>{{ $producto->nombre }}</h2>
-                        <ul>
-                            <li><strong>Sun Needs: </strong>Full Sun</li>
-                            <li><strong>Soil Needs: </strong>Damp</li>
-                            <li><strong>Zones: </strong>9 - 11</li>
-                            <li><strong>Height: </strong>2 - 3 feet</li>
-                            <li><strong>Blooms in: </strong>Mid‑Summer - Mid‑Fall</li>
-                            <li><strong>Features: </strong>Tolerates heat</li>
-                        </ul>
-                    </div>
-                </div>
+<div class="row">
+    @foreach ($listado as $producto)
+    <div id="container">
+        <div class="product-details">
+            <h1>{{ $producto->nombre }}</h1><br>
+            <span class="hint-star star">
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                <i class="fa fa-star-o" aria-hidden="true"></i>
+            </span>
+            <p class="information">" Especially good for container gardening, the Angelonia will keep blooming all summer even if old flowers are removed. Once tall enough to cut, bring them inside and you'll notice a light scent that some say is reminiscent of apples. "</p>
+            <div class="control">
+                <form action="{{ route('agregar-al-pedido', ['producto' => $producto]) }}" method="POST">
+                    @csrf
+                    @if ($producto->stock > 0)
+                        <button class="btn">
+                            <span class="price">BOB {{ $producto->precio }}</span>
+                            <span class="shopping-cart"><i class="fa fa-shopping-cart" aria-hidden="true" style="color: #fff;"></i></span>
+                            <span class="buy">Solicitar</span>
+                        </button>
+                    @else
+                        <div class="agotado" style="text-align:right; color:red; font-size:17px;"><i class="fa-solid fa-hourglass" style="color: red;"><b> Agotado</b></i></div>
+                    @endif
+                </form>
             </div>
-            @endforeach
         </div>
+        <div class="product-image">
+            <img src="{{ $producto->imagen }}" alt="{{ $producto->nombre }}">
+            <div class="info">
+                <h2>{{ $producto->nombre }}</h2>
+                <ul>
+                    <li><strong>Sun Needs: </strong>Full Sun</li>
+                    <li><strong>Soil Needs: </strong>Damp</li>
+                    <li><strong>Zones: </strong>9 - 11</li>
+                    <li><strong>Height: </strong>2 - 3 feet</li>
+                    <li><strong>Blooms in: </strong>Mid‑Summer - Mid‑Fall</li>
+                    <li><strong>Features: </strong>Tolerates heat</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    @endforeach
+</div>
+
     </div>
 </body>
 @stop
@@ -360,4 +366,16 @@
         });
     });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@if(session('alert'))
+    <script>
+        Swal.fire({
+            position: 'top-end',
+            icon: '{{ session('alert.type') }}',
+            title: '{{ session('alert.message') }}',
+            showConfirmButton: false,
+            timer: 1500
+        });
+    </script>
+@endif
 @stop

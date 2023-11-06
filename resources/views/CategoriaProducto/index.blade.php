@@ -25,7 +25,7 @@
                 <td>{{ $categoria->nombre }}</td>
                 <td><img src="{{ asset($categoria->imagen) }}" alt="{{ $categoria->nombre }}" class="img-thumbnail custom-image-size"></td>
                 <td>
-                    <a href="{{ route('categorias.edit', $categoria) }}" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editCategoria{{ $categoria->id }}">Editar</a>
+                    <a href="{{ route('categorias.destroy', $categoria) }}" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editCategoria{{ $categoria->id }}">Editar</a>
                     <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteCategoria{{ $categoria->id }}">Eliminar</button>
                 </td>
             </tr>
@@ -97,7 +97,7 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form action="{{ route('categorias.store') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('categorias.index') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="modal-body">
                                 <div class="form-group">

@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(RoleSeeder::class);
         // \App\Models\User::factory()->create();
 
         // \App\Models\User::factory()->create([
@@ -23,21 +24,18 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'admin',
             'email' => 'admin@gmail.com',
-            'rol' => '2',
-        ]);
+        ])->assignRole('admin');
 
         // Crear un usuario normal
         User::factory()->create([
             'name' => 'user',
             'email' => 'user@gmail.com',
-            'rol' => '0',
-        ]);
+        ])->assignRole('usuario');
 
         // Crear un usuario repartidor
         User::factory()->create([
             'name' => 'repartidor',
             'email' => 'repartidor@gmail.com',
-            'rol' => '1',
-        ]);
+        ])->assignRole('repartidor');
     }
 }

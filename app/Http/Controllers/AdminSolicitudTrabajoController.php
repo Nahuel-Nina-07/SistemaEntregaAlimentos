@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Password;
 use App\Notifications\ResetPasswordLinkSentNotification;
 use App\Notifications\ResetPasswordRejectedNotification;
 use Illuminate\Support\Facades\Mail;
+use Spatie\Permission\Models\Role;
 use App\Mail\ContactanosMailble;
 
 class AdminSolicitudTrabajoController extends Controller
@@ -64,11 +65,10 @@ class AdminSolicitudTrabajoController extends Controller
         if (request()->isMethod('post')) {
             if (request()->has('aceptar')) {
                 $solicitud->update(['estadoSolicitud' => true]);
-                $user=User::create([
+                $user = User::create([
                     'name' => $solicitud->nombre_solicitante,
                     'apellido' => $solicitud->apellido_solicitante,
                     'email' => $solicitud->correo_electronico_solicitante,
-                    'rol' => 1,
                     'profile_photo_path' => str_replace('/storage/images/', 'profile-photos/', $solicitud->imagen_repartidor),
                 ]);
                 $detalleRepartidor = DetalleRepartidor::create([
@@ -83,6 +83,11 @@ class AdminSolicitudTrabajoController extends Controller
                     'vehiculoPropio' => $solicitud->vehiculoPropio, // Copiamos el valor de la solicitud
                     'Placa_vehiculo' => $solicitud->Placa_vehiculo,
                 ]);
+
+                $repartidorRole = Role::where('name', 'repartidor')->first(); // Asegúrate de que 'repartidor' sea el nombre correcto del rol
+                if ($repartidorRole) {
+                    $user->assignRole($repartidorRole);
+                }
 
                 $token = Password::createToken($user);
                 $user->notify(new ResetPasswordLinkSentNotification($token));

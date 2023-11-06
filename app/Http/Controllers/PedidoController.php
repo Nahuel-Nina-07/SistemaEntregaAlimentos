@@ -7,32 +7,112 @@ use App\Models\Producto;
 use App\Models\Pedido;
 use App\Models\DetallePedido;
 use Illuminate\Support\Facades\Auth;
+
+
 class PedidoController extends Controller
 {
-    public function agregarProducto(Producto $producto)
+    public function agregarAlPedido(Producto $producto)
+{
+    // Obtén el usuario actual (puedes personalizar esta lógica según tu autenticación)
+    $user = auth()->user();
+
+    // Verifica si el usuario ya tiene un pedido en estado "en proceso"
+    $pedido = Pedido::where('usuario_id', $user->id)->where('estado', 'en proceso')->first();
+
+    // Si el usuario no tiene un pedido "en proceso", crea uno nuevo
+    if (!$pedido) {
+        $pedido = new Pedido();
+        $pedido->usuario_id = $user->id;
+        $pedido->estado = 'en proceso';
+        $pedido->fecha_hora_pedido = now();
+        $pedido->direccionEntrega = 1;
+        $pedido->save();
+    }
+    
+    // Verifica si el producto ya está en el carrito
+    $detallePedido = DetallePedido::where('pedido_id', $pedido->id)->where('producto_id', $producto->id)->first();
+    
+    if ($detallePedido) {
+        // El producto ya está en el carrito, actualiza la cantidad
+        $detallePedido->cantidad += 1;
+        $detallePedido->save();
+        
+        // Resta 1 al stock del producto
+        $producto->stock -= 0;
+        $producto->save();
+    } else {
+        // El producto no está en el carrito, crea un nuevo detallePedido
+        $detallePedido = new DetallePedido();
+        $detallePedido->pedido_id = $pedido->id;
+        $detallePedido->producto_id = $producto->id;
+        $detallePedido->cantidad =1 ;
+        $detallePedido->precio_unitario = $producto->precio;
+        $detallePedido->save();
+
+        // Resta 1 al stock del producto
+        $producto->stock -= 0;
+        $producto->save();
+    }
+    
+    session()->flash('alert', ['type' => 'success', 'message' => 'El producto se ha agregado al carrito con éxito.']);
+    
+    return redirect()->back();
+}
+
+
+    public function detalles()
     {
-        if (Auth::check()) {
-            $usuario = Auth::user();
-            // Lógica para agregar el producto al pedido (por ejemplo, usando Eloquent)
+        // Obtén el usuario actual
+        $user = Auth::user();
 
-            // Esto es un ejemplo, deberás ajustarlo a tu modelo de datos.
-            $pedido = Pedido::create([
-                'usuario_id' => $usuario->id,
-                'fecha_hora_pedido' => now(),
-                'total' => $producto->precio,
-                'direccionEntrega' => 1,
-            ]);
+        // Obtén el pedido en proceso del usuario
+        $pedido = Pedido::where('usuario_id', $user->id)->where('estado', 'en proceso')->first();
 
-            DetallePedido::create([
-                'pedido_id' => $pedido->id,
-                'producto_id' => $producto->id,
-                'cantidad' => 1, // Puedes ajustar la cantidad según tus necesidades.
-                'precio_unitario' => $producto->precio,
-            ]);
-
-            return redirect()->back()->with('success', 'Producto agregado al pedido.');
-        } else {
-            return redirect()->route('login'); // Redirige al inicio de sesión si el usuario no está autenticado.
+        if (!$pedido) {
+            return view('detalles', ['detalles' => []]);
         }
+
+        // Obtén los detalles del pedido
+        $detalles = DetallePedido::where('pedido_id', $pedido->id)->with('producto')->get();
+
+        return view('detalles', ['detalles' => $detalles]);
+    }
+
+    public function eliminarProducto(DetallePedido $detallePedido)
+    {
+        // Obtén la cantidad eliminada del detalle del pedido
+        $cantidadEliminada = $detallePedido->cantidad-1;
+
+        $detallePedido->delete();
+
+        // Restaura la cantidad eliminada al stock del producto
+        $producto = $detallePedido->producto;
+        $producto->stock += $cantidadEliminada;
+        $producto->save();
+
+        // Verifica si el pedido no tiene más detalles
+        $pedido = Pedido::find($detallePedido->pedido_id);
+        $detalles = DetallePedido::where('pedido_id', $pedido->id)->count();
+
+        if ($detalles == 0) {
+            $pedido->delete();
+        }
+
+        return redirect()->back();
+    }
+
+    public function actualizarCantidad($id, Request $request)
+    {
+        $detalle = DetallePedido::findOrFail($id);
+
+        $nuevaCantidad = $request->input('nueva_cantidad');
+        $detalle->cantidad = $nuevaCantidad;
+
+        // Calcula el nuevo precio unitario
+        $detalle->precio_unitario = number_format($detalle->producto->precio * $nuevaCantidad, 2, '.', ''); // 2 decimales, punto como separador decimal
+
+        $detalle->save();
+
+        return response()->json(['precio_unitario' => $detalle->precio_unitario]);
     }
 }

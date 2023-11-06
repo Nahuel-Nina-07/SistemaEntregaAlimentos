@@ -10,6 +10,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use App\Notifications\UserResetPassword;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
@@ -18,6 +19,7 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -88,17 +90,14 @@ class User extends Authenticatable
 
     public function adminlte_desc()
     {
-        $rol = $this->rol;
+        $user = $this;
 
-        switch ($rol) {
-            case 0:
-                return 'Usuario';
-            case 1:
-                return 'Repartidor';
-            case 2:
-                return 'Administrador';
-            default:
-                return 'Rol Desconocido';
+        $roles = $user->getRoleNames();
+
+        if (count($roles) > 0) {
+            return $roles[0]; // Devuelve el primer rol del usuario
+        } else {
+            return 'Sin Rol';
         }
     }
 

@@ -11,16 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('estados_pedidos', function (Blueprint $table) {
+        Schema::create('repartidores_pedidos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('pedido_id');
-            $table->string('estado', 255)->notNullable();
-            $table->dateTime('fecha_actualizacion')->notNullable();
-            $table->unsignedBigInteger('detalles_repartidor_id');
-            $table->timestamps();
-
+            $table->unsignedBigInteger('repartidor_id');
+            $table->string('estado');
             $table->foreign('pedido_id')->references('id')->on('pedidos');
-            $table->foreign('detalles_repartidor_id')->references('id')->on('detalle_repartidor');
+            $table->foreign('repartidor_id')->references('id')->on('detalle_repartidor');
+            $table->timestamps();
         });
     }
 
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('estados_pedidos');
+        Schema::dropIfExists('repartidores_pedidos');
     }
 };

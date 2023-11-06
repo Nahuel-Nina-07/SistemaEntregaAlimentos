@@ -11,8 +11,8 @@ class CategoriaRestauranteController extends Controller
 {
     public function index()
     {
-        $categorias = CategoriaRestaurante::all();
-        return view('CategoriaRestaurante.index', compact('categorias'));
+        $categoriasRestaurantes = CategoriaRestaurante::all();
+        return view('CategoriaRestaurante.index', compact('categoriasRestaurantes'));
     }
 
     public function store(Request $request)
@@ -33,7 +33,7 @@ class CategoriaRestauranteController extends Controller
         return redirect()->route('categoriasRestaurantes.index');
     }
 
-    public function update(Request $request, CategoriaRestaurante $categoria)
+    public function update(Request $request, CategoriaRestaurante $categoriasRestaurantes)
     {
         $request->validate([
             'nombre' => 'required',
@@ -50,13 +50,13 @@ class CategoriaRestauranteController extends Controller
             $data['imagen'] = Storage::url($imagePath);
         }
 
-        $categoria->update($data);
+        $categoriasRestaurantes->update($data);
 
         return redirect()->route('categoriasRestaurantes.index');
     }
-    public function destroy(CategoriaRestaurante $categoria)
+    public function destroy(CategoriaRestaurante $categoriasRestaurantes)
     {
-        $categoria->delete();
+        $categoriasRestaurantes->delete();
 
         return redirect()->route('categoriasRestaurantes.index');
     }

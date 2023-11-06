@@ -18,7 +18,6 @@ return new class extends Migration
             $table->integer('cantidad');
             $table->decimal('precio_unitario', 10, 2);
             $table->timestamps();
-
             $table->foreign('pedido_id')->references('id')->on('pedidos');
             $table->foreign('producto_id')->references('id')->on('productos');
         });

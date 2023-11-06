@@ -5,92 +5,205 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-
     <style>
-        * {
-            box-sizing: border-box;
-        }
+        /* If you like this, please check my blog at codedgar.com.ve */
+        @import url('https://fonts.googleapis.com/css?family=Work+Sans');
 
         body {
-            margin: 0;
-            padding: 2rem;
-            text-align: center;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-family: 'Work Sans', sans-serif;
+            background: #00d2ff;
+            background: -webkit-linear-gradient(to right, #3a7bd5, #00d2ff);
+            background: linear-gradient(to right, #3a7bd5, #00d2ff);
+            /* Thanks to uigradients :) */
         }
 
-        body h1 {
-            font-weight: 600;
+        .card {
+            background: #16181a;
+            border-radius: 14px;
+            max-width: 300px;
+            display: block;
+            margin: auto;
+            padding: 60px;
+            padding-left: 20px;
+            padding-right: 20px;
+            box-shadow: 2px 10px 40px black;
+            z-index: 99;
         }
 
-        body hr {
-            width: 50px;
+        .logo-card {
+            max-width: 50px;
+            margin-bottom: 15px;
+            margin-top: -19px;
+        }
+
+        label {
+            display: flex;
+            font-size: 10px;
+            color: white;
+            opacity: .4;
+        }
+
+        input {
+            font-family: 'Work Sans', sans-serif;
+            background: transparent;
             border: none;
-            border-bottom: 1px solid rgba(119, 119, 119, 0.25)
+            border-bottom: 1px solid transparent;
+            color: #dbdce0;
+            transition: border-bottom .4s;
         }
 
-        .container {
-            width: 60%;
-            margin: 1rem auto;
-            padding: 2rem;
-            text-align: justify;
-            transition: all 0.3s;
+        input:focus {
+            border-bottom: 1px solid #1abc9c;
+            outline: none;
         }
 
-        .container p {
-            line-height: 1.5;
-            letter-spacing: 0.3px;
-            word-spacing: 2px;
+        .cardnumber {
+            display: block;
+            font-size: 20px;
+            margin-bottom: 8px;
         }
 
-        .container p:first-child::first-letter {
-            color: #FE5F55;
-            font-weight: bold;
-            font-size: 70px;
+        .name {
+            display: block;
+            font-size: 15px;
+            max-width: 200px;
             float: left;
-            line-height: 60px;
-            padding-right: 8px;
+            margin-bottom: 15px;
+        }
+
+        .toleft {
+            float: left;
+        }
+
+        .ccv {
+            width: 50px;
+            margin-top: -5px;
+            font-size: 15px;
+        }
+
+        .receipt {
+            background: #dbdce0;
+            border-radius: 4px;
+            padding: 5%;
+            padding-top: 200px;
+            max-width: 600px;
+            display: block;
+            margin: auto;
+            margin-top: -180px;
+            z-index: -999;
+            position: relative;
+        }
+
+        .col {
+            width: 50%;
+            float: left;
+        }
+
+        .bought-item {
+            background: #f5f5f5;
+            padding: 2px;
+        }
+
+        .bought-items {
             margin-top: -3px;
         }
 
-        @media screen and (max-width:600px) {
-            .container {
+        .cost {
+            color: #3a7bd5;
+        }
+
+        .seller {
+            color: #3a7bd5;
+        }
+
+        .description {
+            font-size: 13px;
+        }
+
+        .price {
+            font-size: 12px;
+        }
+
+        .comprobe {
+            text-align: center;
+        }
+
+        .proceed {
+            position: absolute;
+            transform: translate(300px, 10px);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #1abc9c;
+            border: none;
+            color: white;
+            transition: box-shadow .2s, transform .4s;
+            cursor: pointer;
+        }
+
+        .proceed:active {
+            outline: none;
+        }
+
+        .proceed:focus {
+            outline: none;
+            box-shadow: inset 0px 0px 5px white;
+        }
+
+        .sendicon {
+            filter: invert(100%);
+            padding-top: 2px;
+        }
+
+        @media (max-width: 600px) {
+            .proceed {
+                transform: translate(250px, 10px);
+            }
+
+            .col {
+                display: block;
+                margin: auto;
                 width: 100%;
-                padding: 1rem;
+                text-align: center;
             }
         }
     </style>
 </head>
 
 <body>
-    <!DOCTYPE html>
-    <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Drop Caps</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-
-    <body>
-        <h1>Solicitud Rechazada</h1>
-        <hr>
-        <div class="container">
-            <p>
-                Espero que te encuentres bien. Quiero agradecerte sinceramente por tu interés en unirse a <a href="#"><b>GoVin</b></a> y por tomarte el tiempo para enviar tu solicitud. 
-                Valoramos y apreciamos el esfuerzo que pusiste en tu solicitud.
-                Lamentablemente, después de un proceso de revisión minucioso y consideración cuidadosa, hemos tomado la decisión de no avanzar con tu solicitud en esta ocasión.
-            </p>
-            <hr>
-            <p>
-                Agradecemos nuevamente tu interés en <b>GoVin</b> y te deseamos mucho éxito en tus futuras búsquedas laborales.
-                Si tienes alguna pregunta o necesitas comentarios adicionales sobre tu solicitud, no dudes en contactarnos. Estamos aquí para ayudarte.
-                Gracias nuevamente y te enviamos nuestros mejores deseos.
-            </p>
+    <div class="container">
+        <div class="card">
+            <button class="proceed"><svg class="sendicon" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"></path>
+                </svg></button>
+            <img src="https://seeklogo.com/images/V/VISA-logo-62D5B26FE1-seeklogo.com.png" class="logo-card">
+            <label>Card number:</label>
+            <input id="user" type="text" class="input cardnumber" placeholder="1234 5678 9101 1121">
+            <label>Name:</label>
+            <input class="input name" placeholder="Edgar Pérez">
+            <label class="toleft">CCV:</label>
+            <input class="input toleft ccv" placeholder="321">
         </div>
-    </body>
-
-    </html>
+        <div class="receipt">
+            <div class="col">
+                <p>Cost:</p>
+                <h2 class="cost">$400</h2><br>
+                <p>Name:</p>
+                <h2 class="seller">Codedgar</h2>
+            </div>
+            <div class="col">
+                <p>Bought Items:</p>
+                <h3 class="bought-items">Corsair Mouse</h3>
+                <p class="bought-items description">Gaming mouse with shiny lights</p>
+                <p class="bought-items price">$200 (50% discount)</p><br>
+                <h3 class="bought-items">Gaming keyboard</h3>
+                <p class="bought-items description">Look mommmy, it has colors!</p>
+                <p class="bought-items price">$200 (50% discount)</p><br>
+            </div>
+            <p class="comprobe">This information will be sended to your email</p>
+        </div>
+    </div>
 </body>
 
 </html>

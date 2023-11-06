@@ -9,8 +9,8 @@
 @section('content')
 <br><br>
 <div class="container">
-    <h2>Categorías de Productos</h2>
-    <a  class="btn btn-primary" data-toggle="modal" data-target="#createCategoria">Crear Categoría</a>
+    <h2>Categorías de Restaurantes</h2>
+    <a class="btn btn-primary" data-toggle="modal" data-target="#createCategoria">Crear Categoría</a>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -20,12 +20,12 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($categorias as $categoria)
+            @foreach ($categoriasRestaurantes as $categoria)
             <tr>
                 <td>{{ $categoria->nombre }}</td>
                 <td><img src="{{ asset($categoria->imagen) }}" alt="{{ $categoria->nombre }}" class="img-thumbnail custom-image-size"></td>
                 <td>
-                    <a href="{{ route('categorias.edit', $categoria) }}" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editCategoria{{ $categoria->id }}">Editar</a>
+                    <a href="{{ route('categoriasRestaurantes.destroy', $categoria) }}" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editCategoria{{ $categoria->id }}">Editar</a>
                     <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteCategoria{{ $categoria->id }}">Eliminar</button>
                 </td>
             </tr>
@@ -40,7 +40,7 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form action="{{ route('categorias.update', $categoria) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('categoriasRestaurantes.update', $categoria) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="modal-body">
@@ -77,7 +77,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <form action="{{ route('categorias.destroy', $categoria) }}" method="POST">
+                            <form action="{{ route('categoriasRestaurantes.destroy', $categoria) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Eliminar</button>

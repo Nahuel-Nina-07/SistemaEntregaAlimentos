@@ -12,8 +12,17 @@ class CategoriaRestaurante extends Model
     protected $table = 'categorias_restaurantes';
 
     protected $fillable = [
-        'id',
         'nombre',
         'imagen',
     ];
+
+    public function restaurantes()
+    {
+        return $this->hasMany(Restaurante::class, 'categoria_id');
+    }
+
+    public function productos()
+    {
+        return $this->hasMany(Producto::class, 'categoria_id');
+    }
 }
