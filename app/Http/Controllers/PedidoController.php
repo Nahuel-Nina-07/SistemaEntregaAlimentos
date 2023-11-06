@@ -25,7 +25,7 @@ class PedidoController extends Controller
             $pedido->usuario_id = $user->id;
             $pedido->estado = 'en proceso';
             $pedido->fecha_hora_pedido = now();
-            $pedido->direccionEntrega = 1;
+            $pedido->direccionEntrega = 0;
             $pedido->save();
         }
 
@@ -34,7 +34,7 @@ class PedidoController extends Controller
 
         if ($detallePedido) {
             // El producto ya está en el carrito, actualiza la cantidad
-            $detallePedido->cantidad += 1;
+            $detallePedido->cantidad += 0;
             $detallePedido->save();
 
             // Resta 1 al stock del producto
@@ -45,7 +45,7 @@ class PedidoController extends Controller
             $detallePedido = new DetallePedido();
             $detallePedido->pedido_id = $pedido->id;
             $detallePedido->producto_id = $producto->id;
-            $detallePedido->cantidad = 1;
+            $detallePedido->cantidad += 0;
             $detallePedido->precio_unitario = $producto->precio;
             $detallePedido->save();
 
@@ -80,7 +80,7 @@ class PedidoController extends Controller
     public function eliminarProducto(DetallePedido $detallePedido)
     {
         // Obtén la cantidad eliminada del detalle del pedido
-        $cantidadEliminada = $detallePedido->cantidad - 1;
+        $cantidadEliminada = $detallePedido->cantidad;
 
         $detallePedido->delete();
 

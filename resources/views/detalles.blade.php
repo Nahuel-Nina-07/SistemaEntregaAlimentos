@@ -199,7 +199,7 @@
                             </h3>
                             <div class="cart-item-quantity">
                                 <button class="quantity-button decrement" style="border-radius: 8px 0 0 8px;"><b>-</b></button>
-                                <input class="quantity-input" type="number" value="{{ $detalle->cantidad }}" min="0" readonly>
+                                <input class="quantity-input" type="number" value="{{ $detalle->cantidad+1 }}" min="0" readonly>
                                 <button class="quantity-button increment" style="border-radius: 0 8px 8px 0;"><b>+</b></button>
                                 <input type="hidden" class="detalle-pedido-id" value="{{ $detalle->id }}">
                                 <input type="hidden" class="stock" value="{{ $detalle->producto->stock }}">
