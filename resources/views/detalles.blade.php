@@ -199,13 +199,13 @@
                             </h3>
                             <div class="cart-item-quantity">
                                 <button class="quantity-button decrement" style="border-radius: 8px 0 0 8px;"><b>-</b></button>
-                                <input class="quantity-input" type="number" value="{{ $detalle->cantidad+1 }}" min="0" readonly>
+                                <input class="quantity-input" type="number" value="{{ $detalle->cantidad}}" min="0" readonly>
                                 <button class="quantity-button increment" style="border-radius: 0 8px 8px 0;"><b>+</b></button>
                                 <input type="hidden" class="detalle-pedido-id" value="{{ $detalle->id }}">
                                 <input type="hidden" class="stock" value="{{ $detalle->producto->stock }}">
                             </div>
                         </div>
-                        <p id="max-stock-msg-{{ $detalle->id }}" class="max-stock-msg" style="background-color: #fff; color: #000000; margin: 0; padding: 0; display: none;">Máximo Stock Disponible</p>
+                        <p id="max-stock-msg-{{ $detalle->id }}" class="max-stock-msg" style="background-color: #fff; color: #000000; margin: 0; padding: 0; display: none; text-align: center;">Máximo Stock Disponible</p>
                         <div class="cart-item-details">
                             <div class="price-and-remove">
                                 <h2 class="cart-item-price" style="color: black;">
@@ -251,15 +251,11 @@ document.addEventListener("DOMContentLoaded", function() {
         const detalleId = document.querySelectorAll(".detalle-pedido-id")[index];
         const precioUnitario = document.querySelectorAll(".cart-item-price b")[index];
         const stock = parseInt(document.querySelectorAll(".stock")[index].value); // Obtener el stock del producto
-        const maxStockMsg = document.querySelector(`#max-stock-msg-${detalleId.value}`); // Obtener el mensaje específico por ID del producto
 
         incrementButton.addEventListener("click", function() {
-            if (parseInt(input.value) < stock) { // Verificar si la cantidad no excede el stock
+            if (stock > -1 && parseInt(input.value) < stock+1) { // Verificar si el stock es mayor que cero y la cantidad no excede el stock
                 input.value = parseInt(input.value) + 1;
                 actualizarCantidad(detalleId.value, input.value, precioUnitario);
-            } else {
-                input.value = stock; // Establecer la cantidad al máximo de stock
-                maxStockMsg.style.display = "block"; // Mostrar el mensaje específico
             }
         });
     });
@@ -268,15 +264,13 @@ document.addEventListener("DOMContentLoaded", function() {
         const input = document.querySelectorAll(".quantity-input")[index];
         const detalleId = document.querySelectorAll(".detalle-pedido-id")[index];
         const precioUnitario = document.querySelectorAll(".cart-item-price b")[index];
-        const maxStockMsg = document.querySelector(`#max-stock-msg-${detalleId.value}`); // Obtener el mensaje específico por ID del producto
+        const stock = parseInt(document.querySelectorAll(".stock")[index].value); // Obtener el stock del producto
 
         decrementButton.addEventListener("click", function() {
             if (parseInt(input.value) > 1) {
                 input.value = parseInt(input.value) - 1;
                 actualizarCantidad(detalleId.value, input.value, precioUnitario);
             }
-            // Ocultar el mensaje específico cuando se disminuye la cantidad
-            maxStockMsg.style.display = "none";
         });
     });
 
@@ -298,6 +292,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 </script>
+
 
 
 @stop

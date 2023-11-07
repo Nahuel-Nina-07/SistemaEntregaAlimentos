@@ -34,23 +34,23 @@ class PedidoController extends Controller
 
         if ($detallePedido) {
             // El producto ya está en el carrito, actualiza la cantidad
-            $detallePedido->cantidad += 0;
+            $detallePedido->cantidad += 1;
             $detallePedido->save();
 
             // Resta 1 al stock del producto
-            $producto->stock -= 0;
+            $producto->stock -= 1;
             $producto->save();
         } else {
             // El producto no está en el carrito, crea un nuevo detallePedido
             $detallePedido = new DetallePedido();
             $detallePedido->pedido_id = $pedido->id;
             $detallePedido->producto_id = $producto->id;
-            $detallePedido->cantidad += 0;
+            $detallePedido->cantidad += 1;
             $detallePedido->precio_unitario = $producto->precio;
             $detallePedido->save();
 
             // Resta 1 al stock del producto
-            $producto->stock -= 0;
+            $producto->stock -= 1;
             $producto->save();
         }
 
