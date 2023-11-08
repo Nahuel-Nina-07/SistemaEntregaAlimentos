@@ -24,7 +24,7 @@ use App\Http\Controllers\PagoController;
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('mpa');
 })->name('welcome');
 
 //login usuario
