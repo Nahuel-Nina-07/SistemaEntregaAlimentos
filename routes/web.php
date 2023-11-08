@@ -153,8 +153,9 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/carrito/eliminar/{detallePedido}', [PedidoController::class, 'eliminarProducto'])->name('carrito.eliminar');
     Route::post('/carrito/actualizar-cantidad/{detalle}', [PedidoController::class, 'actualizarCantidad'])->name('carrito.actualizar-cantidad');
 
+    //Pago
     Route::get('/realizar-pago', [PagoController::class, 'mostrarPago'])->name('realizarPago');
 
-    Route::put('/realizar-pagos', [PagoController::class, 'realizarPagos'])->name('realizar.pago');
-    
+    Route::post('/marcar-pedido-pendiente', [PagoController::class, 'marcarComoPendiente'])->name('marcar.pendiente');
+
 });

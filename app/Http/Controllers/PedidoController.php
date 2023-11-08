@@ -33,13 +33,7 @@ class PedidoController extends Controller
         $detallePedido = DetallePedido::where('pedido_id', $pedido->id)->where('producto_id', $producto->id)->first();
 
         if ($detallePedido) {
-            // El producto ya está en el carrito, actualiza la cantidad
-            $detallePedido->cantidad += 1;
-            $detallePedido->save();
-
-            // Resta 1 al stock del producto
-            $producto->stock -= 1;
-            $producto->save();
+            session()->flash('alert', ['type' => 'error', 'message' => 'El producto ya está en tu carrito.']);
         } else {
             // El producto no está en el carrito, crea un nuevo detallePedido
             $detallePedido = new DetallePedido();
@@ -52,12 +46,13 @@ class PedidoController extends Controller
             // Resta 1 al stock del producto
             $producto->stock -= 1;
             $producto->save();
+            session()->flash('alert', ['type' => 'success', 'message' => 'El producto se ha agregado al carrito con éxito.']);
         }
 
-        session()->flash('alert', ['type' => 'success', 'message' => 'El producto se ha agregado al carrito con éxito.']);
 
         return redirect()->back();
     }
+
 
     public function detalles()
     {

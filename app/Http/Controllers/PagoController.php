@@ -44,4 +44,21 @@ class PagoController extends Controller
         return view('Pago.pago', compact('detalles', 'total', 'descuento'));
     }
 
+    public function marcarComoPendiente(Request $request)
+    {
+        // Obtén el usuario actual
+        $user = auth()->user();
+
+        // Obtén el pedido en proceso del usuario actual
+        $pedido = Pedido::where('usuario_id', $user->id)->where('estado', 'en proceso')->first();
+
+        if ($pedido) {
+            // Actualiza el estado del pedido a "pendiente"
+            $pedido->estado = 'pendiente';
+            $pedido->save();
+        }
+
+        // Redirige de nuevo a la página de carrito o a donde desees
+        return redirect()->route('categoriasProducto.indexlistado'); // Reemplaza 'carrito' con el nombre de la ruta de tu página de carrito
+    }
 }

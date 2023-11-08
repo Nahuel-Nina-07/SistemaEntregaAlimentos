@@ -251,11 +251,15 @@ document.addEventListener("DOMContentLoaded", function() {
         const detalleId = document.querySelectorAll(".detalle-pedido-id")[index];
         const precioUnitario = document.querySelectorAll(".cart-item-price b")[index];
         const stock = parseInt(document.querySelectorAll(".stock")[index].value); // Obtener el stock del producto
+        const maxStockMessage = document.getElementById(`max-stock-msg-${detalleId.value}`); // Obtener el elemento del mensaje
 
         incrementButton.addEventListener("click", function() {
             if (stock > -1 && parseInt(input.value) < stock+1) { // Verificar si el stock es mayor que cero y la cantidad no excede el stock
                 input.value = parseInt(input.value) + 1;
                 actualizarCantidad(detalleId.value, input.value, precioUnitario);
+            } else {
+                // Mostrar el mensaje de stock máximo alcanzado
+                maxStockMessage.style.display = "block";
             }
         });
     });
@@ -265,11 +269,14 @@ document.addEventListener("DOMContentLoaded", function() {
         const detalleId = document.querySelectorAll(".detalle-pedido-id")[index];
         const precioUnitario = document.querySelectorAll(".cart-item-price b")[index];
         const stock = parseInt(document.querySelectorAll(".stock")[index].value); // Obtener el stock del producto
+        const maxStockMessage = document.getElementById(`max-stock-msg-${detalleId.value}`); // Obtener el elemento del mensaje
 
         decrementButton.addEventListener("click", function() {
             if (parseInt(input.value) > 1) {
                 input.value = parseInt(input.value) - 1;
                 actualizarCantidad(detalleId.value, input.value, precioUnitario);
+                // Ocultar el mensaje de stock máximo alcanzado
+                maxStockMessage.style.display = "none";
             }
         });
     });
@@ -292,6 +299,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 </script>
+
 
 
 

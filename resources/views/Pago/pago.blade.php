@@ -41,11 +41,11 @@ config(['adminlte.right_sidebar' => false]);
             </table>
         </div>
         <div class="col-md-6">
-            <form>
-
+            <form method="POST" action="{{ route('marcar.pendiente') }}">
+                @csrf
                 <h3 class="title">Información de Pago</h3>
                 <div class="row">
-                    <!-- <div class="col">
+                    <div class="col">
                         <div class="inputBox">
                             <span>Nombre completo:</span>
                             <input type="text" placeholder="John Deo" required>
@@ -72,7 +72,7 @@ config(['adminlte.right_sidebar' => false]);
                                 <input type="number" placeholder="123 456" required>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
                     <div class="col">
                         <div class="inputBox">
                             <span>Tarjetas aceptadas:</span>
@@ -131,14 +131,13 @@ config(['adminlte.right_sidebar' => false]);
                         </div>
                     </div>
                 </div>
-                <form >
+                <form>
                     <button type="submit" class="submit-btn">Pagar BOB {{ number_format($total, 2) }}</button>
                 </form>
             </form>
         </div>
     </div>
 </div>
-
 @stop
 
 @section('css')
