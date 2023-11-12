@@ -21,10 +21,11 @@ use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\ResetPasswordCopyController;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\PagoController;
-
+use App\Http\Controllers\PedidosHechosController;
+use App\Http\Controllers\UsuariosController;
 
 Route::get('/', function () {
-    return view('mpa');
+    return view('welcome');
 })->name('welcome');
 
 //login usuario
@@ -158,4 +159,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/marcar-pedido-pendiente', [PagoController::class, 'marcarComoPendiente'])->name('marcar.pendiente');
 
+    //historial de pedidos
+    Route::get('/pedidos-hechos', [PedidosHechosController::class, 'index'])->name('pedidos-hechos.index');
+
+    //lista usuarios
+    Route::get('/usuarios', [UsuariosController::class, 'index'])->name('usuarios.index');
 });

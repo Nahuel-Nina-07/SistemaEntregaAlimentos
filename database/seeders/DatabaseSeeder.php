@@ -26,6 +26,10 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@gmail.com',
         ])->assignRole('admin');
 
+        User::factory()->create([
+            'name' => 'revisor',
+            'email' => 'revisor@gmail.com',
+        ])->assignRole('revisor');
         // Crear un usuario normal
         User::factory()->create([
             'name' => 'user',

@@ -32,9 +32,8 @@ class User extends Authenticatable
         'email',
         'password',
         'google_id',
-        'rol',
         'profile_photo_path',
-
+        'estado',
     ];
 
     /**
@@ -109,5 +108,10 @@ class User extends Authenticatable
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new UserResetPassword($token));
+    }
+
+    public function isActive()
+    {
+        return $this->estado === 'activo';
     }
 }

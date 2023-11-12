@@ -41,7 +41,10 @@ class PagoController extends Controller
         // Resta el descuento al total
         $total -= $descuento;
 
-        return view('Pago.pago', compact('detalles', 'total', 'descuento'));
+        $tasaCambio = 6.96;
+$totalEnDolares = $total / $tasaCambio;
+
+        return view('Pago.pago', compact('detalles', 'total', 'descuento', 'totalEnDolares'));
     }
 
     public function marcarComoPendiente(Request $request)
@@ -56,9 +59,11 @@ class PagoController extends Controller
             // Actualiza el estado del pedido a "pendiente"
             $pedido->estado = 'pendiente';
             $pedido->save();
+
+            return response()->json(['message' => 'Pedido marcado como pendiente']);
         }
 
         // Redirige de nuevo a la página de carrito o a donde desees
-        return redirect()->route('categoriasProducto.indexlistado'); // Reemplaza 'carrito' con el nombre de la ruta de tu página de carrito
+        return response()->json(['error' => 'Pedido no encontrado'], 404);
     }
 }

@@ -27,114 +27,35 @@ config(['adminlte.right_sidebar' => false]);
                         <td class="product-cell">BOB {{ number_format($detalle->precio_unitario, 2) }}</td>
                     </tr>
                     @endforeach
+                    @if ($descuento > 0)
                     <tr>
                         <td></td>
                         <td><b>Descuento:</b></td>
-                        <td>({{ $descuento > 0 ? '3.00%' : '0.00%' }})</td>
+                        <td>(3.00%)</td>
                     </tr>
+                    @endif
                     <tr>
                         <td></td>
                         <td><b>Total:</b></td>
                         <td id="total" class="product-cell">BOB {{ number_format($total, 2) }}</td>
                     </tr>
+                    @if (isset($totalEnDolares))
+                    <tr>
+                        <td></td>
+                        <td><b>Total (USD):</b></td>
+                        <td class="product-cell">${{ number_format($totalEnDolares, 2) }}</td>
+                    </tr>
+                    @endif
                 </tbody>
             </table>
         </div>
         <div class="col-md-6">
-            <form method="POST" action="{{ route('marcar.pendiente') }}">
+            <form id="paymentForm" method="POST" action="{{ route('marcar.pendiente') }}">
                 @csrf
                 <h3 class="title">Información de Pago</h3>
-                <div class="row">
-                    <div class="col">
-                        <div class="inputBox">
-                            <span>Nombre completo:</span>
-                            <input type="text" placeholder="John Deo" required>
-                        </div>
-                        <div class="inputBox">
-                            <span>Correo electrónico :</span>
-                            <input type="email" placeholder="example@example.com" required>
-                        </div>
-                        <div class="inputBox">
-                            <span>Dirección:</span>
-                            <input type="text" placeholder="Calle - Calle - Localidad" required>
-                        </div>
-                        <div class="inputBox">
-                            <span>Pais:</span>
-                            <input type="text" placeholder="Bolivia" required>
-                        </div>
-                        <div class="flex">
-                            <div class="inputBox">
-                                <span>Ciudad:</span>
-                                <input type="text" placeholder="Oruro" required>
-                            </div>
-                            <div class="inputBox">
-                                <span>Código Postal:</span>
-                                <input type="number" placeholder="123 456" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="inputBox">
-                            <span>Tarjetas aceptadas:</span>
-                            <img src="{{ asset('images/card_img.png') }}" alt="">
-                        </div>
-                        <div class="inputBox">
-                            <span>Número de tarjeta de crédito:</span>
-                            <input type="number" placeholder="1111-2222-3333-4444" required>
-                        </div>
-                        <div class="flex">
-                            <div class="inputBox">
-                                <span>Vencimiento:</span>
-                                <div class="flex">
-                                    <div class="exp-month">
-                                        <select name="exp-month" style="height: 180%;" required>
-                                            <option value="">--</option>
-                                            <option value="01">01</option>
-                                            <option value="02">02</option>
-                                            <option value="03">03</option>
-                                            <option value="04">04</option>
-                                            <option value="05">05</option>
-                                            <option value="06">06</option>
-                                            <option value="07">07</option>
-                                            <option value="08">08</option>
-                                            <option value="09">09</option>
-                                            <option value="10">10</option>
-                                            <option value="11">11</option>
-                                            <option value="12">12</option>
-                                        </select>
-                                    </div>
-                                    <div class="exp-year">
-                                        <select name="exp-year" style="height: 180%;" required>
-                                            <option value="">--</option>
-                                            <option value="23">2023</option>
-                                            <option value="24">2024</option>
-                                            <option value="25">2025</option>
-                                            <option value="26">2026</option>
-                                            <option value="27">2027</option>
-                                            <option value="28">2028</option>
-                                            <option value="29">2029</option>
-                                            <option value="30">2030</option>
-                                            <option value="31">2031</option>
-                                            <option value="32">2032</option>
-                                            <option value="33">2033</option>
-                                            <option value="34">2034</option>
-                                            <option value="35">2035</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="inputBox">
-                                <span>CVV:</span>
-                                <input type="number" placeholder="123" style="width: 80px;" required>
-                                <a href="https://www.santander.com/es/stories/cvv-tarjeta-bancaria" style="margin-left: 5px;">?</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <form>
-                    <button type="submit" class="submit-btn">Pagar BOB {{ number_format($total, 2) }}</button>
-                </form>
+                <div id="sectionCard" class="hidden p-4 bg-gray-100"></div>
             </form>
+
         </div>
     </div>
 </div>
@@ -223,6 +144,73 @@ config(['adminlte.right_sidebar' => false]);
 @stop
 
 @section('js')
+
+<script src="https://www.paypal.com/sdk/js?client-id={{env('PAYPAL_CLIENT_ID')}}&components=buttons,funding-eligibility&locale=es_BO"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    // Script de PayPal
+    paypal.Buttons({
+        style: {
+            color: 'blue',
+            shape: 'pill',
+            label: 'pay',
+        },
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                application_context: {
+                    shipping_preference: 'NO_SHIPPING'
+                },
+                payer: {
+                    email_address: '{{ auth()->user()->email }}',
+                    name: {
+                        given_name: '{{ auth()->user()->name }}',
+                        surname: '{{ auth()->user()->apellido }}'
+                    },
+                },
+                purchase_units: [{
+                    amount: {
+                        value: '{{ number_format($totalEnDolares, 2) }}'
+                    }
+                }]
+            });
+        },
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                alert(details.payer.name.given_name + ', gracias por tu compra!');
+
+                marcarPedidoComoPendiente();
+
+                window.history.replaceState({}, document.title, "{{ route('categoriasProducto.indexlistado') }}");
+                window.location.href = "{{ route('categoriasProducto.indexlistado') }}";
+            });
+        },
+        onError: function(err) {
+            console.log(err);
+        }
+    }).render('#sectionCard');
+
+    function marcarPedidoComoPendiente() {
+        // Hacer una llamada AJAX para notificar al servidor y marcar el pedido como pendiente
+        $.ajax({
+            url: "{{ route('marcar.pendiente') }}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            success: function(response) {
+                console.log(response);
+            },
+            error: function(error) {
+                console.error(error);
+            }
+        });
+    }
+</script>
+
+
+
 <script>
     const expMonthSelect = document.getElementById("exp-month-select");
     const expMonthValidation = document.getElementById("exp-month-validation");
@@ -235,5 +223,5 @@ config(['adminlte.right_sidebar' => false]);
     });
 </script>
 
-
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 @stop

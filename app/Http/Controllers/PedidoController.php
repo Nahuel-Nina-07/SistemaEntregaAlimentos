@@ -32,7 +32,10 @@ class PedidoController extends Controller
         // Verifica si el producto ya está en el carrito
         $detallePedido = DetallePedido::where('pedido_id', $pedido->id)->where('producto_id', $producto->id)->first();
 
-        if ($detallePedido) {
+        // Verifica si hay stock disponible
+        if ($producto->stock <= 0) {
+            session()->flash('alert', ['type' => 'error', 'message' => 'El producto no está disponible en stock.']);
+        } elseif ($detallePedido) {
             session()->flash('alert', ['type' => 'error', 'message' => 'El producto ya está en tu carrito.']);
         } else {
             // El producto no está en el carrito, crea un nuevo detallePedido
@@ -48,7 +51,6 @@ class PedidoController extends Controller
             $producto->save();
             session()->flash('alert', ['type' => 'success', 'message' => 'El producto se ha agregado al carrito con éxito.']);
         }
-
 
         return redirect()->back();
     }

@@ -355,6 +355,11 @@ return [
                 ],
             ],
         ],
+        [
+            'text' => 'Usuarios',
+            'route'  => 'usuarios.index',
+            'icon' => 'fas fa-user',
+        ],
         ['header' => 'Usuario'],
         [
             'text' => 'Categoria Restaurantes',
@@ -364,6 +369,11 @@ return [
         [
             'text' => 'Categoria Productos',
             'route'  => 'categoriasProducto.indexlistado',
+            'icon' => 'fas fa-box',
+        ],
+        [
+            'text' => 'Pedidos',
+            'route'  => 'pedidos-hechos.index',
             'icon' => 'fas fa-box',
         ],
         [
