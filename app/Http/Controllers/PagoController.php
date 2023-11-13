@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\DetallePedido;
 use App\Models\Pedido;
-
+use Illuminate\Support\Facades\Auth;
 
 class PagoController extends Controller
 {
@@ -44,7 +44,7 @@ class PagoController extends Controller
         $tasaCambio = 6.96;
         $totalEnDolares = $total / $tasaCambio;
 
-        return view('Pago.pago', compact('detalles', 'total', 'descuento', 'totalEnDolares'));
+        return view('Pago.pago', compact('detalles', 'total', 'descuento', 'totalEnDolares', 'pedido'));
     }
 
     public function marcarComoPendiente(Request $request)
@@ -64,6 +64,28 @@ class PagoController extends Controller
         }
 
         // Redirige de nuevo a la página de carrito o a donde desees
+        return response()->json(['error' => 'Pedido no encontrado'], 404);
+    }
+    public function actualizarCoordenadas(Request $request, $pedidoId)
+    {
+        // Obtener las coordenadas del formulario
+        $latitud = $request->input('latitud');
+        $longitud = $request->input('longitud');
+
+        // Obtener el pedido existente
+        $pedido = Pedido::find($pedidoId);
+
+        // Verificar si el pedido existe
+        if ($pedido) {
+            // Actualizar las coordenadas del pedido existente
+            $pedido->latitud = $latitud;
+            $pedido->longitud = $longitud;
+            $pedido->save();
+
+            return response()->json(['message' => 'Coordenadas actualizadas correctamente']);
+        }
+
+        // Manejar el caso donde el pedido no existe
         return response()->json(['error' => 'Pedido no encontrado'], 404);
     }
 }

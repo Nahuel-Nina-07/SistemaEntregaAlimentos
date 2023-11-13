@@ -68,49 +68,73 @@ config(['adminlte.right_sidebar' => false]);
 
 @section('js')
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="https://kit.fontawesome.com/0b506ee94b.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://kit.fontawesome.com/0b506ee94b.js" crossorigin="anonymous"></script>
 
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-    <script>
-        // Definir las coordenadas para el rango de Quillacollo
-        var GoVinBounds = L.latLngBounds(
-            L.latLng(-17.373888, -66.324205), // Esquina superior izquierda
-            L.latLng(-17.413861, -66.270561) // Esquina inferior derecha
-        );
+<script>
+    // Definir las coordenadas para el rango de Quillacollo
+    var GoVinBounds = L.latLngBounds(
+        L.latLng(-17.373888, -66.324205), // Esquina superior izquierda
+        L.latLng(-17.413861, -66.270561) // Esquina inferior derecha
+    );
 
-        // Inicializar el mapa y establecer la vista y el zoom
-        var mymap = L.map('map').setView([-17.395643, -66.301203], 13);
+    // Inicializar el mapa y establecer la vista y el zoom
+    var mymap = L.map('map').setView([-17.395643, -66.301203], 13);
 
-        // Añadir un mapa base (puedes usar otros proveedores de mapas)
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(mymap);
+    // Añadir un mapa base (puedes usar otros proveedores de mapas)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(mymap);
 
-        // Configurar los límites para ocultar el resto del mapa
-        mymap.setMaxBounds(GoVinBounds);
+    // Configurar los límites para ocultar el resto del mapa
+    mymap.setMaxBounds(GoVinBounds);
 
-        var marker;
-        var lugarMarcado = false; 
+    var marker;
+    var lugarMarcado = false;
 
-        // Añadir evento de clic al mapa
-        function onMapClick(e) {
-    if (marker) {
-        mymap.removeLayer(marker);
+    // Añadir evento de clic al mapa
+    function onMapClick(e) {
+        if (marker) {
+            mymap.removeLayer(marker);
+        }
+
+        if (GoVinBounds.contains(e.latlng)) {
+            marker = L.marker(e.latlng).addTo(mymap);
+            lugarMarcado = true;
+
+            // Guardar las coordenadas en el servidor
+            guardarCoordenadas(e.latlng);
+        } else {
+            alert('Su ubicación está fuera del rango de nuestro servicio');
+            lugarMarcado = false;
+        }
     }
 
-    if (GoVinBounds.contains(e.latlng)) {
-        marker = L.marker(e.latlng).addTo(mymap);
-        lugarMarcado = true;  // Actualiza la variable al marcar el lugar
-    } else {
-        alert('Su ubicación está fuera del rango de nuestro servicio');
-        lugarMarcado = false;  // Actualiza la variable al no marcar el lugar
+    function guardarCoordenadas(latlng) {
+        // Realizar una llamada AJAX para actualizar las coordenadas en el servidor
+        $.ajax({
+            url: "{{ route('actualizar.coordenadas', ['pedidoId' => $pedido->id]) }}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                latitud: latlng.lat,
+                longitud: latlng.lng
+            },
+            success: function(response) {
+                console.log(response);
+            },
+            error: function(error) {
+                console.error(error);
+            }
+        });
     }
-}
 
-        mymap.on('click', onMapClick);
-    </script>
+
+
+    mymap.on('click', onMapClick);
+</script>
 
 <script src="https://www.paypal.com/sdk/js?client-id={{env('PAYPAL_CLIENT_ID')}}&components=buttons,funding-eligibility&locale=es_BO"></script>
 
@@ -144,19 +168,19 @@ config(['adminlte.right_sidebar' => false]);
             });
         },
         onApprove: function(data, actions) {
-        if (lugarMarcado) {
-            return actions.order.capture().then(function(details) {
-                alert(details.payer.name.given_name + ', gracias por tu compra!');
+            if (lugarMarcado) {
+                return actions.order.capture().then(function(details) {
+                    alert(details.payer.name.given_name + ', gracias por tu compra!');
 
-                marcarPedidoComoPendiente();
+                    marcarPedidoComoPendiente();
 
-                window.history.replaceState({}, document.title, "{{ route('categoriasProducto.indexlistado') }}");
-                window.location.href = "{{ route('categoriasProducto.indexlistado') }}";
-            });
-        } else {
-            alert('Por favor, marque su ubicación en el mapa antes de realizar el pago.');
-        }
-    },
+                    window.history.replaceState({}, document.title, "{{ route('categoriasProducto.indexlistado') }}");
+                    window.location.href = "{{ route('categoriasProducto.indexlistado') }}";
+                });
+            } else {
+                alert('Por favor, marque su ubicación en el mapa antes de realizar el pago.');
+            }
+        },
         onError: function(err) {
             console.log(err);
         }
@@ -179,18 +203,4 @@ config(['adminlte.right_sidebar' => false]);
         });
     }
 </script>
-
-<script>
-    const expMonthSelect = document.getElementById("exp-month-select");
-    const expMonthValidation = document.getElementById("exp-month-validation");
-    expMonthSelect.addEventListener("change", function() {
-        if (expMonthSelect.value === "") {
-            expMonthValidation.style.display = "block";
-        } else {
-            expMonthValidation.style.display = "none";
-        }
-    });
-</script>
-
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 @stop
