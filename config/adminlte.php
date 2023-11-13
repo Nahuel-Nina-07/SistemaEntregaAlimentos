@@ -388,6 +388,12 @@ return [
             'icon' => 'fas fa-store', 
             'topnav_right' => true, 
         ],
+        ['header' => 'Reaprtidor'],
+        [
+            'text' => 'Categoria Restaurantes',
+            'route'  => 'pedidosrepartidor.index',
+            'icon' => 'fas fa-utensils',
+        ],
     ],
 
     /*

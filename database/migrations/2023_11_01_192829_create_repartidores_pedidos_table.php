@@ -19,6 +19,8 @@ return new class extends Migration
             $table->foreign('pedido_id')->references('id')->on('pedidos');
             $table->foreign('repartidor_id')->references('id')->on('detalle_repartidor');
             $table->timestamps();
+
+            $table->unique(['pedido_id', 'repartidor_id']);
         });
     }
 

@@ -23,9 +23,10 @@ use Spatie\Permission\Models\Role;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PedidosHechosController;
 use App\Http\Controllers\UsuariosController;
+use App\Http\Controllers\PedidoRepartidorController;
 
 Route::get('/', function () {
-    return view('mpa');
+    return view('welcome');
 })->name('welcome');
 
 //login usuario
@@ -170,4 +171,7 @@ Route::middleware(['auth'])->group(function () {
     //coordenadas
     Route::post('/actualizar-coordenadas/{pedidoId}', [PagoController::class, 'actualizarCoordenadas'])->name('actualizar.coordenadas');
 
+    //rutas para repartidor
+    Route::get('/pedidos', [PedidoRepartidorController::class, 'mostrarMapa'])->name('pedidosrepartidor.index');
+    Route::post('/repartidor/aceptar-pedido/{pedidoId}', [PedidoRepartidorController::class, 'aceptarPedido']);
 });
