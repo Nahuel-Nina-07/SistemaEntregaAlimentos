@@ -42,7 +42,7 @@ class PagoController extends Controller
         $total -= $descuento;
 
         $tasaCambio = 6.96;
-$totalEnDolares = $total / $tasaCambio;
+        $totalEnDolares = $total / $tasaCambio;
 
         return view('Pago.pago', compact('detalles', 'total', 'descuento', 'totalEnDolares'));
     }

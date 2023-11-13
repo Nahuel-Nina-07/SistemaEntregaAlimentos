@@ -42,6 +42,11 @@
                     <a href="{{ route('trabajando') }}" class="social"><i class="fab fa-linkedin-in"></i></a>
                 </div>
                 <span>o usa tu cuenta</span>
+                @if (session('error'))
+                <div class="error-container" style="color: red;">
+                    {{ session('error') }}
+                </div>
+                @endif
                 <input type="email" name="email" placeholder="Correo Electrónico" value="{{ old('email') }}" required autocomplete="email" autofocus />
                 <input type="password" name="password" placeholder="Contraseña" required autocomplete="current-password" />
                 <a href="{{ route('password.request') }}">¿Olvidaste tu contraseña?</a>
@@ -64,6 +69,24 @@
         </div>
 
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Verifica si hay un mensaje de error
+            var errorContainer = $('.form-container .error-container');
+            if (errorContainer.length > 0) {
+                // Muestra el mensaje de error
+                errorContainer.show();
+
+                // Después de 3 segundos, oculta el mensaje de error
+                setTimeout(function() {
+                    errorContainer.fadeOut('slow');
+                }, 3000);
+            }
+        });
+    </script>
+
 </body>
 
 </html>

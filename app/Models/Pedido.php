@@ -13,7 +13,8 @@ class Pedido extends Model
     protected $fillable = [
         'usuario_id',
         'fecha_hora_pedido',
-        'direccionEntrega',
+        'latitud',
+        'longitud',
         'estado',
     ];
 

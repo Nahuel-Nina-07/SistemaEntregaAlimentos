@@ -25,7 +25,7 @@ use App\Http\Controllers\PedidosHechosController;
 use App\Http\Controllers\UsuariosController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('mpa');
 })->name('welcome');
 
 //login usuario
@@ -164,4 +164,9 @@ Route::middleware(['auth'])->group(function () {
 
     //lista usuarios
     Route::get('/usuarios', [UsuariosController::class, 'index'])->name('usuarios.index');
+    //cambiar estado a activo
+    // Dentro de routes/web.php
+
+    Route::put('/usuarios/toggle-status/{id}', [UsuariosController::class, 'toggleStatus'])->name('usuarios.toggleStatus');
+
 });

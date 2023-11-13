@@ -7,32 +7,15 @@
 @section('content')
 
 <body>
-    <div id="coordinates">Coordenadas: </div>
-    <select name="select-location" id="select-location">
-        <option value="-1">Seleccione un lugar:</option>
-        <option value="6.636254,-73.223129">Barichara-Santander</option>
-        <option value="12.19602,-72.147218">Cabo de la Vela-La Guajira</option>
-        <option value="10.42278,-75.539217">
-            Castillo San Felipe Cartagena-Bolivar
-        </option>
-        <option value="2.265124,-73.794523">Caño Cristales-Meta</option>
-        <option value="3.233851,-75.168934">Desierto de Tatacoa-Huila</option>
-        <option value="6.233825,-75.167062">Guatape-Antioquia</option>
-        <option value="4.945885,-73.825740">Guatavita-Cundinamarca</option>
-        <option value="2.135151,-76.410226">Parque Purace-Cauca</option>
-        <option value="1.888593,-76.295127">San Agustín-Huila</option>
-        <option value=" -17.39483754707626, -66.28108620643604">Plaza Bolivar</option>
-    </select>
     <div id="map"></div>
-
 </body>
 @stop
 
 @section('css')
 <style>
     #map {
-        height: 85vh;
-        width: 100vw;
+        height: 30vh;
+        width: 30vw;
     }
 </style>
 @stop
@@ -45,66 +28,46 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="https://kit.fontawesome.com/0b506ee94b.js" crossorigin="anonymous"></script>
 
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <script>
-    var map = L.map('map').setView([4.5993, -74.0805], 18);
+    // Definir las coordenadas para el rango de Quillacollo
+    var GoVinBounds = L.latLngBounds(
+        L.latLng(-17.373888, -66.324205), // Esquina superior izquierda
+        L.latLng(-17.413861, -66.270561) // Esquina inferior derecha
+    );
 
-    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        maxZoom: 19,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    }).addTo(map);
+    // Inicializar el mapa y establecer la vista y el zoom
+    var mymap = L.map('map').setView([-17.395643, -66.301203], 13);
 
-    var coordinatesDiv = document.getElementById("coordinates");
+    // Añadir un mapa base (puedes usar otros proveedores de mapas)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(mymap);
+
+    // Configurar los límites para ocultar el resto del mapa
+    mymap.setMaxBounds(GoVinBounds);
+
     var marker;
-    var myLocationMarker;
 
-    // Define un icono personalizado para "pedido".
-    var pedidoIcon = L.divIcon({
-        className: 'custom-icon',
-        html: '<i class="fa-solid fa-dumpster-fire" style="color: #000000;"></i>',
-        iconSize: [32, 32],
-        iconAnchor: [16, 32],
-        popupAnchor: [0, -32]
-    });
+    // Añadir evento de clic al mapa
+    function onMapClick(e) {
+        // Eliminar el marcador existente (si lo hay)
+        if (marker) {
+            mymap.removeLayer(marker);
+        }
 
-    document.getElementById("select-location").addEventListener("change", function(e) {
-        var selectedOption = e.target.options[e.target.selectedIndex];
-        if (selectedOption.value !== "-1") {
-            var coords = selectedOption.value.split(",");
-            map.flyTo(coords, 18);
-            coordinatesDiv.textContent = "Coordenadas: " + coords.join(", ");
-
-            if (marker) {
-                map.removeLayer(marker);
-            }
-
-            marker = L.marker(coords, { icon: pedidoIcon }).addTo(map);
+        // Verificar si la ubicación está dentro de los límites de Govin
+        if (GoVinBounds.contains(e.latlng)) {
+            // Añadir un nuevo marcador en la posición del clic
+            marker = L.marker(e.latlng).addTo(mymap)
+                .bindPopup('Coordenadas: ' + e.latlng.toString())
+                .openPopup();
         } else {
-            coordinatesDiv.textContent = "Coordenadas: ";
-
-            if (marker) {
-                map.removeLayer(marker);
-            }
+            alert('Su ubicacion esta fuera del rango de nuestro servicio');
         }
-    });
+    }
 
-    // Agregar el botón "Mi ubicación" para mostrar la ubicación actual.
-    L.easyButton('fa-location-arrow', function() {
-        if (myLocationMarker) {
-            map.removeLayer(myLocationMarker);
-        }
-        map.locate({ setView: true, maxZoom: 18 });
-    }).addTo(map);
-
-    // Evento cuando se encuentra la ubicación actual.
-    map.on('locationfound', function(e) {
-        coordinatesDiv.textContent = "Coordenadas: " + e.latlng.lat + ", " + e.latlng.lng;
-
-        if (myLocationMarker) {
-            map.removeLayer(myLocationMarker);
-        }
-
-        myLocationMarker = L.marker(e.latlng).addTo(map);
-    });
+    mymap.on('click', onMapClick);
 </script>
 @stop

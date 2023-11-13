@@ -52,98 +52,65 @@ config(['adminlte.right_sidebar' => false]);
         <div class="col-md-6">
             <form id="paymentForm" method="POST" action="{{ route('marcar.pendiente') }}">
                 @csrf
-                <h3 class="title">Información de Pago</h3>
+                <h3 class="title" style="text-align: center;">Información de Pago</h3>
                 <div id="sectionCard" class="hidden p-4 bg-gray-100"></div>
             </form>
-
+            <h3 class="title" style="text-align: center;">Selecciona tu ubicacion</h3>
+            <div id="map"></div>
         </div>
     </div>
 </div>
 @stop
 
 @section('css')
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600&display=swap');
-
-    * {
-        font-family: 'Poppins', sans-serif;
-        box-sizing: border-box;
-        outline: none;
-        border: none;
-        text-transform: capitalize;
-        transition: all .2s linear;
-    }
-
-    .product-cell {
-        max-width: 90px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
-    .container form .row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 15px;
-    }
-
-    .container form .row .col {
-        flex: 1 1 250px;
-    }
-
-    .container form .row .col .inputBox {
-        margin: 15px 0;
-    }
-
-    .container form .row .col .inputBox span {
-        margin-bottom: 10px;
-        display: block;
-    }
-
-    .container form .row .col .inputBox input {
-        width: 100%;
-        border: 1px solid #ccc;
-        padding: 10px 15px;
-        font-size: 15px;
-        text-transform: none;
-    }
-
-    .container form .row .col .inputBox input:focus {
-        border: 1px solid #000;
-    }
-
-    .container form .row .col .flex {
-        display: flex;
-        gap: 15px;
-    }
-
-    .container form .row .col .flex .inputBox {
-        margin-top: 5px;
-    }
-
-    .container form .row .col .inputBox img {
-        height: 34px;
-        margin-top: 5px;
-        filter: drop-shadow(0 0 1px #000);
-    }
-
-    .container form .submit-btn {
-        width: 100%;
-        padding: 12px;
-        font-size: 17px;
-        background: #27ae60;
-        color: #fff;
-        margin-top: 5px;
-        cursor: pointer;
-    }
-
-    .container form .submit-btn:hover {
-        background: #2ecc71;
-    }
-</style>
+<link rel="stylesheet" type="text/css" href="{{ asset('css/PasarelaPago/styles.css') }}">
 @stop
 
 @section('js')
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://kit.fontawesome.com/0b506ee94b.js" crossorigin="anonymous"></script>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <script>
+        // Definir las coordenadas para el rango de Quillacollo
+        var GoVinBounds = L.latLngBounds(
+            L.latLng(-17.373888, -66.324205), // Esquina superior izquierda
+            L.latLng(-17.413861, -66.270561) // Esquina inferior derecha
+        );
+
+        // Inicializar el mapa y establecer la vista y el zoom
+        var mymap = L.map('map').setView([-17.395643, -66.301203], 13);
+
+        // Añadir un mapa base (puedes usar otros proveedores de mapas)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(mymap);
+
+        // Configurar los límites para ocultar el resto del mapa
+        mymap.setMaxBounds(GoVinBounds);
+
+        var marker;
+        var lugarMarcado = false; 
+
+        // Añadir evento de clic al mapa
+        function onMapClick(e) {
+    if (marker) {
+        mymap.removeLayer(marker);
+    }
+
+    if (GoVinBounds.contains(e.latlng)) {
+        marker = L.marker(e.latlng).addTo(mymap);
+        lugarMarcado = true;  // Actualiza la variable al marcar el lugar
+    } else {
+        alert('Su ubicación está fuera del rango de nuestro servicio');
+        lugarMarcado = false;  // Actualiza la variable al no marcar el lugar
+    }
+}
+
+        mymap.on('click', onMapClick);
+    </script>
 
 <script src="https://www.paypal.com/sdk/js?client-id={{env('PAYPAL_CLIENT_ID')}}&components=buttons,funding-eligibility&locale=es_BO"></script>
 
@@ -177,6 +144,7 @@ config(['adminlte.right_sidebar' => false]);
             });
         },
         onApprove: function(data, actions) {
+        if (lugarMarcado) {
             return actions.order.capture().then(function(details) {
                 alert(details.payer.name.given_name + ', gracias por tu compra!');
 
@@ -185,7 +153,10 @@ config(['adminlte.right_sidebar' => false]);
                 window.history.replaceState({}, document.title, "{{ route('categoriasProducto.indexlistado') }}");
                 window.location.href = "{{ route('categoriasProducto.indexlistado') }}";
             });
-        },
+        } else {
+            alert('Por favor, marque su ubicación en el mapa antes de realizar el pago.');
+        }
+    },
         onError: function(err) {
             console.log(err);
         }
@@ -208,8 +179,6 @@ config(['adminlte.right_sidebar' => false]);
         });
     }
 </script>
-
-
 
 <script>
     const expMonthSelect = document.getElementById("exp-month-select");

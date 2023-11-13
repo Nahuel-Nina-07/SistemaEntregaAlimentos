@@ -12,7 +12,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('usuario_id');
             $table->dateTime('fecha_hora_pedido');
-            $table->string('direccionEntrega');
+            $table->decimal('latitud', 10, 7);
+            $table->decimal('longitud', 10, 7); 
             $table->string('estado',250)->default('Pendiente');
             $table->timestamps();
             $table->foreign('usuario_id')->references('id')->on('users');

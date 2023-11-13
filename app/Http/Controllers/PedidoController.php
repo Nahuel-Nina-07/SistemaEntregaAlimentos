@@ -25,7 +25,8 @@ class PedidoController extends Controller
             $pedido->usuario_id = $user->id;
             $pedido->estado = 'en proceso';
             $pedido->fecha_hora_pedido = now();
-            $pedido->direccionEntrega = 0;
+            $pedido->latitud = 0;
+            $pedido->longitud = 0;
             $pedido->save();
         }
 
