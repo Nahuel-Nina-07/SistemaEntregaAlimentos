@@ -54,6 +54,12 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'categoriasRestaurantes.index'])->assignRole([$admin]);
         Permission::create(['name' => 'categoriasRestaurantes.store'])->assignRole([$admin]);       
         Permission::create(['name' => 'categoriasRestaurantes.update'])->assignRole([$admin]);
-        Permission::create(['name' => 'categoriasRestaurantes.destroy'])->assignRole([$admin]);    
+        Permission::create(['name' => 'categoriasRestaurantes.destroy'])->assignRole([$admin]);
+
+
+        Permission::create(['name' => 'pedidosrepartidor.index'])->syncRoles([$admin, $repartidor,]);
+        Permission::create(['name' => 'pedidosrepartidosr.index'])->syncRoles([$admin, $repartidor,]);
+        Permission::create(['name' => 'repartidor.aceptarPedido'])->syncRoles([$admin, $repartidor,]);
+        Permission::create(['name' => 'repartidor.detalles'])->syncRoles([$admin, $repartidor,]);
     }
 }

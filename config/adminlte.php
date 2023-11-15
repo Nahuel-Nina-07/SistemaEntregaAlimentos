@@ -323,6 +323,7 @@ return [
         [
             'text'    => 'Gestionar',
             'icon'    => 'fas fa-fw fa-pencil',
+            'can'  => 'categorias.index',
             'submenu' => [
                 [
                     'text'    => 'Categoria Productos',
@@ -405,11 +406,11 @@ return [
             'topnav_right' => true,
             'text-color'=> 'white', 
         ],
-        ['header' => 'Repartidor'],
         [
             'text' => 'Mapa',
             'route'  => 'pedidosrepartidor.index',
             'icon' => 'fas fa-map',
+            'can' => 'pedidosrepartidor.index'
         ],
     ],
 

@@ -178,10 +178,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/actualizar-coordenadas/{pedidoId}', [PagoController::class, 'actualizarCoordenadas'])->name('actualizar.coordenadas');
 
     //rutas para repartidor
-    Route::get('/repartidor/mapa', [PedidoRepartidorController::class, 'mostrarMapa'])->name('pedidosrepartidor.index');
-    Route::get('/repartidor/pedidos-pendientes', [PedidoRepartidorController::class, 'pedidosPendientes'])->name('pedidosrepartidosr.index');
-    Route::post('/repartidor/aceptar-pedido/{pedidoId}', [PedidoRepartidorController::class, 'aceptarPedido'])->name('repartidor.aceptarPedido');
-    Route::post('/repartidor/cancelar-pedido/{pedidoId}', [PedidoRepartidorController::class, 'cancelarPedido']);
+    Route::get('/repartidor/mapa', [PedidoRepartidorController::class, 'mostrarMapa'])->middleware('can:pedidosrepartidor.index')->name('pedidosrepartidor.index');
+    Route::get('/repartidor/pedidos-pendientes', [PedidoRepartidorController::class, 'pedidosPendientes'])->middleware('can:pedidosrepartidosr.index')->name('pedidosrepartidosr.index');
+    Route::post('/repartidor/aceptar-pedido/{pedidoId}', [PedidoRepartidorController::class, 'aceptarPedido'])->middleware('can:repartidor.aceptarPedido')->name('repartidor.aceptarPedido');
+    Route::post('/repartidor/cancelar-pedido/{pedidoId}', [PedidoRepartidorController::class, 'cancelarPedido'])->middleware('can:repartidor.detalles')->name('repartidor.detalles');
 
     Route::get('/reportes', [ReportesController::class, 'index'])->middleware('can:reportes.index')->name('reportes.index');
     Route::get('/reportes/{id}', [ReportesController::class, 'detalle'])->middleware('can:reportes.detalle')->name('reportes.detalle');
