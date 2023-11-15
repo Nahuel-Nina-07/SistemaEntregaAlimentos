@@ -82,10 +82,14 @@ class SolicitudTrabajoController extends Controller
         }
 
         if ($request->hasFile('imagen_repartidor')) {
-            $imagePath = $request->file('imagen_repartidor')->store('public/images');
-            $url2 = Storage::url($imagePath);
+            $imagePath2 = $request->file('imagen_repartidor')->store('public/images');
+            $url2 = Storage::url($imagePath2);
+    
+            // Copiar la imagen a storage/public/profile-photos
+            $newImagePath2 = str_replace('public/images', 'public/profile-photos', $imagePath2);
+            Storage::copy($imagePath2, $newImagePath2);
         } else {
-            return redirect()->back()->with('error', 'Debe cargar una imagen.'); // Si no se proporciona una imagen
+            return redirect()->back()->with('error', 'Debe cargar una imagen.');
         }
     
         // Crear una nueva solicitud de trabajo en la base de datos

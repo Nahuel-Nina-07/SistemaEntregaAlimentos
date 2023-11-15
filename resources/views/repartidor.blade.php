@@ -28,69 +28,71 @@
 <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        var mymap = L.map('map').setView([0, 0], 11.5);
-        var rutaControl; // Guardar referencia al control de ruta
+    var mymap = L.map('map').setView([0, 0], 11.5);
+    var rutaControl; // Guardar referencia al control de ruta
+    var pedidoAceptado = false; // Bandera para verificar si ya se aceptó un pedido
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(mymap);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(mymap);
 
-        var marker = L.marker([0, 0], {
-            icon: L.divIcon({
-                className: 'custom-icon',
-                html: '<i class="fa-solid fa-person-biking fa-2xl" style="color: #2465d6;"></i>',
-                iconSize: [30, 30],
-                iconAnchor: [15, 30]
-            }),
-            draggable: true
-        }).addTo(mymap);
+    var marker = L.marker([0, 0], {
+        icon: L.divIcon({
+            className: 'custom-icon',
+            html: '<i class="fa-solid fa-person-biking fa-2xl" style="color: #2465d6;"></i>',
+            iconSize: [30, 30],
+            iconAnchor: [15, 30]
+        }),
+        draggable: true
+    }).addTo(mymap);
 
-        mymap.on('locationfound', function(e) {
-            var latlng = e.latlng;
-            marker.setLatLng(latlng);
-            mymap.setView(latlng, 11.5);
-        });
+    mymap.on('locationfound', function(e) {
+        var latlng = e.latlng;
+        marker.setLatLng(latlng);
+        mymap.setView(latlng, 11.5);
+    });
 
-        mymap.on('locationerror', function(e) {
-            alert(e.message);
-        });
+    mymap.on('locationerror', function(e) {
+        alert(e.message);
+    });
 
-        mymap.locate({
-            watch: true,
-            setView: true,
-        });
+    mymap.locate({
+        watch: true,
+        setView: true,
+    });
 
-        // Obtener los pedidos pendientes desde el servidor
-        $.ajax({
-            url: '/repartidor/pedidos-pendientes',
-            method: 'GET',
-            success: function(response) {
-                var pedidos = response.pedidos;
+    // Obtener los pedidos pendientes desde el servidor
+    $.ajax({
+        url: '/repartidor/pedidos-pendientes',
+        method: 'GET',
+        success: function(response) {
+            var pedidos = response.pedidos;
 
-                pedidos.forEach(function(pedido) {
-                    var iconColor = pedido.estado === 'aceptado' ? '#00cc00' : '#ff5733';
+            pedidos.forEach(function(pedido) {
+                var iconColor = pedido.estado === 'aceptado' ? '#00cc00' : '#ff5733';
 
-                    var pedidoMarker = L.marker([pedido.latitud, pedido.longitud], {
-                        icon: L.divIcon({
+                var pedidoMarker = L.marker([pedido.latitud, pedido.longitud], {
+                    icon: L.divIcon({
+                        className: 'custom-icon',
+                        html: '<i class="fa-solid fa-shopping-bag fa-2xl" style="color: ' + iconColor + ';"></i>',
+                        iconSize: [30, 30],
+                        iconAnchor: [15, 30]
+                    }),
+                    draggable: false,
+                    aceptado: pedido.estado === 'aceptado',
+                    rutaControl: null,
+                }).addTo(mymap);
+
+                var actualizarBoton = function() {
+                    if (pedidoMarker.options.aceptado) {
+                        // Después de aceptar el pedido
+                        pedidoMarker.setIcon(L.divIcon({
                             className: 'custom-icon',
-                            html: '<i class="fa-solid fa-shopping-bag fa-2xl" style="color: ' + iconColor + ';"></i>',
+                            html: '<i class="fa-solid fa-shopping-bag fa-2xl" style="color: #00cc00;"></i>',
                             iconSize: [30, 30],
                             iconAnchor: [15, 30]
-                        }),
-                        draggable: false,
-                        aceptado: pedido.estado === 'aceptado',
-                        rutaControl: null,
-                    }).addTo(mymap);
+                        }));
 
-                    var actualizarBoton = function() {
-                        if (pedidoMarker.options.aceptado) {
-                            // Después de aceptar el pedido
-                            pedidoMarker.setIcon(L.divIcon({
-                                className: 'custom-icon',
-                                html: '<i class="fa-solid fa-shopping-bag fa-2xl" style="color: #00cc00;"></i>',
-                                iconSize: [30, 30],
-                                iconAnchor: [15, 30]
-                            }));
-
-                            // Crear la ruta y guardar referencia al control de ruta
+                        // Crear la ruta solo si no existe
+                        if (!pedidoMarker.options.rutaControl) {
                             pedidoMarker.options.rutaControl = L.Routing.control({
                                 waypoints: [
                                     L.latLng(marker.getLatLng().lat, marker.getLatLng().lng),
@@ -101,104 +103,116 @@
                                     return null;
                                 }
                             }).addTo(mymap);
+                        }
 
-                            // Actualizar el contenido del botón en el Popup
-                            popup.setContent(cancelarEntregaBtn);
-                        } else {
-                            // Después de cancelar la entrega
-                            pedidoMarker.setIcon(L.divIcon({
-                                className: 'custom-icon',
-                                html: '<i class="fa-solid fa-shopping-bag fa-2xl" style="color: #ff5733;"></i>',
-                                iconSize: [30, 30],
-                                iconAnchor: [15, 30]
-                            }));
+                        // Actualizar el contenido del botón en el Popup
+                        popup.setContent(cancelarEntregaBtn);
+                    } else {
+                        // Después de cancelar la entrega
+                        pedidoMarker.setIcon(L.divIcon({
+                            className: 'custom-icon',
+                            html: '<i class="fa-solid fa-shopping-bag fa-2xl" style="color: #ff5733;"></i>',
+                            iconSize: [30, 30],
+                            iconAnchor: [15, 30]
+                        }));
 
+                        // Borrar la ruta y referencia al control de ruta
+                        if (pedidoMarker.options.rutaControl) {
+                            mymap.removeControl(pedidoMarker.options.rutaControl);
+                            pedidoMarker.options.rutaControl = null;
+                        }
+
+                        // Actualizar el contenido del botón en el Popup
+                        popup.setContent(aceptarBtn);
+                    }
+                };
+
+                // Verificar si el pedido está aceptado al cargar la página
+                if (pedido.estado === 'aceptado') {
+                    pedidoMarker.options.aceptado = true;
+                    actualizarBoton();
+                }
+
+                var aceptarBtn = document.createElement('button');
+                aceptarBtn.innerHTML = 'Aceptar';
+                aceptarBtn.onclick = function() {
+                    // Verificar si ya se aceptó un pedido
+                    if (pedidoAceptado) {
+                        alert('Ya has aceptado un pedido. No puedes aceptar otro.');
+                        return;
+                    }
+
+                    // Cambiar el estado del pedido a "aceptado"
+                    var nuevoEstado = 'aceptado';
+
+                    pedidoMarker.options.aceptado = true;
+                    actualizarBoton();
+                    pedidoAceptado = true; // Establecer la bandera para indicar que se aceptó un pedido
+
+                    // Realizar la solicitud AJAX para aceptar el pedido con el nuevo estado
+                    $.ajax({
+                        url: '/repartidor/aceptar-pedido/' + pedido.id,
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        data: {
+                            estado: nuevoEstado
+                        },
+                        success: function(response) {
+                            // Actualizar la lógica de la interfaz después de aceptar el pedido
+                            pedidoMarker.options.aceptado = true;
+                            actualizarBoton();
+                        },
+                        error: function(error) {
+                            console.log(error);
+                        }
+                    });
+                };
+
+                var cancelarEntregaBtn = document.createElement('button');
+                cancelarEntregaBtn.innerHTML = 'Cancelar Entrega';
+                cancelarEntregaBtn.onclick = function() {
+                    pedidoMarker.options.aceptado = false;
+                    actualizarBoton();
+                    pedidoAceptado = false; // Restablecer la bandera al cancelar la entrega
+
+                    $.ajax({
+                        url: '/repartidor/cancelar-pedido/' + pedido.id,
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
                             // Borrar la ruta y referencia al control de ruta
                             if (pedidoMarker.options.rutaControl) {
                                 mymap.removeControl(pedidoMarker.options.rutaControl);
                                 pedidoMarker.options.rutaControl = null;
                             }
 
-                            // Actualizar el contenido del botón en el Popup
-                            popup.setContent(aceptarBtn);
+                            actualizarBoton();
+                        },
+                        error: function(error) {
+                            console.log(error);
                         }
-                    };
-
-                    // Verificar si el pedido está aceptado al cargar la página
-                    if (pedido.estado === 'aceptado') {
-                        pedidoMarker.options.aceptado = true;
-                        actualizarBoton();
-                    }
-
-                    var aceptarBtn = document.createElement('button');
-                    aceptarBtn.innerHTML = 'Aceptar';
-                    aceptarBtn.onclick = function() {
-                        // Cambiar el estado del pedido a "aceptado"
-                        var nuevoEstado = 'aceptado';
-
-                        pedidoMarker.options.aceptado = true;
-                        actualizarBoton();
-
-                        // Realizar la solicitud AJAX para aceptar el pedido con el nuevo estado
-                        $.ajax({
-                            url: '/repartidor/aceptar-pedido/' + pedido.id,
-                            method: 'POST',
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            data: {
-                                estado: nuevoEstado
-                            },
-                            success: function(response) {
-                                console.log(response);
-                            },
-                            error: function(error) {
-                                console.log(error);
-                            }
-                        });
-                    };
-
-
-                    var cancelarEntregaBtn = document.createElement('button');
-                    cancelarEntregaBtn.innerHTML = 'Cancelar Entrega';
-                    cancelarEntregaBtn.onclick = function() {
-                        pedidoMarker.options.aceptado = false;
-                        actualizarBoton();
-                        $.ajax({
-                            url: '/repartidor/cancelar-pedido/' + pedido.id,
-                            method: 'POST',
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            success: function(response) {
-                                // Borrar la ruta y referencia al control de ruta
-                                if (pedidoMarker.options.rutaControl) {
-                                    mymap.removeControl(pedidoMarker.options.rutaControl);
-                                    pedidoMarker.options.rutaControl = null;
-                                }
-
-                                actualizarBoton();
-                            },
-                            error: function(error) {
-                                console.log(error);
-                            }
-                        });
-                    };
-
-                    var popup = L.popup().setContent(aceptarBtn);
-
-                    pedidoMarker.on('click', function() {
-                        popup.setLatLng(pedidoMarker.getLatLng());
-                        mymap.openPopup(popup);
                     });
-                });
+                };
 
-            },
-            error: function(error) {
-                console.log(error);
-            }
-        });
+                var popup = L.popup().setContent(aceptarBtn);
+
+                pedidoMarker.on('click', function() {
+                    popup.setLatLng(pedidoMarker.getLatLng());
+                    mymap.openPopup(popup);
+                });
+            });
+
+        },
+        error: function(error) {
+            console.log(error);
+        }
     });
+});
 </script>
+
 <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
 @stop

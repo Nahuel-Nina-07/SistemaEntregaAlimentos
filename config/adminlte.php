@@ -356,6 +356,11 @@ return [
             ],
         ],
         [
+            'text' => 'Reportes',
+            'route'  => 'reportes.index',
+            'icon' => 'fas fa-cubes',
+        ],
+        [
             'text' => 'Usuarios',
             'route'  => 'usuarios.index',
             'icon' => 'fas fa-user',
@@ -374,7 +379,7 @@ return [
         [
             'text' => 'Pedidos',
             'route'  => 'pedidos-hechos.index',
-            'icon' => 'fas fa-box',
+            'icon' => 'fas fa-history',
         ],
         [
             'text' => 'Solicitar trabajo',
@@ -390,9 +395,9 @@ return [
         ],
         ['header' => 'Reaprtidor'],
         [
-            'text' => 'Categoria Restaurantes',
+            'text' => 'Mapa',
             'route'  => 'pedidosrepartidor.index',
-            'icon' => 'fas fa-utensils',
+            'icon' => 'fas fa-map',
         ],
     ],
 

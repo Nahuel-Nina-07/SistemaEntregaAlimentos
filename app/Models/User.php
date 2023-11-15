@@ -11,6 +11,7 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use App\Notifications\UserResetPassword;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -113,5 +114,24 @@ class User extends Authenticatable
     public function isActive()
     {
         return $this->estado === 'activo';
+    }
+
+    public function detalleRepartidor()
+{
+    return $this->hasOne(DetalleRepartidor::class, 'repartidor_id');
+}
+public function reportes(): HasMany
+    {
+        return $this->hasMany(Reporte::class, 'user_id');
+    }
+
+    public function reportesrepartidor()
+{
+    return $this->hasMany(Reporte::class, 'repartidor_id');
+}
+
+public function repartidor()
+    {
+        return $this->hasOne(DetalleRepartidor::class, 'repartidor_id');
     }
 }

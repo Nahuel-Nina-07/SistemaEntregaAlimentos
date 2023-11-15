@@ -24,6 +24,8 @@ use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PedidosHechosController;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\PedidoRepartidorController;
+use App\Http\Controllers\ReportesController;
+use App\Http\Controllers\DetallesUserController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -162,6 +164,12 @@ Route::middleware(['auth'])->group(function () {
 
     //historial de pedidos
     Route::get('/pedidos-hechos', [PedidosHechosController::class, 'index'])->name('pedidos-hechos.index');
+    //pedidos hechos detalles
+    // Route::get('/pedidos-hechos', [PedidosHechosController::class, 'index']);
+    Route::get('/pedidos-hechos/detalles/{pedidoId}', [PedidosHechosController::class, 'detalles']);
+    // En web.php
+    Route::post('/reportar-repartidor', [PedidosHechosController::class, 'reportarRepartidor'])->name('reportar.repartidor');
+
 
     //lista usuarios
     Route::get('/usuarios', [UsuariosController::class, 'index'])->name('usuarios.index');
@@ -175,8 +183,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/repartidor/mapa', [PedidoRepartidorController::class, 'mostrarMapa'])->name('pedidosrepartidor.index');
     Route::get('/repartidor/pedidos-pendientes', [PedidoRepartidorController::class, 'pedidosPendientes'])->name('pedidosrepartidosr.index');
     Route::post('/repartidor/aceptar-pedido/{pedidoId}', [PedidoRepartidorController::class, 'aceptarPedido'])->name('repartidor.aceptarPedido');
-
     Route::post('/repartidor/cancelar-pedido/{pedidoId}', [PedidoRepartidorController::class, 'cancelarPedido']);
+
+    Route::get('/reportes', [ReportesController::class, 'index'])->name('reportes.index');
+    Route::get('/reportes/{id}', [ReportesController::class, 'detalle'])->name('reportes.detalle');
+
+
+    Route::get('/user/{id}', [DetallesUserController::class, 'show'])->name('user.details');
+    Route::put('/user/{id}', [DetallesUserController::class, 'toggleStatus'])->name('usuariosreport.toggleStatus');
+
+
 
 
 });

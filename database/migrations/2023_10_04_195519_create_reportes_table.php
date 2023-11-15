@@ -13,14 +13,16 @@ return new class extends Migration
     {
         Schema::create('reportes', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('repartidor_id');
-            $table->text('motivo_reporte');
-            $table->dateTime('fecha_reporte');
-            $table->unsignedBigInteger('usuario_id');
+            $table->text('motivo');
+            $table->dateTime('fecha_solicitud')->useCurrent(); 
             $table->timestamps();
+    
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('repartidor_id')->references('id')->on('users');
 
-            $table->foreign('repartidor_id')->references('id')->on('detalle_repartidor');
-            $table->foreign('usuario_id')->references('id')->on('users');
+            $table->unique(['user_id', 'repartidor_id']);
         });
     }
 

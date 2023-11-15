@@ -12,6 +12,7 @@ use App\Notifications\ResetPasswordRejectedNotification;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Role;
 use App\Mail\ContactanosMailble;
+use Illuminate\Support\Facades\Storage;
 
 class AdminSolicitudTrabajoController extends Controller
 {
@@ -69,7 +70,7 @@ class AdminSolicitudTrabajoController extends Controller
                     'name' => $solicitud->nombre_solicitante,
                     'apellido' => $solicitud->apellido_solicitante,
                     'email' => $solicitud->correo_electronico_solicitante,
-                    'profile_photo_path' => str_replace('/storage/images/', 'profile-photos/', $solicitud->imagen_repartidor),
+                    'profile_photo_path' => $this->copyImageToProfilePhotos($solicitud->imagen_repartidor),
                 ]);
                 $detalleRepartidor = DetalleRepartidor::create([
                     'repartidor_id' => $user->id, // Usamos el ID del usuario creado
@@ -79,7 +80,6 @@ class AdminSolicitudTrabajoController extends Controller
                     'tipo_vehiculo' => $solicitud->tipo_vehiculo,
                     'telefono' => $solicitud->telefono_solicitante,
                     'imagen_propiedad_vehiculo' => $solicitud->imagen_propiedad_vehiculo,
-                    'reportado' => false, // Valor por defecto
                     'vehiculoPropio' => $solicitud->vehiculoPropio, // Copiamos el valor de la solicitud
                     'Placa_vehiculo' => $solicitud->Placa_vehiculo,
                 ]);
@@ -108,4 +108,16 @@ class AdminSolicitudTrabajoController extends Controller
 
         return view('solicitudes.show', compact('solicitud'));
     }
+
+    private function copyImageToProfilePhotos($imagePath)
+{
+    $imageName = pathinfo($imagePath, PATHINFO_BASENAME);
+    $newImagePath = 'profile-photos/' . $imageName;
+
+    // Copia la imagen desde storage/public/images a storage/public/profile-photos
+    Storage::copy('images/' . $imageName, $newImagePath);
+
+    // Devuelve la ruta relativa a storage/public/profile-photos para almacenar en la base de datos
+    return 'profile-photos/' . $imageName;
+}
 }
