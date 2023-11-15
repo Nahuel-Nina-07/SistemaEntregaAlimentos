@@ -15,9 +15,16 @@ class PedidoRepartidorController extends Controller
         $pedidos = Pedido::all();
         return view('repartidor', compact('pedidos'));
     }
+
+    public function pedidosPendientes()
+    {
+        $pedidosPendientes = Pedido::whereIn('estado', ['pendiente', 'aceptado'])->get();
+        return response()->json(['pedidos' => $pedidosPendientes]);
+    }
+
     public function aceptarPedido(Request $request, $pedidoId)
     {
-        // Obtén el ID del repartidor autenticado
+        // Verificar que el usuario esté autenticado como repartidor
         $repartidorId = Auth::id();
 
         // Cambiar el estado del pedido a "aceptado"
@@ -25,14 +32,27 @@ class PedidoRepartidorController extends Controller
         $pedido->estado = 'aceptado';
         $pedido->save();
 
-        // Guardar la relación entre el repartidor y el pedido en la tabla intermedia
+        // Crear un nuevo registro en la tabla RepartidoresPedidos
         RepartidoresPedidos::create([
-            'pedido_id' => $pedidoId,
             'repartidor_id' => $repartidorId,
-            'estado' => 'en_camino',
+            'pedido_id' => $pedido->id,
+            'estado' => 'en camino',  // Puedes ajustar el estado según tu lógica
         ]);
 
-        // Retornar la información del pedido (puedes personalizarlo según tus necesidades)
         return response()->json(['message' => 'Pedido aceptado', 'pedido' => $pedido]);
+    }
+
+
+    public function cancelarPedido(Request $request, $pedidoId)
+    {
+        $repartidorId = Auth::id();
+
+        // Cambiar el estado del pedido a "pendiente"
+        $pedido = Pedido::find($pedidoId);
+        $pedido->estado = 'pendiente';
+        $pedido->save();
+
+        // Obtener la relación RepartidoresPedidos y eliminarla
+        return response()->json(['message' => 'Pedido cancelado', 'pedido' => $pedido]);
     }
 }

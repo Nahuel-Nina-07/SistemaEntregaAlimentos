@@ -172,6 +172,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/actualizar-coordenadas/{pedidoId}', [PagoController::class, 'actualizarCoordenadas'])->name('actualizar.coordenadas');
 
     //rutas para repartidor
-    Route::get('/pedidos', [PedidoRepartidorController::class, 'mostrarMapa'])->name('pedidosrepartidor.index');
-    Route::post('/repartidor/aceptar-pedido/{pedidoId}', [PedidoRepartidorController::class, 'aceptarPedido']);
+    Route::get('/repartidor/mapa', [PedidoRepartidorController::class, 'mostrarMapa'])->name('pedidosrepartidor.index');
+    Route::get('/repartidor/pedidos-pendientes', [PedidoRepartidorController::class, 'pedidosPendientes'])->name('pedidosrepartidosr.index');
+    Route::post('/repartidor/aceptar-pedido/{pedidoId}', [PedidoRepartidorController::class, 'aceptarPedido'])->name('repartidor.aceptarPedido');
+
+    Route::post('/repartidor/cancelar-pedido/{pedidoId}', [PedidoRepartidorController::class, 'cancelarPedido']);
+
+
 });
