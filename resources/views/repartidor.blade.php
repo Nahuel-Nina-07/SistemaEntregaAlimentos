@@ -3,14 +3,8 @@
 @section('content')
 <div>
     <div id="map"></div>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </div>
-
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="https://kit.fontawesome.com/0b506ee94b.js" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
-
 @stop
 
 @section('css')
@@ -25,129 +19,200 @@
         line-height: 100px;
     }
 </style>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 @stop
 
 @section('js')
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://kit.fontawesome.com/0b506ee94b.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
 <script>
-    // Inicializar el mapa
+    document.addEventListener('DOMContentLoaded', function() {
     var mymap = L.map('map').setView([0, 0], 11.5);
+    var rutaControl; // Guardar referencia al control de ruta
+    var pedidoAceptado = false; // Bandera para verificar si ya se aceptó un pedido
 
-    // Añadir un mapa base (puedes usar otros proveedores de mapas)
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
-    }).addTo(mymap);
-
-    // Añadir un marcador para la ubicación en tiempo real con un ícono personalizado
-    var customIcon = L.divIcon({
-        className: 'custom-icon',
-        html: '<i class="fa-solid fa-person-biking fa-2xl" style="color: #2465d6;"></i>',
-        iconSize: [30, 30],
-        iconAnchor: [15, 30]
-    });
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(mymap);
 
     var marker = L.marker([0, 0], {
-        icon: customIcon
+        icon: L.divIcon({
+            className: 'custom-icon',
+            html: '<i class="fa-solid fa-person-biking fa-2xl" style="color: #2465d6;"></i>',
+            iconSize: [30, 30],
+            iconAnchor: [15, 30]
+        }),
+        draggable: true
     }).addTo(mymap);
 
-    // Obtener la ubicación en tiempo real usando la API de geolocalización del navegador
-    function onLocationFound(e) {
+    mymap.on('locationfound', function(e) {
         var latlng = e.latlng;
         marker.setLatLng(latlng);
         mymap.setView(latlng, 11.5);
-    }
+    });
 
-    function onLocationError(e) {
+    mymap.on('locationerror', function(e) {
         alert(e.message);
-    }
-
-    mymap.on('locationfound', onLocationFound);
-    mymap.on('locationerror', onLocationError);
+    });
 
     mymap.locate({
         watch: true,
         setView: true,
     });
-</script>
 
-<?php
-// Esto debería ir dentro de la sección js
-$pedidosJson = json_encode($pedidos);
-echo "<script> var pedidos = {$pedidosJson}; </script>";
-?>
+    // Obtener los pedidos pendientes desde el servidor
+    $.ajax({
+        url: '/repartidor/pedidos-pendientes',
+        method: 'GET',
+        success: function(response) {
+            var pedidos = response.pedidos;
 
-<script>
-    // Cambia el ícono del marcador
-    var iconoPendiente = L.divIcon({
-        className: 'custom-icon',
-        html: '<i class="fa-solid fa-circle-user fa-2xl" style="color: #fb0909;"></i>',
-        iconSize: [30, 30],
-        iconAnchor: [15, 30]
-    });
+            pedidos.forEach(function(pedido) {
+                var iconColor = pedido.estado === 'aceptado' ? '#00cc00' : '#ff5733';
 
-    var iconoAceptado = L.divIcon({
-        className: 'custom-icon',
-        html: '<i class="fa-solid fa-circle-check fa-2xl" style="color: #28a745;"></i>',
-        iconSize: [30, 30],
-        iconAnchor: [15, 30]
-    });
+                var pedidoMarker = L.marker([pedido.latitud, pedido.longitud], {
+                    icon: L.divIcon({
+                        className: 'custom-icon',
+                        html: '<i class="fa-solid fa-shopping-bag fa-2xl" style="color: ' + iconColor + ';"></i>',
+                        iconSize: [30, 30],
+                        iconAnchor: [15, 30]
+                    }),
+                    draggable: false,
+                    aceptado: pedido.estado === 'aceptado',
+                    rutaControl: null,
+                }).addTo(mymap);
 
-    // Itera sobre los pedidos y agrega marcadores al mapa solo si el estado es "Pendiente"
-    pedidos.forEach(function(pedido) {
-        var marker;
-        if (pedido.estado === 'pendiente') {
-            marker = L.marker([pedido.latitud, pedido.longitud], {
-                icon: iconoPendiente
+                var actualizarBoton = function() {
+                    if (pedidoMarker.options.aceptado) {
+                        // Después de aceptar el pedido
+                        pedidoMarker.setIcon(L.divIcon({
+                            className: 'custom-icon',
+                            html: '<i class="fa-solid fa-shopping-bag fa-2xl" style="color: #00cc00;"></i>',
+                            iconSize: [30, 30],
+                            iconAnchor: [15, 30]
+                        }));
+
+                        // Crear la ruta solo si no existe
+                        if (!pedidoMarker.options.rutaControl) {
+                            pedidoMarker.options.rutaControl = L.Routing.control({
+                                waypoints: [
+                                    L.latLng(marker.getLatLng().lat, marker.getLatLng().lng),
+                                    L.latLng(pedido.latitud, pedido.longitud)
+                                ],
+                                routeWhileDragging: true,
+                                createMarker: function() {
+                                    return null;
+                                }
+                            }).addTo(mymap);
+                        }
+
+                        // Actualizar el contenido del botón en el Popup
+                        popup.setContent(cancelarEntregaBtn);
+                    } else {
+                        // Después de cancelar la entrega
+                        pedidoMarker.setIcon(L.divIcon({
+                            className: 'custom-icon',
+                            html: '<i class="fa-solid fa-shopping-bag fa-2xl" style="color: #ff5733;"></i>',
+                            iconSize: [30, 30],
+                            iconAnchor: [15, 30]
+                        }));
+
+                        // Borrar la ruta y referencia al control de ruta
+                        if (pedidoMarker.options.rutaControl) {
+                            mymap.removeControl(pedidoMarker.options.rutaControl);
+                            pedidoMarker.options.rutaControl = null;
+                        }
+
+                        // Actualizar el contenido del botón en el Popup
+                        popup.setContent(aceptarBtn);
+                    }
+                };
+
+                // Verificar si el pedido está aceptado al cargar la página
+                if (pedido.estado === 'aceptado') {
+                    pedidoMarker.options.aceptado = true;
+                    actualizarBoton();
+                }
+
+                var aceptarBtn = document.createElement('button');
+                aceptarBtn.innerHTML = 'Aceptar';
+                aceptarBtn.onclick = function() {
+                    // Verificar si ya se aceptó un pedido
+                    if (pedidoAceptado) {
+                        alert('Ya has aceptado un pedido. No puedes aceptar otro.');
+                        return;
+                    }
+
+                    // Cambiar el estado del pedido a "aceptado"
+                    var nuevoEstado = 'aceptado';
+
+                    pedidoMarker.options.aceptado = true;
+                    actualizarBoton();
+                    pedidoAceptado = true; // Establecer la bandera para indicar que se aceptó un pedido
+
+                    // Realizar la solicitud AJAX para aceptar el pedido con el nuevo estado
+                    $.ajax({
+                        url: '/repartidor/aceptar-pedido/' + pedido.id,
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        data: {
+                            estado: nuevoEstado
+                        },
+                        success: function(response) {
+                            // Actualizar la lógica de la interfaz después de aceptar el pedido
+                            pedidoMarker.options.aceptado = true;
+                            actualizarBoton();
+                        },
+                        error: function(error) {
+                            console.log(error);
+                        }
+                    });
+                };
+
+                var cancelarEntregaBtn = document.createElement('button');
+                cancelarEntregaBtn.innerHTML = 'Cancelar Entrega';
+                cancelarEntregaBtn.onclick = function() {
+                    pedidoMarker.options.aceptado = false;
+                    actualizarBoton();
+                    pedidoAceptado = false; // Restablecer la bandera al cancelar la entrega
+
+                    $.ajax({
+                        url: '/repartidor/cancelar-pedido/' + pedido.id,
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            // Borrar la ruta y referencia al control de ruta
+                            if (pedidoMarker.options.rutaControl) {
+                                mymap.removeControl(pedidoMarker.options.rutaControl);
+                                pedidoMarker.options.rutaControl = null;
+                            }
+
+                            actualizarBoton();
+                        },
+                        error: function(error) {
+                            console.log(error);
+                        }
+                    });
+                };
+
+                var popup = L.popup().setContent(aceptarBtn);
+
+                pedidoMarker.on('click', function() {
+                    popup.setLatLng(pedidoMarker.getLatLng());
+                    mymap.openPopup(popup);
+                });
             });
-        } else if (pedido.estado === 'aceptado') {
-            marker = L.marker([pedido.latitud, pedido.longitud], {
-                icon: iconoAceptado
-            });
-        }
 
-        // Agrega un pop-up con los botones "Aceptar" y "Rechazar"
-        marker.bindPopup(`
-        <b>Pedido ${pedido.id}</b><br>
-        <button onclick="aceptarPedido(${pedido.id}, ${pedido.latitud}, ${pedido.longitud})">Aceptar</button>
-        <button onclick="rechazarPedido(${pedido.id})">Rechazar</button>
-    `);
-
-        marker.addTo(mymap);
-    });
-
-    var routingControl; 
-
-    function aceptarPedido(pedidoId, latitudPedido, longitudPedido) {
-    // Realiza una solicitud AJAX para cambiar el estado del pedido
-    fetch(`/repartidor/aceptar-pedido/${pedidoId}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         },
-        body: JSON.stringify({})
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data.message);
-
-        // Limpia las capas anteriores de la ruta si existen
-        if (routingControl) {
-            mymap.removeControl(routingControl);
+        error: function(error) {
+            console.log(error);
         }
-
-        // Traza la ruta desde tu ubicación hasta la ubicación del pedido
-        routingControl = L.Routing.control({
-            waypoints: [
-                L.latLng(0, 0),  // Tu ubicación (actualízala con la ubicación del repartidor)
-                L.latLng(latitudPedido, longitudPedido)  // Ubicación del pedido
-            ],
-            routeWhileDragging: true
-        }).addTo(mymap);
-    })
-    .catch(error => {
-        console.error('Error al aceptar el pedido:', error);
     });
-}
+});
 </script>
+
 <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
 @stop

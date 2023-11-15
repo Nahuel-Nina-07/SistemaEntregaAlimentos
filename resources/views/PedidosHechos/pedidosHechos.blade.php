@@ -4,9 +4,6 @@
 
 @section('title', 'Dashboard')
 
-@section('content_header')
-<h1>Dashboard</h1>
-@stop
 
 @section('content')
 <div class="content">
@@ -91,7 +88,7 @@
                             </td>
                             <td>{{ $pedido->estado }}</td>
                             <td>
-                                <a href="" class="btn btn-primary">Detalles</a>
+                            <a href="{{ url('/pedidos-hechos/detalles/' . $pedido->id) }}" class="btn btn-primary">Ver Detalles</a>
                                 <button class="btn btn-danger">Cancelar Pedido</button>
                             </td>
                         </tr>

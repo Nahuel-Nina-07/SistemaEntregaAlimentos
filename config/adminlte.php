@@ -363,25 +363,34 @@ return [
             ],
         ],
         [
+            'text' => 'Reportes',
+            'route'  => 'reportes.index',
+            'icon' => 'fas fa-cubes',
+            'can' => 'reportes.index',
+        ],
+        [
             'text' => 'Usuarios',
             'route'  => 'usuarios.index',
             'icon' => 'fas fa-users',
+            'can' => 'usuarios.index',
         ],
         ['header' => 'Usuario'],
         [
             'text' => 'Restaurantes',
             'route'  => 'categorias.indexlistado',
             'icon' => 'fas fa-utensils',
+            'can' => 'categorias.indexlistado',
         ],
         [
             'text' => 'Productos',
             'route'  => 'categoriasProducto.indexlistado',
             'icon' => 'fas fa-cubes',
+            'can' => 'categoriasProducto.indexlistado',
         ],
         [
             'text' => 'Pedidos',
             'route'  => 'pedidos-hechos.index',
-            'icon' => 'fas fa-box',
+            'icon' => 'fas fa-history',
         ],
         [
             'text' => 'Solicitar trabajo',

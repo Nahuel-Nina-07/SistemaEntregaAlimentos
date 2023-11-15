@@ -9,20 +9,19 @@ class Reporte extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'repartidor_id',
-        'motivo_reporte',
-        'fecha_reporte',
-        'usuario_id',
-    ];
+    use HasFactory;
 
-    public function repartidor()
-    {
-        return $this->belongsTo(DetalleRepartidor::class, 'repartidor_id');
-    }
+    protected $fillable = ['user_id', 'repartidor_id', 'motivo'];
 
+    // Relación con el usuario que realizó el reporte
     public function usuario()
     {
-        return $this->belongsTo(User::class, 'usuario_id');
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    // Relación con el repartidor reportado
+    public function repartidor()
+    {
+        return $this->belongsTo(User::class, 'repartidor_id');
     }
 }

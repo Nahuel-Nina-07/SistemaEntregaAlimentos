@@ -11,16 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('repartidores_pedidos', function (Blueprint $table) {
+        Schema::create('asignacion_pedidos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('pedido_id');
             $table->unsignedBigInteger('repartidor_id');
-            $table->string('estado');
-            $table->foreign('pedido_id')->references('id')->on('pedidos');
-            $table->foreign('repartidor_id')->references('id')->on('detalle_repartidor');
+            $table->string('estado_asignacion')->default('pendiente');
             $table->timestamps();
 
-            $table->unique(['pedido_id', 'repartidor_id']);
+            $table->foreign('pedido_id')->references('id')->on('pedidos');
+            $table->foreign('repartidor_id')->references('id')->on('users');
         });
     }
 
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('repartidores_pedidos');
+        Schema::dropIfExists('asignacion_pedidos');
     }
 };
