@@ -359,22 +359,26 @@ return [
             'text' => 'Reportes',
             'route'  => 'reportes.index',
             'icon' => 'fas fa-cubes',
+            'can' => 'reportes.index',
         ],
         [
             'text' => 'Usuarios',
             'route'  => 'usuarios.index',
             'icon' => 'fas fa-user',
+            'can' => 'usuarios.index',
         ],
         ['header' => 'Usuario'],
         [
-            'text' => 'Categoria Restaurantes',
+            'text' => 'Restaurantes',
             'route'  => 'categorias.indexlistado',
             'icon' => 'fas fa-utensils',
+            'can' => 'categorias.indexlistado',
         ],
         [
-            'text' => 'Categoria Productos',
+            'text' => 'Productos',
             'route'  => 'categoriasProducto.indexlistado',
             'icon' => 'fas fa-box',
+            'can' => 'categoriasProducto.indexlistado',
         ],
         [
             'text' => 'Pedidos',

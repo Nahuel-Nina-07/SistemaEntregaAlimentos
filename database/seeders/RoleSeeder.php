@@ -19,12 +19,22 @@ class RoleSeeder extends Seeder
         $repartidor=Role::create(['name' => 'repartidor']);
         $usuario=Role::create(['name' => 'usuario']);
 
-        Permission::create(['name' => 'categoriasProducto.indexlistado'])->syncRoles([$admin, $repartidor, $usuario, $revisor]);
+        Permission::create(['name' => 'categoriasProducto.indexlistado'])->syncRoles([$admin, $usuario,]);
+        Permission::create(['name' => 'producto.por-categoria'])->syncRoles([$admin, $usuario,]);
+
+        Permission::create(['name' => 'categorias.indexlistado'])->syncRoles([$admin, $usuario,]);
+        Permission::create(['name' => 'restaurantes.por-categoria'])->syncRoles([$admin, $usuario,]);
 
         Permission::create(['name' => 'admin.solicitudes'])->assignRole([$admin]);
         Permission::create(['name' => 'solicitudes.show'])->assignRole([$admin]);
         // Permission::create(['name' => 'solicitudes.show'])->assignRole([$admin]);
         Permission::create(['name' => 'solicitudes.aceptadas'])->assignRole([$admin]);
+        //reportes
+        Permission::create(['name' => 'reportes.index'])->assignRole([$admin]);
+        Permission::create(['name' => 'reportes.detalle'])->assignRole([$admin]);
+        //usuarios
+        Permission::create(['name' => 'usuarios.index'])->assignRole([$admin]);
+        Permission::create(['name' => 'usuarios.toggleStatus'])->assignRole([$admin]);
 
         Permission::create(['name' => 'admin.solicitudesRestaurantes'])->assignRole([$admin]);
         Permission::create(['name' => 'restaurantes.show'])->assignRole([$admin]);

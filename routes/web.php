@@ -142,14 +142,12 @@ Route::middleware(['auth'])->group(function () {
 
 
     //listado restaurantes
-    Route::get('/categorias-restaurantes', [ListadoCategoriaRestauranteController::class, 'index'])->name('categorias.indexlistado');
-    Route::get('/restaurantes-por-categoria/{categoria_id}', [ListadoCategoriaRestauranteController::class, 'restaurantesPorCategoria'])
-        ->name('restaurantes.por-categoria');
+    Route::get('/categorias-restaurantes', [ListadoCategoriaRestauranteController::class, 'index'])->middleware('can:categorias.indexlistado')->name('categorias.indexlistado');
+    Route::get('/restaurantes-por-categoria/{categoria_id}', [ListadoCategoriaRestauranteController::class, 'restaurantesPorCategoria'])->middleware('can:restaurantes.por-categoria')->name('restaurantes.por-categoria');
 
     //listado productos
-    Route::get('/categorias-producto', [ListadoCategoriaProductoController::class, 'index'])->name('categoriasProducto.indexlistado');
-    Route::get('/producto-categoria/{categoria_id}', [ListadoCategoriaProductoController::class, 'productoCategoria'])
-        ->name('producto.por-categoria');
+    Route::get('/categorias-producto', [ListadoCategoriaProductoController::class, 'index'])->middleware('can:categoriasProducto.indexlistado')->name('categoriasProducto.indexlistado');
+    Route::get('/producto-categoria/{categoria_id}', [ListadoCategoriaProductoController::class, 'productoCategoria'])->middleware('producto.por-categoria')->name('producto.por-categoria');
 
     //carrito
     Route::post('/agregar-al-pedido/{producto}', [PedidoController::class, 'agregarAlPedido'])->name('agregar-al-pedido');
@@ -172,9 +170,9 @@ Route::middleware(['auth'])->group(function () {
 
 
     //lista usuarios
-    Route::get('/usuarios', [UsuariosController::class, 'index'])->name('usuarios.index');
+    Route::get('/usuarios', [UsuariosController::class, 'index'])->middleware('can:usuarios.index')->name('usuarios.index');
     //cambiar estado a activo
-    Route::put('/usuarios/toggle-status/{id}', [UsuariosController::class, 'toggleStatus'])->name('usuarios.toggleStatus');
+    Route::put('/usuarios/toggle-status/{id}', [UsuariosController::class, 'toggleStatus'])->middleware('can:usuarios.toggleStatus')->name('usuarios.toggleStatus');
 
     //coordenadas
     Route::post('/actualizar-coordenadas/{pedidoId}', [PagoController::class, 'actualizarCoordenadas'])->name('actualizar.coordenadas');
@@ -185,8 +183,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/repartidor/aceptar-pedido/{pedidoId}', [PedidoRepartidorController::class, 'aceptarPedido'])->name('repartidor.aceptarPedido');
     Route::post('/repartidor/cancelar-pedido/{pedidoId}', [PedidoRepartidorController::class, 'cancelarPedido']);
 
-    Route::get('/reportes', [ReportesController::class, 'index'])->name('reportes.index');
-    Route::get('/reportes/{id}', [ReportesController::class, 'detalle'])->name('reportes.detalle');
+    Route::get('/reportes', [ReportesController::class, 'index'])->middleware('can:reportes.index')->name('reportes.index');
+    Route::get('/reportes/{id}', [ReportesController::class, 'detalle'])->middleware('can:reportes.detalle')->name('reportes.detalle');
 
 
     Route::get('/user/{id}', [DetallesUserController::class, 'show'])->name('user.details');
