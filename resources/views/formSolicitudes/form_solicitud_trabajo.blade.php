@@ -73,7 +73,7 @@
       justify-content:center;
       align-items:center;
       width:100%;
-      height:100%;
+      height:120vh;
     }
     .contenedor-form{
       width:30%;
@@ -81,14 +81,15 @@
       background-color:#f2f2f2;
       border-radius:15px;
       margin-right:5%;
-      margin-top:-60%;
-      margin-bottom:9%;
+      margin-top:-55%;
+      margin-bottom:1%;
           
     }
     .alinear-derecha{
       width:100%;
       display:flex;
       justify-content:end;
+      margin-bottom:0%;
     }
     footer{
             text-align:center;
