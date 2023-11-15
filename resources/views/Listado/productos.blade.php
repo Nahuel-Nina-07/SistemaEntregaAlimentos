@@ -17,7 +17,7 @@
                         <i class="fa fa-star-half-o" aria-hidden="true"></i>
                         <i class="fa fa-star-o" aria-hidden="true"></i>
                     </span>
-                    <p class="information">" Especially good for container gardening, the Angelonia will keep blooming all summer even if old flowers are removed. Once tall enough to cut, bring them inside and you'll notice a light scent that some say is reminiscent of apples. "</p>
+                    <p class="information">{{ $producto->descripcion }}</p>
                     <div class="control">
                         <button class="btn">
                             <span class="price">BOB {{ $producto->precio }}</span>
@@ -31,12 +31,8 @@
                     <div class="info">
                         <h2>{{ $producto->nombre }}</h2>
                         <ul>
-                            <li><strong>Sun Needs: </strong>Full Sun</li>
-                            <li><strong>Soil Needs: </strong>Damp</li>
-                            <li><strong>Zones: </strong>9 - 11</li>
-                            <li><strong>Height: </strong>2 - 3 feet</li>
-                            <li><strong>Blooms in: </strong>Mid‑Summer - Mid‑Fall</li>
-                            <li><strong>Features: </strong>Tolerates heat</li>
+                            <li><strong>Descripción: </strong>{{$producto->descripcion}}</li>
+                            <li><strong>Precio: </strong>{{$producto->precio}}</li>
                         </ul>
                     </div>
                 </div>

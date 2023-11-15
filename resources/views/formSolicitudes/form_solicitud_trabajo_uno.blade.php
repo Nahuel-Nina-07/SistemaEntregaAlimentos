@@ -62,7 +62,7 @@
           justify-content:center;
           align-items:center;
           width:100%;
-          height:600px;
+          height:90vh;
         }
         .btn{
           background-color:#FF416C;
@@ -78,13 +78,14 @@
             background-color:#f2f2f2;
             border-radius:15px;
             margin-right:5%;
-            margin-top:-35%;
+            margin-top:-40%;
             margin-bottom:5%;
         }
         .alinear-derecha{
             width:100%;
             display:flex;
             justify-content:end;
+            margin-bottom:0%;
         }
         .boton-subir{
             margin-top:3%;
@@ -94,6 +95,7 @@
             background-color:#FF416C;
             color: #f2f2f2;
             height:auto;
+            margin:0;
         }
         .text-footer{
             margin:0;

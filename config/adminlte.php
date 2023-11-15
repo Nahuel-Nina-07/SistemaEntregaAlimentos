@@ -16,8 +16,8 @@ return [
     |
     */
 
-    'title' => 'Proyecto Almanaque',
-    'title_prefix' => 'Proyecto Almanaque |',
+    'title' => 'GoVin',
+    'title_prefix' => '',
     'title_postfix' => '',
 
     /*
@@ -194,9 +194,9 @@ return [
     'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => '',
-    'classes_sidebar' => 'sidebar-dark-primary elevation-4',
+    'classes_sidebar' => 'sidebar-dark-maroon elevation-4',
     'classes_sidebar_nav' => '',
-    'classes_topnav' => 'navbar-white navbar-light',
+    'classes_topnav' => 'navbar-maroon navbar-light',
     'classes_topnav_nav' => 'navbar-expand',
     'classes_topnav_container' => 'container',
 
@@ -321,22 +321,29 @@ return [
             'icon' => 'fas fa-user',
         ],
         [
-            'text' => 'Crear Categoria Productos',
-            'route'  => 'categorias.index',
-            'icon' => 'fas fa-box',
-            'can'  => 'categorias.index',
-        ],
-        [
-            'text' => 'Crear Categoria Restaurantes',
-            'route'  => 'categoriasRestaurantes.index',
-            'icon' => 'fas fa-utensils',
-            'can'  => 'categoriasRestaurantes.index',
-        ],
-        [
-            'text' => 'Crear Productos',
-            'route'  => 'productos.index',
-            'icon' => 'fas fa-cubes',
-            'can'  => 'productos.index',
+            'text'    => 'Gestionar',
+            'icon'    => 'fas fa-fw fa-pencil',
+            'submenu' => [
+                [
+                    'text'    => 'Categoria Productos',
+                    'route'     => 'categorias.index',
+                    'icon' => 'fas fa-box',
+                    'can'  => 'categorias.index',
+                ],
+                [
+                    'text'    => 'Categoria Restaurantes',
+                    'route'  => 'categoriasRestaurantes.index',
+                    'icon' => 'fas fa-utensils',
+                    'can'  => 'categoriasRestaurantes.index',
+                ],
+                [
+                    'text' => 'Productos',
+                    'route'  => 'productos.index',
+                    'icon' => 'fas fa-cubes',
+                    'can'  => 'productos.index',
+                    
+                ],
+            ],
         ],
         [
             'text'    => 'Solicitudes',
@@ -358,18 +365,18 @@ return [
         [
             'text' => 'Usuarios',
             'route'  => 'usuarios.index',
-            'icon' => 'fas fa-user',
+            'icon' => 'fas fa-users',
         ],
         ['header' => 'Usuario'],
         [
-            'text' => 'Categoria Restaurantes',
+            'text' => 'Restaurantes',
             'route'  => 'categorias.indexlistado',
             'icon' => 'fas fa-utensils',
         ],
         [
-            'text' => 'Categoria Productos',
+            'text' => 'Productos',
             'route'  => 'categoriasProducto.indexlistado',
-            'icon' => 'fas fa-box',
+            'icon' => 'fas fa-cubes',
         ],
         [
             'text' => 'Pedidos',
@@ -386,13 +393,14 @@ return [
             'text' => 'Agregar su negocio',
             'route' => 'registerRestaurante.uneteRestaurante',
             'icon' => 'fas fa-store', 
-            'topnav_right' => true, 
+            'topnav_right' => true,
+            'text-color'=> 'white', 
         ],
-        ['header' => 'Reaprtidor'],
+        ['header' => 'Repartidor'],
         [
-            'text' => 'Categoria Restaurantes',
+            'text' => 'Mapa',
             'route'  => 'pedidosrepartidor.index',
-            'icon' => 'fas fa-utensils',
+            'icon' => 'fas fa-map',
         ],
     ],
 

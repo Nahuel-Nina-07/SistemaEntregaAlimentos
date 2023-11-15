@@ -74,7 +74,7 @@
       justify-content:center;
       align-items:center;
       width:100%;
-      height:600px;
+      height:100%;
     }
     .contenedor-form{
       width:30%;
@@ -82,8 +82,8 @@
       background-color:#f2f2f2;
       border-radius:15px;
       margin-right:5%;
-      margin-top:-35%;
-      margin-bottom:5%;
+      margin-top:-60%;
+      margin-bottom:20%;
           
     }
     .alinear-derecha{
@@ -133,7 +133,7 @@
           </svg>
           Ingresa tus datos detallados
         </h1>
-        <p>Por normas de seguridad necesitamos que lenes todos los campos.</p>
+        <p>Por normas de seguridad necesitamos que llenes todos los campos.</p>
         <form method="POST" action="{{ url('/guardar-formRestaurante') }}" enctype="multipart/form-data">
           @csrf
 
