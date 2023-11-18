@@ -147,7 +147,7 @@ Route::middleware(['auth'])->group(function () {
 
     //listado productos
     Route::get('/categorias-producto', [ListadoCategoriaProductoController::class, 'index'])->middleware('can:categoriasProducto.indexlistado')->name('categoriasProducto.indexlistado');
-    Route::get('/producto-categoria/{categoria_id}', [ListadoCategoriaProductoController::class, 'productoCategoria'])->middleware('producto.por-categoria')->name('producto.por-categoria');
+    Route::get('/producto-categoria/{categoria_id}', [ListadoCategoriaProductoController::class, 'productoCategoria'])->name('producto.por-categoria');
 
     //carrito
     Route::post('/agregar-al-pedido/{producto}', [PedidoController::class, 'agregarAlPedido'])->name('agregar-al-pedido');

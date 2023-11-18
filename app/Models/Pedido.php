@@ -33,4 +33,9 @@ class Pedido extends Model
         return $this->belongsToMany(DetalleRepartidor::class, 'repartidores_pedidos', 'pedido_id', 'repartidor_id')
             ->withPivot('estado');
     }
+
+    public function repartidorAceptado()
+    {
+        return $this->belongsTo(User::class, 'repartidor_id_aceptado');
+    }
 }
