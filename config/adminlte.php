@@ -417,6 +417,11 @@ return [
             'icon' => 'fas fa-map',
             'can' => 'pedidosrepartidor.index'
         ],
+        [
+            'text' => 'Seguimiento Repartidores',
+            'route'  => 'repartidores.mapa',
+            'icon' => 'fas fa-map',
+        ],
     ],
 
     /*

@@ -7,6 +7,7 @@ use App\Models\Pedido;
 use App\Models\AsignacionPedido;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\DetalleRepartidor;
 
 
 class PedidoRepartidorController extends Controller
@@ -60,11 +61,11 @@ class PedidoRepartidorController extends Controller
         // Obtener el repartidor autenticado
         $repartidor = Auth::user();
 
-    // Verificar si el pedido ya ha sido aceptado
-    $pedido = Pedido::find($pedidoId);
-    if ($pedido->estado === 'aceptado') {
-        return response()->json(['message' => 'Este pedido ya ha sido aceptado.']);
-    }
+        // Verificar si el pedido ya ha sido aceptado
+        $pedido = Pedido::find($pedidoId);
+        if ($pedido->estado === 'aceptado') {
+            return response()->json(['message' => 'Este pedido ya ha sido aceptado.']);
+        }
 
         // Verificar si el repartidor ya tiene un pedido aceptado
         $pedidoAsignado = AsignacionPedido::where('repartidor_id', $repartidor->id)
@@ -120,4 +121,37 @@ class PedidoRepartidorController extends Controller
         // Retornar la respuesta JSON
         return response()->json(['message' => 'Pedido cancelado', 'pedido' => $pedido]);
     }
+
+    public function guardarCoordenadas(Request $request)
+    {
+        // Validar y guardar las coordenadas en la tabla detalle_repartidor
+        // Puedes usar el modelo DetalleRepartidor para interactuar con la base de datos
+        // Asegúrate de tener la importación adecuada al principio del archivo
+
+        $repartidorId = auth()->user()->id; // Obtén el ID del repartidor autenticado
+        $latitud = $request->input('latitud');
+        $longitud = $request->input('longitud');
+
+        DetalleRepartidor::where('repartidor_id', $repartidorId)
+            ->update([
+                'ultima_latitud' => $latitud,
+                'ultima_longitud' => $longitud
+            ]);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function borrarCoordenadas(Request $request)
+{
+    $repartidorId = auth()->user()->id;
+
+    // Borrar las coordenadas del repartidor en la tabla detalle_repartidor
+    DetalleRepartidor::where('repartidor_id', $repartidorId)
+        ->update([
+            'ultima_latitud' => null,
+            'ultima_longitud' => null
+        ]);
+
+    return response()->json(['success' => true]);
+}
 }

@@ -26,6 +26,7 @@ use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\PedidoRepartidorController;
 use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\DetallesUserController;
+use App\Http\Controllers\RepartidoresController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -182,6 +183,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/repartidor/pedidos-pendientes', [PedidoRepartidorController::class, 'pedidosPendientes'])->middleware('can:pedidosrepartidosr.index')->name('pedidosrepartidosr.index');
     Route::post('/repartidor/aceptar-pedido/{pedidoId}', [PedidoRepartidorController::class, 'aceptarPedido'])->middleware('can:repartidor.aceptarPedido')->name('repartidor.aceptarPedido');
     Route::post('/repartidor/cancelar-pedido/{pedidoId}', [PedidoRepartidorController::class, 'cancelarPedido'])->middleware('can:repartidor.detalles')->name('repartidor.detalles');
+    // En tu archivo routes/web.php
+    Route::post('/repartidor/guardar-coordenadas', [PedidoRepartidorController::class, 'guardarCoordenadas'])->name('repartidor.guardarCoordenadas');
+    // En tu archivo de rutas web.php o routes/web.php
+    Route::post('/repartidor/borrar-coordenadas', [PedidoRepartidorController::class, 'borrarCoordenadas'])->name('repartidor.borrarCoordenadas');
+
 
     Route::get('/reportes', [ReportesController::class, 'index'])->middleware('can:reportes.index')->name('reportes.index');
     Route::get('/reportes/{id}', [ReportesController::class, 'detalle'])->middleware('can:reportes.detalle')->name('reportes.detalle');
@@ -191,6 +197,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/user/{id}', [DetallesUserController::class, 'toggleStatus'])->name('usuariosreport.toggleStatus');
 
 
-
+    // ver repartidores
+    Route::get('/repartidores', [RepartidoresController::class, 'mostrarRepartidores'])->name('repartidores.mapa');
 
 });

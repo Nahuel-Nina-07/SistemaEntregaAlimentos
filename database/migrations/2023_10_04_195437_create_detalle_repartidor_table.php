@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('imagen_propiedad_vehiculo')->nullable();
             $table->integer('Placa_vehiculo');
             $table->boolean('vehiculoPropio')->default(true);
+            $table->decimal('ultima_latitud', 10, 7)->nullable();
+            $table->decimal('ultima_longitud', 10, 7)->nullable();
             $table->timestamps();
 
             $table->foreign('repartidor_id')->references('id')->on('users');

@@ -54,6 +54,8 @@
             var latlng = e.latlng;
             marker.setLatLng(latlng);
             mymap.setView(latlng, 11.5);
+
+            guardarCoordenadasRepartidor(latlng.lat, latlng.lng);
         });
 
         mymap.on('locationerror', function(e) {
@@ -63,6 +65,14 @@
         mymap.locate({
             watch: true,
             setView: true,
+        });
+
+        mymap.on('locationfound', function(e) {
+            var latlng = e.latlng;
+            marker.setLatLng(latlng);
+
+            // Guardar las coordenadas actualizadas del repartidor
+            guardarCoordenadasRepartidor(latlng.lat, latlng.lng);
         });
 
         // Obtener los pedidos pendientes desde el servidor
@@ -241,6 +251,53 @@
             // Almacenar la información sobre el pedido aceptado en el almacenamiento local
             localStorage.setItem('pedidoAceptado', JSON.stringify(pedidoAceptado));
         };
+
+        function guardarCoordenadasRepartidor(latitud, longitud) {
+            $.ajax({
+                url: '/repartidor/guardar-coordenadas',
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    latitud: latitud,
+                    longitud: longitud
+                },
+                success: function(response) {
+                    console.log('Coordenadas guardadas exitosamente.');
+                },
+                error: function(error) {
+                    console.log('Error al guardar las coordenadas:', error);
+                }
+            });
+        }
+
+        window.addEventListener('beforeunload', function() {
+            // Enviar una solicitud al servidor para borrar las coordenadas
+            borrarCoordenadasRepartidor();
+        });
+
+        window.addEventListener('unload', function() {
+            // Enviar una solicitud al servidor para borrar las coordenadas
+            borrarCoordenadasRepartidor();
+        });
+
+        function borrarCoordenadasRepartidor() {
+            $.ajax({
+                url: '/repartidor/borrar-coordenadas',
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                 // Asegura que la solicitud se complete antes de que la página se cierre
+                success: function(response) {
+                    console.log('Coordenadas del repartidor borradas exitosamente.');
+                },
+                error: function(error) {
+                    console.log('Error al borrar las coordenadas del repartidor:', error);
+                }
+            });
+        }
     });
 </script>
 

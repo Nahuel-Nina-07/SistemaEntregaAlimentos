@@ -23,6 +23,8 @@ class DetalleRepartidor extends Model
         'reportado',
         'Placa_vehiculo',
         'vehiculoPropio',
+        'ultima_latitud',
+        'ultima_longitud',
     ];
 
     public function repartidor()
