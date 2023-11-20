@@ -19,7 +19,7 @@ class PedidoRepartidorController extends Controller
         // Obtener los pedidos pendientes y los aceptados por el repartidor actual
         $pedidos = Pedido::where(function ($query) use ($repartidor) {
             // Pedidos pendientes o aceptados por el repartidor actual
-            $query->whereIn('estado', ['pendiente', 'aceptado'])
+            $query->whereIn('estado', ['pendiente', 'en camino'])
                 ->orWhere('repartidor_id_aceptado', $repartidor->id);
         })->get();
 
@@ -32,7 +32,7 @@ class PedidoRepartidorController extends Controller
 
         // Obtener el pedido aceptado por el repartidor actual
         $pedidoAceptado = Pedido::where('repartidor_id_aceptado', $repartidor->id)
-            ->where('estado', 'aceptado')
+            ->where('estado', 'en camino')
             ->first();
 
         // Obtener los pedidos pendientes (no aceptados por el repartidor actual)
@@ -43,7 +43,7 @@ class PedidoRepartidorController extends Controller
                 ->where('asignacion_pedidos.repartidor_id', '!=', $repartidor->id)
                 ->where('asignacion_pedidos.estado_asignacion', 'en camino');
         })
-            ->whereIn('estado', ['pendiente', 'aceptado'])
+            ->whereIn('estado', ['pendiente', 'en camnino'])
             ->get();
 
         // Si hay un pedido aceptado, lo agregamos a la colección
@@ -63,7 +63,7 @@ class PedidoRepartidorController extends Controller
 
         // Verificar si el pedido ya ha sido aceptado
         $pedido = Pedido::find($pedidoId);
-        if ($pedido->estado === 'aceptado') {
+        if ($pedido->estado === 'en camino') {
             return response()->json(['message' => 'Este pedido ya ha sido aceptado.']);
         }
 
@@ -79,7 +79,7 @@ class PedidoRepartidorController extends Controller
 
         // Cambiar el estado del pedido a "aceptado"
         $pedido = Pedido::find($pedidoId);
-        $pedido->estado = 'aceptado';
+        $pedido->estado = 'en camino';
         $pedido->repartidor_id_aceptado = $repartidor->id;
         $pedido->save();
 
@@ -93,7 +93,7 @@ class PedidoRepartidorController extends Controller
         // Obtener solo los pedidos pendientes y el pedido aceptado por el repartidor actual
         $pedidos = Pedido::where(function ($query) use ($repartidor) {
             // Pedidos pendientes o aceptados por el repartidor actual
-            $query->whereIn('estado', ['pendiente', 'aceptado'])
+            $query->whereIn('estado', ['pendiente', 'en camino'])
                 ->orWhere('repartidor_id_aceptado', $repartidor->id);
         })->get();
 

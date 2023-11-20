@@ -35,6 +35,9 @@ class User extends Authenticatable
         'google_id',
         'profile_photo_path',
         'status',
+        'reportes_count',
+        'fecha_incorporacion',
+        'telefono',
     ];
 
     /**
@@ -133,5 +136,14 @@ public function reportes(): HasMany
 public function repartidor()
     {
         return $this->hasOne(DetalleRepartidor::class, 'repartidor_id');
+    }
+
+    public function detallesRepartidor()
+{
+    return $this->hasOne(DetalleRepartidor::class, 'user_id');
+}
+public function pedidos()
+    {
+        return $this->hasMany(Pedido::class, 'usuario_id');
     }
 }

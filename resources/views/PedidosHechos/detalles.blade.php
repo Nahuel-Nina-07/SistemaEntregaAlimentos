@@ -12,11 +12,11 @@
         <div class="card-body">
             @if($repartidor)
             <div class="d-flex align-items-center mb-3">
-                <img src="{{ $repartidor->profile_photo_url }}" alt="Imagen del Repartidor" class="rounded-circle mr-3" style="width: 50px; height: 50px;">
+                <img src="{{ $repartidor->profile_photo_url }}" alt="Imagen del Repartidor" class="rounded-circle mr-3" style="width: 80px; height: 80px;">
                 <div>
-                    <p class="mb-2">Nombre: {{ $repartidor->name }} {{ $repartidor->apellido }}</p>
-                    <p class="mb-2">Teléfono: {{ $repartidor->detalleRepartidor->telefono }}</p>
-                    <p class="mb-2">Nro Placa: {{ $repartidor->detalleRepartidor->Placa_vehiculo }}</p>
+                    <p class="mb-2"><b>Nombre:</b> {{ $repartidor->name }} {{ $repartidor->apellido }}</p>
+                    <p class="mb-2"><b>Teléfono:</b> {{ $repartidor->telefono }}</p>
+                    <p class="mb-2"><b>Nro Placa:</b> {{ $repartidor->detalleRepartidor->Placa_vehiculo }}</p>
                     <!-- Agrega más detalles del repartidor según sea necesario -->
                 </div>
             </div>

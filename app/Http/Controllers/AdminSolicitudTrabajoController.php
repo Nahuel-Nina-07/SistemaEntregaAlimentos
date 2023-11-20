@@ -71,14 +71,13 @@ class AdminSolicitudTrabajoController extends Controller
                     'apellido' => $solicitud->apellido_solicitante,
                     'email' => $solicitud->correo_electronico_solicitante,
                     'profile_photo_path' => $this->copyImageToProfilePhotos($solicitud->imagen_repartidor),
+                    'telefono' => $solicitud->telefono_solicitante,
                 ]);
                 $detalleRepartidor = DetalleRepartidor::create([
                     'repartidor_id' => $user->id, // Usamos el ID del usuario creado
-                    'fecha_incorporacion' => now(), // Fecha actual
                     'ci_numero' => $solicitud->ci_numero, // Copiamos el CI desde la solicitud
                     'edad' => $solicitud->edad,
                     'tipo_vehiculo' => $solicitud->tipo_vehiculo,
-                    'telefono' => $solicitud->telefono_solicitante,
                     'imagen_propiedad_vehiculo' => $solicitud->imagen_propiedad_vehiculo,
                     'vehiculoPropio' => $solicitud->vehiculoPropio, // Copiamos el valor de la solicitud
                     'Placa_vehiculo' => $solicitud->Placa_vehiculo,

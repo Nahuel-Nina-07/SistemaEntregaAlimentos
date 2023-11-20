@@ -21,11 +21,12 @@
                 <div class="social-container">
                     <a href="/auth/redirect" class="social"><i class="fab fa-facebook-f"></i></a>
                     <a href="/google-auth/redirect" class="social"><i class="fab fa-google-plus-g"></i></a>
-                    <a href="{{ route('trabajando') }}" class="social"><i class="fab fa-linkedin-in"></i></a>
+                    <!-- <a href="{{ route('trabajando') }}" class="social"><i class="fab fa-linkedin-in"></i></a> -->
                 </div>
                 <span>o usa tu correo electrónico para registrarte</span>
                 <input type="text" placeholder="Nombre" name="name" value="{{ old('name') }}" required autofocus />
                 <input type="text" placeholder="Apelldo" name="apellido" value="{{ old('apellido') }}" required autofocus />
+                <input type="number" placeholder="Telefono" name="telefono" value="{{ old('telefono') }}" required autofocus />
                 <input type="email" placeholder="Correo Electrónico" name="email" value="{{ old('email') }}" required />
                 <input type="password" placeholder="Contraseña" name="password" required />
                 <input type="password" placeholder="Confirmar Contraseña" name="password_confirmation" required />
@@ -39,7 +40,7 @@
                 <div class="social-container">
                     <a href="/auth/redirect" class="social"><i class="fab fa-facebook-f"></i></a>
                     <a href="/google-auth/redirect" class="social"><i class="fab fa-google-plus-g"></i></a>
-                    <a href="{{ route('trabajando') }}" class="social"><i class="fab fa-linkedin-in"></i></a>
+                    <!-- <a href="{{ route('trabajando') }}" class="social"><i class="fab fa-linkedin-in"></i></a> -->
                 </div>
                 <span>o usa tu cuenta</span>
                 @if (session('error'))

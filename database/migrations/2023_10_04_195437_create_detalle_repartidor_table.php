@@ -14,11 +14,10 @@ return new class extends Migration
         Schema::create('detalle_repartidor', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('repartidor_id');
-            $table->dateTime('fecha_incorporacion');
             $table->integer('ci_numero')->nullable();
             $table->integer('edad')->nullable();
             $table->string('tipo_vehiculo')->nullable();
-            $table->string('telefono')->nullable();
+            
             $table->string('imagen_propiedad_vehiculo')->nullable();
             $table->integer('Placa_vehiculo');
             $table->boolean('vehiculoPropio')->default(true);

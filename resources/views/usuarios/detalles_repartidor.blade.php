@@ -14,18 +14,18 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="profile-img">
-                    <img src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}">
+                    <img src="{{ $usuario->profile_photo_url }}" alt="{{ $usuario->name }}">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="profile-head">
                     <h5>
-                        {{ $user->name}} {{ $user->apellido}}
+                        {{ $usuario->name}} {{ $usuario->apellido}}
                     </h5>
                     <h6>
-                        {{ $user->id}}
+                        {{ $usuario->id}}
                     </h6>
-                    <p class="proile-rating">Fecha incorporacion : <span>{{ $user->fecha_incorporacion }}</span></p>
+                    <p class="proile-rating">Fecha incorporacion : <span>{{ $usuario->fecha_incorporacion }}</span></p>
                     <div class="btn-group" role="group" aria-label="Botones de navegación">
                         <button type="button" class="btn btn-primary active" data-toggle="tab" data-target="#home" onclick="changeButtonColor(this)">Datos del usuario</button>
                         <button type="button" class="btn btn-secondary" data-toggle="tab" data-target="#profile" onclick="changeButtonColor(this)">Documento privado de compra o arrendamiento vehicular </button>
@@ -33,11 +33,11 @@
                 </div>
             </div>
 
-            <form action="{{ route('usuariosreport.toggleStatus', ['id' => $user->id]) }}" method="post">
+            <form action="{{ route('usuariosreport.toggleStatus', ['id' => $usuario->id]) }}" method="post">
                 @csrf
                 @method('PUT')
-                <button type="submit" class="btn btn-{{ $user->status ? 'success' : 'danger' }} " style="max-width: 100px; height: 50px; margin-top:20px;">
-                    {{ $user->status ? 'Activo' : 'Suspendido' }}
+                <button type="submit" class="btn btn-{{ $usuario->status ? 'success' : 'danger' }} " style="max-width: 100px; height: 50px; margin-top:20px;">
+                    {{ $usuario->status ? 'Activo' : 'Suspendido' }}
                 </button>
             </form>
 
@@ -48,11 +48,11 @@
                     <br>
                     <h5>Datos del vehiculo</h5>
                     <br>
-                    <h7>Vehiculo Propio: {{ $user->vehiculoPropio }}</h7>
+                    <h7>Vehiculo Propio: {{ $usuario->vehiculoPropio }}</h7>
                     <br><br>
-                    <h7>Tipo de vehiculo: {{ $user->detalleRepartidor->tipo_vehiculo }}</h7>
+                    <h7>Tipo de vehiculo: {{ $usuario->detalleRepartidor->tipo_vehiculo }}</h7>
                     <br><br>
-                    <h7>Placa de vehiculo: {{ $user->Placa_vehiculo }}</h7>
+                    <h7>Placa de vehiculo: {{ $usuario->Placa_vehiculo }}</h7>
                 </div>
             </div>
             <div class="col-md-8">
@@ -63,7 +63,7 @@
                                 <label>Id Usuario</label>
                             </div>
                             <div class="col-md-6">
-                                <p>{{ $user->id}}</p>
+                                <p>{{ $usuario->id}}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -71,7 +71,7 @@
                                 <label>Nombre</label>
                             </div>
                             <div class="col-md-6">
-                                <p>{{ $user->name}} {{ $user->apellido }}</p>
+                                <p>{{ $usuario->name}} {{ $usuario->apellido }}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -79,7 +79,7 @@
                                 <label>Email</label>
                             </div>
                             <div class="col-md-6">
-                                <p>{{ $user->email }}</p>
+                                <p>{{ $usuario->email }}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -87,7 +87,7 @@
                                 <label>Celular</label>
                             </div>
                             <div class="col-md-6">
-                                <p>{{ $user->telefono }}</p>
+                                <p>{{ $usuario->telefono }}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -95,7 +95,7 @@
                                 <label>CI</label>
                             </div>
                             <div class="col-md-6">
-                                <p>{{ $user->detalleRepartidor->ci_numero }}</p>
+                                <p>{{ $usuario->detalleRepartidor->ci_numero }}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -103,12 +103,12 @@
                                 <label>Numero de reportes</label>
                             </div>
                             <div class="col-md-6">
-                                <p>{{ $user->reportes_count }}</p>
+                                <p>{{ $usuario->reportes_count }}</p>
                             </div>
                         </div>
                     </div>
                     <div id="hola-mundo" style="display: none;">
-                        <img src="{{ $user->detalleRepartidor->imagen_propiedad_vehiculo }}" alt="{{ $user->nombre }}" alt="" id="imagen">
+                        <img src="{{ $usuario->detalleRepartidor->imagen_propiedad_vehiculo }}" alt="{{ $usuario->nombre }}" alt="" id="imagen">
                     </div>
                 </div>
             </div>

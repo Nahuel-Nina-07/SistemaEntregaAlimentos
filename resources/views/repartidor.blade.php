@@ -83,7 +83,7 @@
                 var pedidos = response.pedidos;
 
                 pedidos.forEach(function(pedido) {
-                    var iconColor = pedido.estado === 'aceptado' ? '#00cc00' : '#ff5733';
+                    var iconColor = pedido.estado === 'en camino' ? '#00cc00' : '#ff5733';
 
                     var pedidoMarker = L.marker([pedido.latitud, pedido.longitud], {
                         icon: L.divIcon({
@@ -93,7 +93,7 @@
                             iconAnchor: [15, 30]
                         }),
                         draggable: false,
-                        aceptado: pedido.estado === 'aceptado',
+                        aceptado: pedido.estado === 'en camino',
                         rutaControl: null,
                     }).addTo(mymap);
 
@@ -137,7 +137,7 @@
                         }
                     };
 
-                    if (pedido.estado === 'aceptado') {
+                    if (pedido.estado === 'en camino') {
                         pedidoMarker.options.aceptado = true;
                         actualizarBoton();
 
@@ -162,7 +162,7 @@
                             return;
                         }
 
-                        var nuevoEstado = 'aceptado';
+                        var nuevoEstado = 'en camino';
 
                         pedidoMarker.options.aceptado = true;
                         actualizarBoton();

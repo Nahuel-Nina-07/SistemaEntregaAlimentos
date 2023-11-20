@@ -39,7 +39,7 @@
                     @endforeach
                 </td>
                 <td>
-                    <a href="" class="btn btn-primary">Detalles</a>
+                <a href="{{ route('usuarios.detalles', ['id' => $usuario->id]) }}" class="btn btn-primary">Detalles</a>
                 <td>
                     <form action="{{ route('usuarios.toggleStatus', ['id' => $usuario->id]) }}" method="post">
                         @csrf

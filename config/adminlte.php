@@ -322,7 +322,7 @@ return [
         ],
         [
             'text'    => 'Gestionar',
-            'icon'    => 'fas fa-fw fa-pencil',
+            'icon'    => 'fas fa-fw fa-cogs',
             'can'  => 'categorias.index',
             'submenu' => [
                 [
