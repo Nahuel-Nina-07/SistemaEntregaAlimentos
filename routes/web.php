@@ -146,6 +146,7 @@ Route::middleware(['auth'])->group(function () {
     //listado restaurantes
     Route::get('/categorias-restaurantes', [ListadoCategoriaRestauranteController::class, 'index'])->middleware('can:categorias.indexlistado')->name('categorias.indexlistado');
     Route::get('/restaurantes-por-categoria/{categoria_id}', [ListadoCategoriaRestauranteController::class, 'restaurantesPorCategoria'])->middleware('can:restaurantes.por-categoria')->name('restaurantes.por-categoria');
+    Route::get('/ver-menu/{restaurante_id}', [ListadoCategoriaRestauranteController::class, 'verMenuRestaurante'])->name('ver-menu');
 
     //listado productos
     Route::get('/categorias-producto', [ListadoCategoriaProductoController::class, 'index'])->middleware('can:categoriasProducto.indexlistado')->name('categoriasProducto.indexlistado');
@@ -213,9 +214,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     // ver repartidores
-    Route::get('/repartidores', [RepartidoresController::class, 'mostrarRepartidores'])->name('repartidores.mapa');
-
-
-    Route::get('/repartidores/detalle/{id}', [PerfilRepartidoresController::class, 'detalle'])->name('repartidores.detalle');
-    Route::get('/repartidores/detalle/{id}', [PerfilRepartidoresController::class, 'toggleStatus'])->name('repartidores.toggleStatus');
+    Route::get('/repartidores', [RepartidoresController::class, 'mostrarRepartidores'])->middleware('can:repartidores.mapa')->name('repartidores.mapa');
+    Route::get('/repartidores/detalle/{id}', [PerfilRepartidoresController::class, 'detalle'])->middleware('can:repartidores.detalle')->name('repartidores.detalle');
+    Route::get('/repartidores/detalle/{id}', [PerfilRepartidoresController::class, 'toggleStatus'])->middleware('can:repartidores.toggleStatus')->name('repartidores.toggleStatus');
 });

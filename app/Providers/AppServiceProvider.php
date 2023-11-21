@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
-        View::composer(['Listado.categoriaProducto','Listado.categoriaRestaurante','dash.index'],'App\Http\ViewComposers\CartComposer');
+        View::composer(['Listado.categoriaProducto','Listado.categoriaRestaurante','dash.index','Listado.verMenu'],'App\Http\ViewComposers\CartComposer');
     }
 
 }

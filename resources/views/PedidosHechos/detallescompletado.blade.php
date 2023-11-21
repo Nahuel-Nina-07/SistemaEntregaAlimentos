@@ -35,18 +35,27 @@
                                 </div>
                             </div>
                         </div>
+
+                        @php
+                        $usuarioYaReporto = \App\Models\Reporte::where('user_id', auth()->user()->id)
+                        ->where('repartidor_id', $repartidor->id)
+                        ->exists();
+                        @endphp
+                        @if($usuarioYaReporto)
+                        <button class="btn btn-warning" disabled>Reportado</button>
                         @else
-                        <p class="text-muted">No hay repartidor asignado para este pedido.</p>
+                        <button class="btn btn-danger" data-toggle="modal" data-target="#reportarModal">Reportar</button>
+                        @endif
+                        @else
+                        <p>No hay repartidor asignado para este pedido.</p>
                         @endif
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <br><br>
+<br><br>
     <h3 style="text-align: center;">Productos</h3>
-
-    <!-- Detalles de los Productos -->
     <div class="row mt-4" style="border-radius: 25px;">
         @foreach($detallesProductos as $detalle)
         <div class="col-md-6">
@@ -71,6 +80,31 @@
 
     <div class="mt-4">
         <h4>Total del Pedido: BOB {{ number_format($totalPedido, 2, '.', '') }}</h4>
+    </div>
+</div>
+
+<div class="modal fade" id="reportarModal" tabindex="-1" role="dialog" aria-labelledby="reportarModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reportarModalLabel">Reportar al Repartidor</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulario para el reporte -->
+                <form method="POST" action="{{ route('reportar.repartidor') }}">
+                    @csrf
+                    <input type="hidden" name="repartidor_id" value="{{ $repartidor->id }}">
+                    <div class="form-group">
+                        <label for="motivo">Motivo del reporte</label>
+                        <textarea class="form-control" name="motivo" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Enviar Reporte</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 @stop

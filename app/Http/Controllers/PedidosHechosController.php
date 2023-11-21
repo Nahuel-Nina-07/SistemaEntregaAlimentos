@@ -59,22 +59,29 @@ class PedidosHechosController extends Controller
     }
 
     public function detalles($pedidoId)
-    {
-        // Obtener el pedido y la asignación correspondiente
-        $pedido = Pedido::findOrFail($pedidoId);
-        $asignacion = AsignacionPedido::with('repartidor')->where('pedido_id', $pedidoId)->first();
+{
+    // Obtener el pedido y la asignación correspondiente
+    $pedido = Pedido::findOrFail($pedidoId);
+    $asignacion = AsignacionPedido::with('repartidor')->where('pedido_id', $pedidoId)->first();
 
-        // Obtener los detalles del repartidor y los productos del pedido
-        $repartidor = $asignacion ? $asignacion->repartidor->load('detalleRepartidor') : null;
-        $detallesProductos = $pedido->detalles;
+    // Obtener los detalles del repartidor y los productos del pedido
+    $repartidor = $asignacion ? $asignacion->repartidor->load('detalleRepartidor') : null;
+    $detallesProductos = $pedido->detalles;
 
-        // Calcular el total considerando los subtotales de los productos
-        $totalPedido = $detallesProductos->sum(function ($detalle) {
-            return $detalle->cantidad * $detalle->precio_unitario;
-        });
+    // Calcular el total considerando los subtotales de los productos
+    $totalPedido = $detallesProductos->sum(function ($detalle) {
+        return $detalle->cantidad * $detalle->precio_unitario;
+    });
 
+    // Verificar el estado del pedido y redirigir a la vista correspondiente
+    if ($pedido->estado === 'en camino') {
         return view('PedidosHechos.detalles', compact('pedido', 'repartidor', 'detallesProductos', 'totalPedido'));
+    } elseif ($pedido->estado === 'completado') {
+        return view('PedidosHechos.detallescompletado', compact('pedido', 'repartidor', 'detallesProductos', 'totalPedido'));
     }
+
+    return view('PedidosHechos.detalles', compact('pedido', 'repartidor', 'detallesProductos', 'totalPedido'));
+}
 
     public function reportarRepartidor(Request $request)
     {

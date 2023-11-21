@@ -421,6 +421,7 @@ return [
             'text' => 'Seguimiento Repartidores',
             'route'  => 'repartidores.mapa',
             'icon' => 'fas fa-map',
+            'can' => 'repartidores.mapa'
         ],
     ],
 

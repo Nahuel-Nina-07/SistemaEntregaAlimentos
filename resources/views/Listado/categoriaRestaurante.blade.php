@@ -39,8 +39,7 @@
                     <div class="card-heading">
                         {{ $restaurante->nombre }}
                     </div>
-                    <a href="#" class="card-button">Ver Menu</a>
-                    <!-- <a href="{{ route('restaurantes.por-categoria', ['categoria_id' => $categoria->id]) }}" class="card-button">Ver Menu</a> -->
+                    <a href="{{ route('ver-menu', ['restaurante_id' => $restaurante->id]) }}" class="card-button">Ver Menú</a>
                 </div>
             </div>
             @endforeach

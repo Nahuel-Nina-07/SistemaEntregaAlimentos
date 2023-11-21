@@ -15,4 +15,9 @@ class CategoriaProducto extends Model
         'nombre',
         'imagen',
     ];
+
+    public function productos()
+    {
+        return $this->hasMany(Producto::class, 'categoria_id'); // Asegúrate de que 'categoria_id' coincida con el nombre de la clave foránea en tu tabla 'productos'
+    }
 }

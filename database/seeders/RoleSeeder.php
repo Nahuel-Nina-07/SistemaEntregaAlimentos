@@ -61,5 +61,9 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'pedidosrepartidosr.index'])->syncRoles([$admin, $repartidor,]);
         Permission::create(['name' => 'repartidor.aceptarPedido'])->syncRoles([$admin, $repartidor,]);
         Permission::create(['name' => 'repartidor.detalles'])->syncRoles([$admin, $repartidor,]);
+
+        Permission::create(['name' => 'repartidores.mapa'])->assignRole([$admin]);
+        Permission::create(['name' => 'repartidores.detalle'])->assignRole([$admin]);
+        Permission::create(['name' => 'repartidores.toggleStatus'])->assignRole([$admin]);
     }
 }
