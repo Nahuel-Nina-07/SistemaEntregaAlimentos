@@ -75,8 +75,8 @@ config(['adminlte.right_sidebar' => false]);
 <script>
     // Definir las coordenadas para el rango de Quillacollo
     var GoVinBounds = L.latLngBounds(
-        L.latLng(-17.373888, -66.324205), // Esquina superior izquierda
-        L.latLng(-17.413861, -66.270561) // Esquina inferior derecha
+        L.latLng(-17.423888, -66.354205), // Esquina superior izquierda ampliada
+    L.latLng(-15.353861, -66.240561) // Esquina inferior derecha
     );
 
     // Inicializar el mapa y establecer la vista y el zoom

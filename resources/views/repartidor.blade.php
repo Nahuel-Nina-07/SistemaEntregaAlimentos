@@ -141,8 +141,6 @@
                         pedidoMarker.options.aceptado = true;
                         actualizarBoton();
 
-                        // Crear la ruta automáticamente si el pedido está aceptado
-                        trazarRutaAutomaticamente(marker.getLatLng(), L.latLng(pedido.latitud, pedido.longitud), pedidoMarker);
                     }
 
                     var aceptarBtn = document.createElement('button');
@@ -229,20 +227,6 @@
             }
         });
 
-        // Función para trazar la ruta automáticamente
-        function trazarRutaAutomaticamente(origen, destino, pedidoMarker) {
-            // Crear la ruta desde la ubicación actual del repartidor hasta el pedido aceptado
-            pedidoMarker.options.rutaControl = L.Routing.control({
-                waypoints: [
-                    origen,
-                    destino
-                ],
-                routeWhileDragging: true,
-                createMarker: function() {
-                    return null;
-                }
-            }).addTo(mymap);
-        }
 
         // Función para actualizar el estado del botón y almacenar la información en el almacenamiento local
         var actualizarBoton = function() {
@@ -272,10 +256,7 @@
             });
         }
 
-        window.addEventListener('beforeunload', function() {
-            // Enviar una solicitud al servidor para borrar las coordenadas
-            borrarCoordenadasRepartidor();
-        });
+        
 
         window.addEventListener('unload', function() {
             // Enviar una solicitud al servidor para borrar las coordenadas

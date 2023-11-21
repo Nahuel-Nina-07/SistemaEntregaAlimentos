@@ -397,6 +397,7 @@ return [
             'text' => 'Pedidos',
             'route'  => 'pedidos-hechos.index',
             'icon' => 'fas fa-history',
+            'can' => 'pedidos-hechos.index',
         ],
         [
             'text' => 'Solicitar trabajo',
@@ -422,6 +423,12 @@ return [
             'route'  => 'repartidores.mapa',
             'icon' => 'fas fa-map',
             'can' => 'repartidores.mapa'
+        ],
+        [
+            'text' => 'Historial Repartidores',
+            'route'  => 'pedidos.pendientes',
+            'icon' => 'fas fa-map',
+            'can' => 'pedidos.pendientes'
         ],
     ],
 

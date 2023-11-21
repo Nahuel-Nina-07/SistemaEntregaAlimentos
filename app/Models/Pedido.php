@@ -16,6 +16,7 @@ class Pedido extends Model
         'latitud',
         'longitud',
         'estado',
+        'repartidor_id_aceptado',
     ];
 
     public function usuario()

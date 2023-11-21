@@ -28,6 +28,7 @@ use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\DetallesUserController;
 use App\Http\Controllers\RepartidoresController;
 use App\Http\Controllers\PerfilRepartidoresController;
+use App\Http\Controllers\RepartidorController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -163,19 +164,20 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/marcar-pedido-pendiente', [PagoController::class, 'marcarComoPendiente'])->name('marcar.pendiente');
 
+
     //historial de pedidos
-    Route::get('/pedidos-hechos', [PedidosHechosController::class, 'index'])->name('pedidos-hechos.index');
+    Route::get('/pedidos-hechos', [PedidosHechosController::class, 'index'])->middleware('can:pedidos-hechos.index')->name('pedidos-hechos.index');
     //pedidos hechos detalles
     // Route::get('/pedidos-hechos', [PedidosHechosController::class, 'index']);
-    Route::get('/pedidos-hechos/detalles/{pedidoId}', [PedidosHechosController::class, 'detalles']);
+    Route::get('/pedidos-hechos/detalles/{pedidoId}', [PedidosHechosController::class, 'detalles'])->middleware('can:pedidos-hechos.detalles')->name('pedidos-hechos.detalles');
     // En web.php
-    Route::post('/reportar-repartidor', [PedidosHechosController::class, 'reportarRepartidor'])->name('reportar.repartidor');
+    Route::post('/reportar-repartidor', [PedidosHechosController::class, 'reportarRepartidor'])->middleware('can:reportar.repartidor')->name('reportar.repartidor');
     //cancelar pedido revertir stock
-    Route::patch('/cancelar-pedido/{pedidoId}', [PedidosHechosController::class, 'cancelarPedido'])->name('cancelar.pedido');
+    Route::patch('/cancelar-pedido/{pedidoId}', [PedidosHechosController::class, 'cancelarPedido'])->middleware('can:cancelar.pedido')->name('cancelar.pedido');
     //cancelar pediddo pendiente
-    Route::post('/pedidos-hechos/cancelar/{pedidoId}', [PedidosHechosController::class, 'cancelarPedidoPendiente']);
+    Route::post('/pedidos-hechos/cancelar/{pedidoId}', [PedidosHechosController::class, 'cancelarPedidoPendiente'])->middleware('can:cancelarPedidoPendiente')->name('cancelarPedidoPendiente');
     //detalles productos
-    Route::get('/pedidos-hechos/detalles-productos/{pedidoId}', [PedidosHechosController::class, 'detallesProductos'])->name('pedidos-hechos.detalles-productos');
+    Route::get('/pedidos-hechos/detalles-productos/{pedidoId}', [PedidosHechosController::class, 'detallesProductos'])->middleware('can:pedidos-hechos.detalles-productos')->name('pedidos-hechos.detalles-productos');
 
 
 
@@ -217,4 +219,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/repartidores', [RepartidoresController::class, 'mostrarRepartidores'])->middleware('can:repartidores.mapa')->name('repartidores.mapa');
     Route::get('/repartidores/detalle/{id}', [PerfilRepartidoresController::class, 'detalle'])->middleware('can:repartidores.detalle')->name('repartidores.detalle');
     Route::get('/repartidores/detalle/{id}', [PerfilRepartidoresController::class, 'toggleStatus'])->middleware('can:repartidores.toggleStatus')->name('repartidores.toggleStatus');
+
+
+    Route::get('pedidos/pendientes', [RepartidorController::class,'pedidosPendientes'])->middleware('can:pedidos.pendientes')->name('pedidos.pendientes');
+    Route::post('pedidos/aceptar/{id}', [RepartidorController::class,'aceptarPedido'])->middleware('can:pedidos.aceptar')->name('pedidos.aceptar');
+    Route::post('/pedidos/entregar/{id}', [RepartidorController::class, 'entregarPedido'])->middleware('can:pedidos.entregar')->name('pedidos.entregar');
 });
