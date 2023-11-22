@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pedido;
 use App\Models\AsignacionPedido;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class RepartidorController extends Controller
 {
@@ -110,5 +112,43 @@ class RepartidorController extends Controller
             // Si el repartidor no está lo suficientemente cerca, muestra un mensaje o realiza otras acciones
             return redirect()->route('pedidos.pendientes')->with('error', 'No estás lo suficientemente cerca para entregar el pedido.');
         }
+    }
+
+    public function cancelarPedido(Request $request, $pedidoId)
+    {
+        try {
+            // Cambiar el estado del pedido a "pendiente"
+            $pedido = Pedido::find($pedidoId);
+            $pedido->estado = 'pendiente';
+            $pedido->repartidor_id_aceptado = null;
+            $pedido->save();
+
+            // Obtener y eliminar la asignación correspondiente de asignacion_pedidos
+            $asignacion = AsignacionPedido::where('pedido_id', $pedidoId)->first();
+            if ($asignacion) {
+                $asignacion->delete();
+            }
+
+            // Retornar la respuesta JSON con un mensaje de éxito
+            return response()->json(['success' => true, 'message' => 'Pedido cancelado con éxito']);
+        } catch (\Exception $e) {
+            // Si hay un error, retornar una respuesta JSON con un mensaje de error
+            return response()->json(['success' => false, 'message' => 'Error al cancelar el pedido. Por favor, inténtalo de nuevo.']);
+        }
+    }
+
+    public function detallesPedidoAceptado()
+    {
+        // Obtener el pedido aceptado con la información del usuario
+        $pedidoAceptado = Pedido::where('repartidor_id_aceptado', Auth::user()->id)
+            ->where('estado', 'en camino')
+            ->with('usuario', 'productos')
+            ->first();
+
+        if (!$pedidoAceptado) {
+            return redirect()->route('pedidos.pendientes')->with('error', 'No hay un pedido aceptado en este momento.');
+        }
+
+        return view('repartidor.detalles', compact('pedidoAceptado'));
     }
 }

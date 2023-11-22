@@ -17,6 +17,7 @@ class Pedido extends Model
         'longitud',
         'estado',
         'repartidor_id_aceptado',
+        'foto_pedido',
     ];
 
     public function usuario()
@@ -38,5 +39,12 @@ class Pedido extends Model
     public function repartidorAceptado()
     {
         return $this->belongsTo(User::class, 'repartidor_id_aceptado');
+    }
+
+    public function productos()
+    {
+        return $this->belongsToMany(Producto::class, 'detalle_pedidos')
+            ->withPivot('cantidad', 'precio_unitario')
+            ->withTimestamps();
     }
 }

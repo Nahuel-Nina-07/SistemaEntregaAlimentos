@@ -16,6 +16,7 @@ return new class extends Migration
             $table->decimal('latitud', 10, 7);
             $table->decimal('longitud', 10, 7); 
             $table->string('estado', 250)->default('Pendiente');
+            $table->string('foto_peddo', 2048)->nullable();
             $table->timestamps();
             $table->foreign('usuario_id')->references('id')->on('users');
             $table->foreign('repartidor_id_aceptado')->references('id')->on('users')->onDelete('set null');
