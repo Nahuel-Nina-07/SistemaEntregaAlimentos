@@ -221,13 +221,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/repartidores/detalle/{id}', [PerfilRepartidoresController::class, 'toggleStatus'])->middleware('can:repartidores.toggleStatus')->name('repartidores.toggleStatus');
 
 
-    Route::get('pedidos/pendientes', [RepartidorController::class,'pedidosPendientes'])->middleware('can:pedidos.pendientes')->name('pedidos.pendientes');
-    Route::post('pedidos/aceptar/{id}', [RepartidorController::class,'aceptarPedido'])->middleware('can:pedidos.aceptar')->name('pedidos.aceptar');
-    Route::post('/pedidos/entregar/{id}', [RepartidorController::class, 'entregarPedido'])->middleware('can:pedidos.entregar')->name('pedidos.entregar');
+    Route::get('pedidos/pendientes', [RepartidorController::class,'pedidosPendientes'])->name('pedidos.pendientes');
+    Route::post('pedidos/aceptar/{id}', [RepartidorController::class,'aceptarPedido'])->name('pedidos.aceptar');
+    Route::post('/pedidos/entregar/{id}', [RepartidorController::class, 'entregarPedido'])->name('pedidos.entregar');
 
     Route::post('/repartidor/cancelar-pedido/{pedidoId}', [RepartidorController::class, 'cancelarPedido'])->name('repartidor.cancelar-pedido');
 
     Route::get('/repartidor/detalles-pedido-aceptado', [RepartidorController::class, 'detallesPedidoAceptado'])->name('pedidos.detalles-aceptado');
+
+    Route::post('/repartidor/aceptar-pedido/{pedidoId}', [RepartidorController::class, 'cancelarPedidoU'])->name('repartidor.cancelar-pedido-U');
+
+
 
 
 

@@ -151,4 +151,23 @@ class RepartidorController extends Controller
 
         return view('repartidor.detalles', compact('pedidoAceptado'));
     }
+
+    public function cancelarPedidoU(Request $request, $pedidoId)
+{
+    try {
+        // Cambiar el estado del pedido a "completado"
+        $pedido = Pedido::find($pedidoId);
+        $pedido->estado = 'completado';
+        $pedido->repartidor_id_aceptado = null;
+        $pedido->save();
+
+        // Obtener y eliminar la asignación correspondiente de asignacion_pedidos
+
+        // Retornar la respuesta JSON con un mensaje de éxito
+        return response()->json(['success' => true, 'message' => 'Pedido completado con éxito']);
+    } catch (\Exception $e) {
+        // Si hay un error, retornar una respuesta JSON con un mensaje de error
+        return response()->json(['success' => false, 'message' => 'Error al completar el pedido. Por favor, inténtalo de nuevo.']);
+    }
+}
 }
